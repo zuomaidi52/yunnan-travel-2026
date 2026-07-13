@@ -378,6 +378,15 @@ footer {
 .amap-export-btn:hover { background: #0070cc; }
 .amap-export-btn:active { background: #005fa3; }
 
+
+/* === v8: 导航条 === */
+#nav-bar { transition: all 0.2s; }
+#nav-btn { white-space: nowrap; }
+@media (max-width: 768px) {
+  #nav-bar { flex-direction: column; align-items: stretch; }
+  #nav-btn { justify-content: center; text-align: center; }
+}
+
 </style>
 </head>
 <body>
@@ -448,43 +457,40 @@ footer {
   <h2>📍 行程地图</h2>
   
   <!-- 标签页切换 -->
-  <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px;">
+  <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px;align-items:center;">
     <button class="map-tab active" data-tab="overview" style="padding:8px 16px;border:2px solid #3498db;background:#3498db;color:#fff;border-radius:8px;cursor:pointer;font-size:14px;font-weight:600;">🗺️ 总览</button>
-    <button class="map-tab" data-tab="day1" style="padding:8px 14px;border:2px solid #ddd;background:#fff;color:#333;border-radius:8px;cursor:pointer;font-size:13px;">D1 昆明</button>
-    <button class="map-tab" data-tab="day2" style="padding:8px 14px;border:2px solid #ddd;background:#fff;color:#333;border-radius:8px;cursor:pointer;font-size:13px;">D2 昆→大</button>
-    <button class="map-tab" data-tab="day3" style="padding:8px 14px;border:2px solid #ddd;background:#fff;color:#333;border-radius:8px;cursor:pointer;font-size:13px;">D3 洱海</button>
-    <button class="map-tab" data-tab="day4" style="padding:8px 14px;border:2px solid #ddd;background:#fff;color:#333;border-radius:8px;cursor:pointer;font-size:13px;">D4 苍山</button>
-    <button class="map-tab" data-tab="day5" style="padding:8px 14px;border:2px solid #ddd;background:#fff;color:#333;border-radius:8px;cursor:pointer;font-size:13px;">D5 沙溪</button>
-    <button class="map-tab" data-tab="day6" style="padding:8px 14px;border:2px solid #ddd;background:#fff;color:#333;border-radius:8px;cursor:pointer;font-size:13px;">D6 束河</button>
-    <button class="map-tab" data-tab="day7" style="padding:8px 14px;border:2px solid #ddd;background:#fff;color:#333;border-radius:8px;cursor:pointer;font-size:13px;">D7 雪山</button>
-    <button class="map-tab" data-tab="day8" style="padding:8px 14px;border:2px solid #ddd;background:#fff;color:#333;border-radius:8px;cursor:pointer;font-size:13px;">D8 返程</button>
-    <button class="map-tab" data-tab="day9" style="padding:8px 14px;border:2px solid #ddd;background:#fff;color:#333;border-radius:8px;cursor:pointer;font-size:13px;">D9 收尾</button>
+    <button class="map-tab" data-tab="day1" style="padding:8px 14px;border:2px solid #ddd;background:#fff;color:#333;border-radius:8px;cursor:pointer;font-size:13px;">D1</button>
+    <button class="map-tab" data-tab="day2" style="padding:8px 14px;border:2px solid #ddd;background:#fff;color:#333;border-radius:8px;cursor:pointer;font-size:13px;">D2</button>
+    <button class="map-tab" data-tab="day3" style="padding:8px 14px;border:2px solid #ddd;background:#fff;color:#333;border-radius:8px;cursor:pointer;font-size:13px;">D3</button>
+    <button class="map-tab" data-tab="day4" style="padding:8px 14px;border:2px solid #ddd;background:#fff;color:#333;border-radius:8px;cursor:pointer;font-size:13px;">D4</button>
+    <button class="map-tab" data-tab="day5" style="padding:8px 14px;border:2px solid #ddd;background:#fff;color:#333;border-radius:8px;cursor:pointer;font-size:13px;">D5</button>
+    <button class="map-tab" data-tab="day6" style="padding:8px 14px;border:2px solid #ddd;background:#fff;color:#333;border-radius:8px;cursor:pointer;font-size:13px;">D6</button>
+    <button class="map-tab" data-tab="day7" style="padding:8px 14px;border:2px solid #ddd;background:#fff;color:#333;border-radius:8px;cursor:pointer;font-size:13px;">D7</button>
+    <button class="map-tab" data-tab="day8" style="padding:8px 14px;border:2px solid #ddd;background:#fff;color:#333;border-radius:8px;cursor:pointer;font-size:13px;">D8</button>
+    <button class="map-tab" data-tab="day9" style="padding:8px 14px;border:2px solid #ddd;background:#fff;color:#333;border-radius:8px;cursor:pointer;font-size:13px;">D9</button>
   </div>
 
-  <!-- 总览地图 -->
-  <button class="amap-export-btn" onclick="exportFullRoute()" style="margin-bottom:8px;">📱 导出全程路线到高德地图</button>
+  <!-- 地图显示区域 -->
   <div id="map-overview" class="map-pane" style="height: 560px; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.08);"></div>
   
-  <!-- 每日小地图 -->
-  <button class="amap-export-btn" onclick="exportToAmap(1)" style="margin-bottom:8px;">📱 导出D1路线到高德地图</button>
   <div id="map-day1" class="map-pane" style="height: 400px; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); display:none;"></div>
-  <button class="amap-export-btn" onclick="exportToAmap(2)" style="margin-bottom:8px;">📱 导出D2路线到高德地图</button>
   <div id="map-day2" class="map-pane" style="height: 400px; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); display:none;"></div>
-  <button class="amap-export-btn" onclick="exportToAmap(3)" style="margin-bottom:8px;">📱 导出D3路线到高德地图</button>
   <div id="map-day3" class="map-pane" style="height: 400px; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); display:none;"></div>
-  <button class="amap-export-btn" onclick="exportToAmap(4)" style="margin-bottom:8px;">📱 导出D4路线到高德地图</button>
   <div id="map-day4" class="map-pane" style="height: 400px; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); display:none;"></div>
-  <button class="amap-export-btn" onclick="exportToAmap(5)" style="margin-bottom:8px;">📱 导出D5路线到高德地图</button>
   <div id="map-day5" class="map-pane" style="height: 400px; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); display:none;"></div>
-  <button class="amap-export-btn" onclick="exportToAmap(6)" style="margin-bottom:8px;">📱 导出D6路线到高德地图</button>
   <div id="map-day6" class="map-pane" style="height: 400px; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); display:none;"></div>
-  <button class="amap-export-btn" onclick="exportToAmap(7)" style="margin-bottom:8px;">📱 导出D7路线到高德地图</button>
   <div id="map-day7" class="map-pane" style="height: 400px; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); display:none;"></div>
-  <button class="amap-export-btn" onclick="exportToAmap(8)" style="margin-bottom:8px;">📱 导出D8路线到高德地图</button>
   <div id="map-day8" class="map-pane" style="height: 400px; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); display:none;"></div>
-  <button class="amap-export-btn" onclick="exportToAmap(9)" style="margin-bottom:8px;">📱 导出D9路线到高德地图</button>
   <div id="map-day9" class="map-pane" style="height: 400px; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); display:none;"></div>
-</section>
+
+  <!-- 统一导航按钮 -->
+  <div id="nav-bar" style="margin-top:12px;padding:12px 16px;background:#f0f4f8;border-radius:10px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
+    <div id="nav-info" style="font-size:14px;color:#555;font-weight:500;">📌 当前选中：总览地图</div>
+    <a id="nav-btn" href="#" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;padding:10px 24px;background:#008dff;color:#fff;border:none;border-radius:8px;font-size:15px;font-weight:600;text-decoration:none;cursor:pointer;transition:background 0.15s;" onmouseover="this.style.background='#0070cc'" onmouseout="this.style.background='#008dff'">
+      📱 使用高德开始导航
+    </a>
+  </div>
+
 
 <!--
   🚄 大交通 · AGENT MUST-DO:
@@ -732,7 +738,7 @@ footer {
             <span class="rating">⭐ 4.3</span>
             
           </div>
-          <img class="poi-img" src="https://source.unsplash.com/400x280/?kunming%20airport" alt="昆明长水机场" loading="lazy" title="点击放大">
+          <a href="https://bing.com/images/search?q=kunming%2520airport&form=HDRSC2" target="_blank" class="poi-img-link" style="float:right;margin:4px 0 8px 16px;"><div class="poi-img-placeholder" style="width:200px;height:140px;border-radius:8px;background:linear-gradient(135deg,#667eea,#764ba2);display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;box-shadow:0 1px 6px rgba(0,0,0,0.15);cursor:pointer;transition:transform 0.15s;" onmouseover="this.style.transform='scale(1.03)'" onmouseout="this.style.transform='scale(1)'"><span style="font-size:32px;">📷</span><span style="font-size:13px;font-weight:600;margin-top:4px;">昆明长水机场</span><span style="font-size:11px;opacity:0.8;margin-top:2px;">点击查看图片</span></div></a>
           
             <div class="t-reason">💡 神州/一嗨机场店取车，经济SUV约200元/天，⚠️昆明取还闭环无异地费</div>
           
@@ -753,7 +759,7 @@ footer {
             
             
           </div>
-          <img class="poi-img" src="https://source.unsplash.com/400x280/?yunnan%20rice%20noodles" alt="云南米线" loading="lazy" title="点击放大">
+          <a href="https://bing.com/images/search?q=yunnan%2520rice%2520noodles&form=HDRSC2" target="_blank" class="poi-img-link" style="float:right;margin:4px 0 8px 16px;"><div class="poi-img-placeholder" style="width:200px;height:140px;border-radius:8px;background:linear-gradient(135deg,#667eea,#764ba2);display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;box-shadow:0 1px 6px rgba(0,0,0,0.15);cursor:pointer;transition:transform 0.15s;" onmouseover="this.style.transform='scale(1.03)'" onmouseout="this.style.transform='scale(1)'"><span style="font-size:32px;">📷</span><span style="font-size:13px;font-weight:600;margin-top:4px;">云南米线</span><span style="font-size:11px;opacity:0.8;margin-top:2px;">点击查看图片</span></div></a>
           
             <div class="t-reason">💡 取车后顺路解决</div>
           
@@ -774,7 +780,7 @@ footer {
             <span class="rating">⭐ 4.5</span>
             
           </div>
-          <img class="poi-img" src="https://source.unsplash.com/400x280/?kunming%20cuihu%20park%20lotus" alt="昆明翠湖公园·荷花季" loading="lazy" title="点击放大">
+          <a href="https://bing.com/images/search?q=kunming%2520cuihu%2520park%2520lotus&form=HDRSC2" target="_blank" class="poi-img-link" style="float:right;margin:4px 0 8px 16px;"><div class="poi-img-placeholder" style="width:200px;height:140px;border-radius:8px;background:linear-gradient(135deg,#667eea,#764ba2);display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;box-shadow:0 1px 6px rgba(0,0,0,0.15);cursor:pointer;transition:transform 0.15s;" onmouseover="this.style.transform='scale(1.03)'" onmouseout="this.style.transform='scale(1)'"><span style="font-size:32px;">📷</span><span style="font-size:13px;font-weight:600;margin-top:4px;">昆明翠湖公园·荷花季</span><span style="font-size:11px;opacity:0.8;margin-top:2px;">点击查看图片</span></div></a>
           
             <div class="t-reason">💡 昆明市中心免费公园，8月荷花季，有儿童游乐区</div>
           
@@ -815,7 +821,7 @@ footer {
             <span class="rating">⭐ 4.3</span>
             
           </div>
-          <img class="poi-img" src="https://source.unsplash.com/400x280/?kunming%20old%20street" alt="昆明老街·钱王街" loading="lazy" title="点击放大">
+          <a href="https://bing.com/images/search?q=kunming%2520old%2520street&form=HDRSC2" target="_blank" class="poi-img-link" style="float:right;margin:4px 0 8px 16px;"><div class="poi-img-placeholder" style="width:200px;height:140px;border-radius:8px;background:linear-gradient(135deg,#667eea,#764ba2);display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;box-shadow:0 1px 6px rgba(0,0,0,0.15);cursor:pointer;transition:transform 0.15s;" onmouseover="this.style.transform='scale(1.03)'" onmouseout="this.style.transform='scale(1)'"><span style="font-size:32px;">📷</span><span style="font-size:13px;font-weight:600;margin-top:4px;">昆明老街·钱王街</span><span style="font-size:11px;opacity:0.8;margin-top:2px;">点击查看图片</span></div></a>
           
             <div class="t-reason">💡 青石板路+百年老宅，灯笼亮起氛围好</div>
           
@@ -880,7 +886,7 @@ footer {
             <span class="rating">⭐ 4.6</span>
             
           </div>
-          <img class="poi-img" src="https://source.unsplash.com/400x280/?dianchi%20lake%20haigeng%20park" alt="滇池海埂公园" loading="lazy" title="点击放大">
+          <a href="https://bing.com/images/search?q=dianchi%2520lake%2520haigeng%2520park&form=HDRSC2" target="_blank" class="poi-img-link" style="float:right;margin:4px 0 8px 16px;"><div class="poi-img-placeholder" style="width:200px;height:140px;border-radius:8px;background:linear-gradient(135deg,#667eea,#764ba2);display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;box-shadow:0 1px 6px rgba(0,0,0,0.15);cursor:pointer;transition:transform 0.15s;" onmouseover="this.style.transform='scale(1.03)'" onmouseout="this.style.transform='scale(1)'"><span style="font-size:32px;">📷</span><span style="font-size:13px;font-weight:600;margin-top:4px;">滇池海埂公园</span><span style="font-size:11px;opacity:0.8;margin-top:2px;">点击查看图片</span></div></a>
           
             <div class="t-reason">💡 云南最大高原湖泊，碧波万顷，湖滨步道亲子散步</div>
           
@@ -901,7 +907,7 @@ footer {
             
             
           </div>
-          <img class="poi-img" src="https://source.unsplash.com/400x280/?yunnan%20yi%20ethnic%20food" alt="彝族简餐" loading="lazy" title="点击放大">
+          <a href="https://bing.com/images/search?q=yunnan%2520yi%2520ethnic%2520food&form=HDRSC2" target="_blank" class="poi-img-link" style="float:right;margin:4px 0 8px 16px;"><div class="poi-img-placeholder" style="width:200px;height:140px;border-radius:8px;background:linear-gradient(135deg,#667eea,#764ba2);display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;box-shadow:0 1px 6px rgba(0,0,0,0.15);cursor:pointer;transition:transform 0.15s;" onmouseover="this.style.transform='scale(1.03)'" onmouseout="this.style.transform='scale(1)'"><span style="font-size:32px;">📷</span><span style="font-size:13px;font-weight:600;margin-top:4px;">彝族简餐</span><span style="font-size:11px;opacity:0.8;margin-top:2px;">点击查看图片</span></div></a>
           
             <div class="t-reason">💡 彝族风味坨坨肉、苦荞粑粑</div>
           
@@ -922,7 +928,7 @@ footer {
             <span class="rating">⭐ 4.7</span>
             
           </div>
-          <img class="poi-img" src="https://source.unsplash.com/400x280/?dali%20old%20town%20yunnan" alt="大理古城" loading="lazy" title="点击放大">
+          <a href="https://bing.com/images/search?q=dali%2520old%2520town%2520yunnan&form=HDRSC2" target="_blank" class="poi-img-link" style="float:right;margin:4px 0 8px 16px;"><div class="poi-img-placeholder" style="width:200px;height:140px;border-radius:8px;background:linear-gradient(135deg,#667eea,#764ba2);display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;box-shadow:0 1px 6px rgba(0,0,0,0.15);cursor:pointer;transition:transform 0.15s;" onmouseover="this.style.transform='scale(1.03)'" onmouseout="this.style.transform='scale(1)'"><span style="font-size:32px;">📷</span><span style="font-size:13px;font-weight:600;margin-top:4px;">大理古城</span><span style="font-size:11px;opacity:0.8;margin-top:2px;">点击查看图片</span></div></a>
           
             <div class="t-reason">💡 千年白族古城，苍山脚下流水穿城，傍晚光影最美</div>
           
@@ -1034,7 +1040,7 @@ footer {
             <span class="rating">⭐ 4.6</span>
             
           </div>
-          <img class="poi-img" src="https://source.unsplash.com/400x280/?xizhou%20ancient%20town%20dali" alt="喜洲古镇" loading="lazy" title="点击放大">
+          <a href="https://bing.com/images/search?q=xizhou%2520ancient%2520town%2520dali&form=HDRSC2" target="_blank" class="poi-img-link" style="float:right;margin:4px 0 8px 16px;"><div class="poi-img-placeholder" style="width:200px;height:140px;border-radius:8px;background:linear-gradient(135deg,#667eea,#764ba2);display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;box-shadow:0 1px 6px rgba(0,0,0,0.15);cursor:pointer;transition:transform 0.15s;" onmouseover="this.style.transform='scale(1.03)'" onmouseout="this.style.transform='scale(1)'"><span style="font-size:32px;">📷</span><span style="font-size:13px;font-weight:600;margin-top:4px;">喜洲古镇</span><span style="font-size:11px;opacity:0.8;margin-top:2px;">点击查看图片</span></div></a>
           
             <div class="t-reason">💡 白族民居最完整古镇，转角楼+稻田，8月翠绿出片</div>
           
@@ -1055,7 +1061,7 @@ footer {
             <span class="rating">⭐ 4.7</span>
             
           </div>
-          <img class="poi-img" src="https://source.unsplash.com/400x280/?zhoucheng%20tie%20dye%20bai" alt="周城白族扎染" loading="lazy" title="点击放大">
+          <a href="https://bing.com/images/search?q=zhoucheng%2520tie%2520dye%2520bai&form=HDRSC2" target="_blank" class="poi-img-link" style="float:right;margin:4px 0 8px 16px;"><div class="poi-img-placeholder" style="width:200px;height:140px;border-radius:8px;background:linear-gradient(135deg,#667eea,#764ba2);display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;box-shadow:0 1px 6px rgba(0,0,0,0.15);cursor:pointer;transition:transform 0.15s;" onmouseover="this.style.transform='scale(1.03)'" onmouseout="this.style.transform='scale(1)'"><span style="font-size:32px;">📷</span><span style="font-size:13px;font-weight:600;margin-top:4px;">周城白族扎染</span><span style="font-size:11px;opacity:0.8;margin-top:2px;">点击查看图片</span></div></a>
           
             <div class="t-reason">💡 非遗手作！小孩亲手做扎染方巾</div>
           
@@ -1076,7 +1082,7 @@ footer {
             <span class="rating">⭐ 4.5</span>
             
           </div>
-          <img class="poi-img" src="https://source.unsplash.com/400x280/?shuanglang%20dali%20erhai" alt="双廊古镇·洱海" loading="lazy" title="点击放大">
+          <a href="https://bing.com/images/search?q=shuanglang%2520dali%2520erhai&form=HDRSC2" target="_blank" class="poi-img-link" style="float:right;margin:4px 0 8px 16px;"><div class="poi-img-placeholder" style="width:200px;height:140px;border-radius:8px;background:linear-gradient(135deg,#667eea,#764ba2);display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;box-shadow:0 1px 6px rgba(0,0,0,0.15);cursor:pointer;transition:transform 0.15s;" onmouseover="this.style.transform='scale(1.03)'" onmouseout="this.style.transform='scale(1)'"><span style="font-size:32px;">📷</span><span style="font-size:13px;font-weight:600;margin-top:4px;">双廊古镇·洱海</span><span style="font-size:11px;opacity:0.8;margin-top:2px;">点击查看图片</span></div></a>
           
             <div class="t-reason">💡 苍洱风光第一镇，湖边咖啡馆发呆</div>
           
@@ -1118,7 +1124,7 @@ footer {
             
           </div>
           
-            <img class="food-img" src="https://source.unsplash.com/280x200/?dali%20claypot%20fish" alt="大理砂锅鱼" loading="lazy">
+            <a href="https://bing.com/images/search?q=dali%2520claypot%2520fish&form=HDRSC2" target="_blank" class="food-img-link" style="float:right;margin:4px 0 8px 12px;"><div class="food-img-placeholder" style="width:140px;height:100px;border-radius:8px;background:linear-gradient(135deg,#f093fb,#f5576c);display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;box-shadow:0 1px 6px rgba(0,0,0,0.15);cursor:pointer;transition:transform 0.15s;" onmouseover="this.style.transform='scale(1.03)'" onmouseout="this.style.transform='scale(1)'"><span style="font-size:24px;">🍜</span><span style="font-size:11px;font-weight:600;margin-top:2px;">大理砂锅鱼</span></div></a>
           <div class="t-reason">💡 白族经典，砂锅鱼用洱海弓鱼慢炖</div>
           
           <div class="t-detail">
@@ -1191,7 +1197,7 @@ footer {
             <span class="rating">⭐ 4.6</span>
             
           </div>
-          <img class="poi-img" src="https://source.unsplash.com/400x280/?cangshan%20dali%20cable%20car" alt="苍山感通索道" loading="lazy" title="点击放大">
+          <a href="https://bing.com/images/search?q=cangshan%2520dali%2520cable%2520car&form=HDRSC2" target="_blank" class="poi-img-link" style="float:right;margin:4px 0 8px 16px;"><div class="poi-img-placeholder" style="width:200px;height:140px;border-radius:8px;background:linear-gradient(135deg,#667eea,#764ba2);display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;box-shadow:0 1px 6px rgba(0,0,0,0.15);cursor:pointer;transition:transform 0.15s;" onmouseover="this.style.transform='scale(1.03)'" onmouseout="this.style.transform='scale(1)'"><span style="font-size:32px;">📷</span><span style="font-size:13px;font-weight:600;margin-top:4px;">苍山感通索道</span><span style="font-size:11px;opacity:0.8;margin-top:2px;">点击查看图片</span></div></a>
           
             <div class="t-reason">💡 至海拔2600m，观赏感通寺+清碧溪+苍山大峡谷</div>
           
@@ -1252,7 +1258,7 @@ footer {
             <span class="rating">⭐ 4.7</span>
             
           </div>
-          <img class="poi-img" src="https://source.unsplash.com/400x280/?dali%20ancient%20town%20street" alt="大理古城人民路" loading="lazy" title="点击放大">
+          <a href="https://bing.com/images/search?q=dali%2520ancient%2520town%2520street&form=HDRSC2" target="_blank" class="poi-img-link" style="float:right;margin:4px 0 8px 16px;"><div class="poi-img-placeholder" style="width:200px;height:140px;border-radius:8px;background:linear-gradient(135deg,#667eea,#764ba2);display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;box-shadow:0 1px 6px rgba(0,0,0,0.15);cursor:pointer;transition:transform 0.15s;" onmouseover="this.style.transform='scale(1.03)'" onmouseout="this.style.transform='scale(1)'"><span style="font-size:32px;">📷</span><span style="font-size:13px;font-weight:600;margin-top:4px;">大理古城人民路</span><span style="font-size:11px;opacity:0.8;margin-top:2px;">点击查看图片</span></div></a>
           
             <div class="t-reason">💡 徒步后放松，逛手作店+喝咖啡+洱海发呆</div>
           
@@ -1337,7 +1343,7 @@ footer {
             <span class="rating">⭐ 4.8</span>
             
           </div>
-          <img class="poi-img" src="https://source.unsplash.com/400x280/?shaxi%20ancient%20town%20yunnan" alt="沙溪古镇·茶马古道" loading="lazy" title="点击放大">
+          <a href="https://bing.com/images/search?q=shaxi%2520ancient%2520town%2520yunnan&form=HDRSC2" target="_blank" class="poi-img-link" style="float:right;margin:4px 0 8px 16px;"><div class="poi-img-placeholder" style="width:200px;height:140px;border-radius:8px;background:linear-gradient(135deg,#667eea,#764ba2);display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;box-shadow:0 1px 6px rgba(0,0,0,0.15);cursor:pointer;transition:transform 0.15s;" onmouseover="this.style.transform='scale(1.03)'" onmouseout="this.style.transform='scale(1)'"><span style="font-size:32px;">📷</span><span style="font-size:13px;font-weight:600;margin-top:4px;">沙溪古镇·茶马古道</span><span style="font-size:11px;opacity:0.8;margin-top:2px;">点击查看图片</span></div></a>
           
             <div class="t-reason">💡 茶马古道唯一幸存古集市！古戏台+玉津桥，真正的「从前慢」</div>
           
@@ -1462,7 +1468,7 @@ footer {
             <span class="rating">⭐ 4.6</span>
             
           </div>
-          <img class="poi-img" src="https://source.unsplash.com/400x280/?shuhe%20ancient%20town%20lijiang" alt="束河古镇" loading="lazy" title="点击放大">
+          <a href="https://bing.com/images/search?q=shuhe%2520ancient%2520town%2520lijiang&form=HDRSC2" target="_blank" class="poi-img-link" style="float:right;margin:4px 0 8px 16px;"><div class="poi-img-placeholder" style="width:200px;height:140px;border-radius:8px;background:linear-gradient(135deg,#667eea,#764ba2);display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;box-shadow:0 1px 6px rgba(0,0,0,0.15);cursor:pointer;transition:transform 0.15s;" onmouseover="this.style.transform='scale(1.03)'" onmouseout="this.style.transform='scale(1)'"><span style="font-size:32px;">📷</span><span style="font-size:13px;font-weight:600;margin-top:4px;">束河古镇</span><span style="font-size:11px;opacity:0.8;margin-top:2px;">点击查看图片</span></div></a>
           
             <div class="t-reason">💡 人少一半安静一倍，九鼎龙潭+青龙桥，小孩广场跑</div>
           
@@ -1524,7 +1530,7 @@ footer {
             
           </div>
           
-            <img class="food-img" src="https://source.unsplash.com/280x200/?yunnan%20black%20goat%20meat" alt="云南黑山羊" loading="lazy">
+            <a href="https://bing.com/images/search?q=yunnan%2520black%2520goat%2520meat&form=HDRSC2" target="_blank" class="food-img-link" style="float:right;margin:4px 0 8px 12px;"><div class="food-img-placeholder" style="width:140px;height:100px;border-radius:8px;background:linear-gradient(135deg,#f093fb,#f5576c);display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;box-shadow:0 1px 6px rgba(0,0,0,0.15);cursor:pointer;transition:transform 0.15s;" onmouseover="this.style.transform='scale(1.03)'" onmouseout="this.style.transform='scale(1)'"><span style="font-size:24px;">🍜</span><span style="font-size:11px;font-weight:600;margin-top:2px;">云南黑山羊</span></div></a>
           <div class="t-reason">💡 丽江特色，黑山羊鲜嫩不膻</div>
           
           <div class="t-detail">
@@ -1597,7 +1603,7 @@ footer {
             <span class="rating">⭐ 4.8</span>
             
           </div>
-          <img class="poi-img" src="https://source.unsplash.com/400x280/?blue%20moon%20valley%20lijiang" alt="蓝月谷·玉龙雪山" loading="lazy" title="点击放大">
+          <a href="https://bing.com/images/search?q=blue%2520moon%2520valley%2520lijiang&form=HDRSC2" target="_blank" class="poi-img-link" style="float:right;margin:4px 0 8px 16px;"><div class="poi-img-placeholder" style="width:200px;height:140px;border-radius:8px;background:linear-gradient(135deg,#667eea,#764ba2);display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;box-shadow:0 1px 6px rgba(0,0,0,0.15);cursor:pointer;transition:transform 0.15s;" onmouseover="this.style.transform='scale(1.03)'" onmouseout="this.style.transform='scale(1)'"><span style="font-size:32px;">📷</span><span style="font-size:13px;font-weight:600;margin-top:4px;">蓝月谷·玉龙雪山</span><span style="font-size:11px;opacity:0.8;margin-top:2px;">点击查看图片</span></div></a>
           
             <div class="t-reason">💡 「小九寨」蒂芙尼蓝湖水，海拔2900m平坦木栈道</div>
           
@@ -1722,7 +1728,7 @@ footer {
             <span class="rating">⭐ 4.2</span>
             
           </div>
-          <img class="poi-img" src="https://source.unsplash.com/400x280/?lashi%20lake%20wetland%20lijiang" alt="拉市海湿地" loading="lazy" title="点击放大">
+          <a href="https://bing.com/images/search?q=lashi%2520lake%2520wetland%2520lijiang&form=HDRSC2" target="_blank" class="poi-img-link" style="float:right;margin:4px 0 8px 16px;"><div class="poi-img-placeholder" style="width:200px;height:140px;border-radius:8px;background:linear-gradient(135deg,#667eea,#764ba2);display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;box-shadow:0 1px 6px rgba(0,0,0,0.15);cursor:pointer;transition:transform 0.15s;" onmouseover="this.style.transform='scale(1.03)'" onmouseout="this.style.transform='scale(1)'"><span style="font-size:32px;">📷</span><span style="font-size:13px;font-weight:600;margin-top:4px;">拉市海湿地</span><span style="font-size:11px;opacity:0.8;margin-top:2px;">点击查看图片</span></div></a>
           
             <div class="t-reason">💡 高原湿地8月水草丰美，骑马走茶马古道或坐船穿芦苇荡</div>
           
@@ -1763,7 +1769,7 @@ footer {
             <span class="rating">⭐ 4.3</span>
             
           </div>
-          <img class="poi-img" src="https://source.unsplash.com/400x280/?yiren%20ancient%20town%20chuxiong" alt="楚雄彝人古镇" loading="lazy" title="点击放大">
+          <a href="https://bing.com/images/search?q=yiren%2520ancient%2520town%2520chuxiong&form=HDRSC2" target="_blank" class="poi-img-link" style="float:right;margin:4px 0 8px 16px;"><div class="poi-img-placeholder" style="width:200px;height:140px;border-radius:8px;background:linear-gradient(135deg,#667eea,#764ba2);display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;box-shadow:0 1px 6px rgba(0,0,0,0.15);cursor:pointer;transition:transform 0.15s;" onmouseover="this.style.transform='scale(1.03)'" onmouseout="this.style.transform='scale(1)'"><span style="font-size:32px;">📷</span><span style="font-size:13px;font-weight:600;margin-top:4px;">楚雄彝人古镇</span><span style="font-size:11px;opacity:0.8;margin-top:2px;">点击查看图片</span></div></a>
           
             <div class="t-reason">💡 彝家烤肉+坨坨肉+苦荞酒，烟火气十足</div>
           
@@ -1973,7 +1979,7 @@ footer {
       <h4>真实笔记参考 <span class="xhs-count">6 篇</span></h4>
       <div class="xhs-grid">
         
-          <a class="xhs-card" href="https://www.xiaohongshu.com/search_result?keyword=%E6%B4%B1%E6%B5%B7%E8%87%AA%E9%A9%BE%E4%BA%B2%E5%AD%90" target="_blank" rel="noopener">
+          <a class="xhs-card" href="https://search.bilibili.com/all?keyword=%E6%B4%B1%E6%B5%B7%E8%87%AA%E9%A9%BE%E4%BA%B2%E5%AD%90%E6%B8%B8" target="_blank" rel="noopener">
             
             <div class="xhs-body">
               <div class="xhs-title">大理自驾环洱海·带着5岁娃的真实体验</div>
@@ -1991,7 +1997,7 @@ footer {
             </div>
           </a>
         
-          <a class="xhs-card" href="https://www.xiaohongshu.com/search_result?keyword=%E4%BA%91%E5%8D%97%E4%BA%B2%E5%AD%90%E9%81%BF%E5%9D%91" target="_blank" rel="noopener">
+          <a class="xhs-card" href="https://search.bilibili.com/all?keyword=%E4%BA%91%E5%8D%97%E4%BA%B2%E5%AD%90%E6%B8%B8%E9%81%BF%E5%9D%91%E6%8C%87%E5%8D%97" target="_blank" rel="noopener">
             
             <div class="xhs-body">
               <div class="xhs-title">云南亲子游避坑指南·大理丽江9天</div>
@@ -2009,7 +2015,7 @@ footer {
             </div>
           </a>
         
-          <a class="xhs-card" href="https://www.xiaohongshu.com/search_result?keyword=%E4%BA%91%E5%8D%97%E6%9C%80%E7%BE%8E%E8%87%AA%E9%A9%BE%E8%B7%AF%E6%AE%B5" target="_blank" rel="noopener">
+          <a class="xhs-card" href="https://search.bilibili.com/all?keyword=%E4%BA%91%E5%8D%97%E6%9C%80%E7%BE%8E%E8%87%AA%E9%A9%BE%E5%85%AC%E8%B7%AF" target="_blank" rel="noopener">
             
             <div class="xhs-body">
               <div class="xhs-title">昆明大理丽江自驾·最美路段排名</div>
@@ -2027,7 +2033,7 @@ footer {
             </div>
           </a>
         
-          <a class="xhs-card" href="https://www.xiaohongshu.com/search_result?keyword=%E4%B8%BD%E6%B1%9F%E7%BE%8E%E9%A3%9F%E4%BA%B2%E5%AD%90" target="_blank" rel="noopener">
+          <a class="xhs-card" href="https://search.bilibili.com/all?keyword=%E4%B8%BD%E6%B1%9F%E7%BE%8E%E9%A3%9F%E6%8E%A8%E8%8D%90" target="_blank" rel="noopener">
             
             <div class="xhs-body">
               <div class="xhs-title">丽江·带小孩吃遍古城不踩雷</div>
@@ -2045,7 +2051,7 @@ footer {
             </div>
           </a>
         
-          <a class="xhs-card" href="https://www.xiaohongshu.com/search_result?keyword=%E5%A4%A7%E7%90%86%E7%99%BD%E6%97%8F%E7%BE%8E%E9%A3%9F" target="_blank" rel="noopener">
+          <a class="xhs-card" href="https://search.bilibili.com/all?keyword=%E5%A4%A7%E7%90%86%E7%99%BD%E6%97%8F%E7%89%B9%E8%89%B2%E7%BE%8E%E9%A3%9F" target="_blank" rel="noopener">
             
             <div class="xhs-body">
               <div class="xhs-title">大理古城+喜洲·白族特色菜去哪吃</div>
@@ -2063,7 +2069,7 @@ footer {
             </div>
           </a>
         
-          <a class="xhs-card" href="https://www.xiaohongshu.com/search_result?keyword=%E4%BA%91%E5%8D%97%E5%85%AB%E6%9C%88%E5%A4%A9%E6%B0%94" target="_blank" rel="noopener">
+          <a class="xhs-card" href="https://search.bilibili.com/all?keyword=%E4%BA%91%E5%8D%978%E6%9C%88%E6%97%85%E6%B8%B8%E5%A4%A9%E6%B0%94" target="_blank" rel="noopener">
             
             <div class="xhs-body">
               <div class="xhs-title">八月初云南天气实测·带娃怎么穿</div>
@@ -2175,8 +2181,7 @@ footer {
   const dayColors = ['#e74c3c','#3498db','#2ecc71','#f39c12','#9b59b6','#1abc9c','#e67e22','#2c3e50','#16a085'];
   const allLatLngs = [];
 
-  // 解析 days 数据
-  const days = [{"city": "昆明", "daily_budget": 1450, "date": "2026-08-01 (周六)", "day_index": 1, "fatigue_index": 30, "routes": [{"description": "机场高速→二环快速→翠湖，约40km/45min", "from": 0, "geometry": [[102.928, 25.108], [102.85, 25.12], [102.8, 25.08], [102.75, 25.06], [102.7046, 25.0458]], "to": 2}, {"description": "翠湖步行至昆明老街约10分钟", "from": 2, "geometry": [[102.7046, 25.0458], [102.71, 25.043], [102.7096, 25.0417]], "to": 4}], "stops": [{"duration_display": "40 分钟", "duration_min": 40, "poi": {"lat": 25.108, "lng": 102.928, "name": "昆明长水机场取车", "open_hours": "24h", "rating": "4.3", "recommend_reason": "神州/一嗨机场店取车，经济SUV约200元/天，⚠️昆明取还闭环无异地费", "ticket_price": "—"}, "time": "10:30", "type": "attraction"}, {"duration_display": "50 分钟", "duration_min": 50, "poi": {"name": "机场周边简餐", "open_hours": "10:00-21:00", "recommend_reason": "取车后顺路解决", "ticket_price": "约80元"}, "time": "12:00", "type": "lunch"}, {"duration_display": "120 分钟", "duration_min": 120, "poi": {"lat": 25.0458, "lng": 102.7046, "name": "翠湖公园", "open_hours": "06:00-22:00", "rating": "4.5", "recommend_reason": "昆明市中心免费公园，8月荷花季，有儿童游乐区", "ticket_price": "免费"}, "time": "14:30", "type": "attraction"}, {"duration_display": "60 分钟", "duration_min": 60, "poi": {"name": "桥香园过桥米线 + 汽锅鸡", "open_hours": "10:00-21:30", "rating": "4.4", "recommend_reason": "昆明经典组合，翠湖步行10分钟可达", "ticket_price": "人均60元"}, "time": "17:30", "type": "dinner"}, {"duration_display": "60 分钟", "duration_min": 60, "poi": {"lat": 25.0417, "lng": 102.7096, "name": "昆明老街（钱王街）", "open_hours": "全天", "rating": "4.3", "recommend_reason": "青石板路+百年老宅，灯笼亮起氛围好", "ticket_price": "免费"}, "time": "19:00", "type": "evening"}], "theme": "抵达春城，翠湖初印象", "total_distance_km": 40, "weather": {"icon": "cloud-rain", "summary": "多云转阵雨 19-26°C"}}, {"city": "昆明→大理", "daily_budget": 1200, "date": "2026-08-02 (周日)", "day_index": 2, "fatigue_index": 50, "routes": [{"description": "🌿 优选G56杭瑞高速（自然景观>昆楚大高速），穿越彝山峡谷+梯田，320km/4h", "from": 0, "geometry": [[102.6635, 24.9688], [102.5, 24.98], [101.9, 25.04], [101.55, 25.033], [100.8, 25.3], [100.4, 25.48], [100.25, 25.62], [100.1611, 25.6785]], "to": 2}], "stops": [{"duration_display": "120 分钟", "duration_min": 120, "poi": {"lat": 24.9688, "lng": 102.6635, "name": "滇池·海埂公园", "open_hours": "全天", "rating": "4.6", "recommend_reason": "云南最大高原湖泊，碧波万顷，湖滨步道亲子散步", "ticket_price": "免费"}, "time": "08:30", "type": "attraction"}, {"duration_display": "40 分钟", "duration_min": 40, "poi": {"lat": 25.0333, "lng": 101.55, "name": "楚雄服务区·彝族简餐", "open_hours": "08:00-20:00", "recommend_reason": "彝族风味坨坨肉、苦荞粑粑", "ticket_price": "约120元"}, "time": "12:00", "type": "lunch"}, {"duration_display": "150 分钟", "duration_min": 150, "poi": {"lat": 25.6785, "lng": 100.1611, "name": "大理古城", "open_hours": "全天", "rating": "4.7", "recommend_reason": "千年白族古城，苍山脚下流水穿城，傍晚光影最美", "ticket_price": "免费"}, "time": "17:00", "type": "attraction"}, {"duration_display": "60 分钟", "duration_min": 60, "poi": {"name": "大理酸辣鱼 + 烤乳扇 + 凉鸡米线", "open_hours": "10:00-22:00", "rating": "4.5", "recommend_reason": "古城「再回首」或「梅子井酒家」", "ticket_price": "人均60元"}, "time": "19:30", "type": "dinner"}], "theme": "滇池晨光 + G56杭瑞高速·最美高速赴大理", "total_distance_km": 330, "weather": {"icon": "cloud-sun", "summary": "晴转多云 18-25°C"}}, {"city": "大理", "daily_budget": 900, "date": "2026-08-03 (周一)", "day_index": 3, "fatigue_index": 55, "routes": [{"description": "古城→喜洲，环海西路田园段，白族村落+稻田，20km/30min", "from": 0, "geometry": [[100.1611, 25.6785], [100.14, 25.72], [100.13, 25.77], [100.1194, 25.8538]], "to": 1}, {"description": "喜洲→周城约5km/10min", "from": 1, "geometry": [[100.1194, 25.8538], [100.11, 25.86], [100.1056, 25.8783]], "to": 2}, {"description": "周城→双廊，环海东路苍洱同框最美段，25km/40min", "from": 2, "geometry": [[100.1056, 25.8783], [100.18, 25.87], [100.22, 25.86], [100.2314, 25.8506]], "to": 3}, {"description": "双廊→小普陀，环海东路日落段，10km/15min", "from": 3, "geometry": [[100.2314, 25.8506], [100.24, 25.83], [100.2575, 25.8119]], "to": 4}], "stops": [{"duration_display": "150 分钟", "duration_min": 150, "poi": {"lat": 25.8538, "lng": 100.1194, "name": "喜洲古镇", "open_hours": "全天", "rating": "4.6", "recommend_reason": "白族民居最完整古镇，转角楼+稻田，8月翠绿出片", "ticket_price": "免费"}, "time": "09:00", "type": "attraction"}, {"duration_display": "90 分钟", "duration_min": 90, "poi": {"lat": 25.8783, "lng": 100.1056, "name": "周城扎染体验", "open_hours": "09:00-17:00", "rating": "4.7", "recommend_reason": "非遗手作！小孩亲手做扎染方巾", "ticket_price": "约40-80元/人"}, "time": "12:30", "type": "attraction"}, {"duration_display": "120 分钟", "duration_min": 120, "poi": {"lat": 25.8506, "lng": 100.2314, "name": "双廊古镇", "open_hours": "全天", "rating": "4.5", "recommend_reason": "苍洱风光第一镇，湖边咖啡馆发呆", "ticket_price": "免费"}, "time": "14:30", "type": "attraction"}, {"duration_display": "20 分钟", "duration_min": 20, "poi": {"lat": 25.8119, "lng": 100.2575, "name": "小普陀（日落拍照点🌅）", "open_hours": "全天", "rating": "4.3", "recommend_reason": "洱海袖珍小岛，环海东路最佳日落拍照点", "ticket_price": "免费（远观）"}, "time": "17:00", "type": "attraction"}, {"duration_display": "60 分钟", "duration_min": 60, "poi": {"name": "大理砂锅鱼 + 洱海虾 + 海菜汤", "open_hours": "11:00-21:30", "rating": "4.5", "recommend_reason": "白族经典，砂锅鱼用洱海弓鱼慢炖", "ticket_price": "人均70元"}, "time": "18:30", "type": "dinner"}], "theme": "环洱海自驾·最美环湖130km", "total_distance_km": 130, "weather": {"icon": "cloud", "summary": "多云 18-25°C"}}, {"city": "大理", "daily_budget": 850, "date": "2026-08-04 (周二)", "day_index": 4, "fatigue_index": 45, "routes": [{"description": "感通索道上站→玉带路入口，沿山腰横切，3-5km石板路", "from": 0, "geometry": [[100.1333, 25.6564], [100.138, 25.66], [100.142, 25.665]], "to": 1}, {"description": "索道下山→返回古城，约20分钟", "from": 1, "geometry": [[100.142, 25.665], [100.15, 25.67], [100.1611, 25.6785]], "to": 4}], "stops": [{"duration_display": "90 分钟", "duration_min": 90, "poi": {"lat": 25.6564, "lng": 100.1333, "name": "苍山·感通索道", "open_hours": "08:30-17:00", "rating": "4.6", "recommend_reason": "至海拔2600m，观赏感通寺+清碧溪+苍山大峡谷", "ticket_price": "110元/人往返"}, "time": "08:30", "type": "attraction"}, {"duration_display": "150 分钟", "duration_min": 150, "poi": {"lat": 25.665, "lng": 100.142, "name": "🥾 苍山玉带路轻徒步3-5km", "open_hours": "全天", "rating": "4.8", "recommend_reason": "平缓石板路无爬升！左森林右洱海全景，6岁娃轻松走", "ticket_price": "含索道票"}, "time": "10:00", "type": "attraction"}, {"duration_display": "50 分钟", "duration_min": 50, "poi": {"name": "再回首凉鸡米线 + 卤饵丝", "open_hours": "09:00-20:00", "rating": "4.5", "recommend_reason": "古城人民路本地人最爱", "ticket_price": "人均25元"}, "time": "13:00", "type": "lunch"}, {"duration_display": "210 分钟", "duration_min": 210, "poi": {"lat": 25.6785, "lng": 100.1611, "name": "古城半日闲逛·人民路/才村码头", "open_hours": "全天", "rating": "4.7", "recommend_reason": "徒步后放松，逛手作店+喝咖啡+洱海发呆", "ticket_price": "免费"}, "time": "14:30", "type": "attraction"}, {"duration_display": "70 分钟", "duration_min": 70, "poi": {"name": "野生菌火锅🍄（8月菌子季！）", "open_hours": "11:00-22:00", "rating": "4.7", "recommend_reason": "松茸/牛肝菌/鸡枞，正规餐厅确保煮熟", "ticket_price": "人均80元"}, "time": "18:30", "type": "dinner"}], "theme": "苍山感通索道 + 🥾玉带路轻徒步 + 古城闲逛", "total_distance_km": 30, "weather": {"icon": "cloud-sun", "summary": "多云 17-24°C"}}, {"city": "大理→沙溪→丽江", "daily_budget": 1050, "date": "2026-08-05 (周三)", "day_index": 5, "fatigue_index": 55, "routes": [{"description": "🌿 沙溪→丽江：353国道经九河→白汉场→拉市海，远眺老君山+玉龙雪山，约120km/2.5h", "from": 0, "geometry": [[99.8533, 26.32], [99.95, 26.4], [100.03, 26.55], [100.08, 26.65], [100.15, 26.78], [100.2, 26.85], [100.2309, 26.8722]], "to": 2}], "stops": [{"duration_display": "150 分钟", "duration_min": 150, "poi": {"lat": 26.32, "lng": 99.8533, "name": "沙溪古镇", "open_hours": "全天", "rating": "4.8", "recommend_reason": "茶马古道唯一幸存古集市！古戏台+玉津桥，真正的「从前慢」", "ticket_price": "免费"}, "time": "10:30", "type": "attraction"}, {"duration_display": "50 分钟", "duration_min": 50, "poi": {"name": "沙溪马帮菜·火腿炒饭+土鸡汤", "open_hours": "10:00-20:00", "rating": "4.3", "recommend_reason": "寺登街周边小馆，地道马帮风味", "ticket_price": "约120元"}, "time": "12:30", "type": "lunch"}, {"duration_display": "120 分钟", "duration_min": 120, "poi": {"lat": 26.8722, "lng": 100.2309, "name": "丽江古城·夜", "open_hours": "全天", "rating": "4.6", "recommend_reason": "世界文化遗产，四方街+大水车，比大理更具烟火气", "ticket_price": "古城维护费约50元"}, "time": "17:30", "type": "attraction"}, {"duration_display": "60 分钟", "duration_min": 60, "poi": {"name": "腊排骨火锅 + 鸡豆凉粉 + 丽江粑粑", "open_hours": "10:00-22:30", "rating": "4.6", "recommend_reason": "丽江三件套！「阿妈腊排骨」古城南门店", "ticket_price": "人均70元"}, "time": "19:30", "type": "dinner"}], "theme": "茶马古道沙溪秘境 + 盘山路赴丽江", "total_distance_km": 230, "weather": {"icon": "cloud", "summary": "多云 17-24°C"}}, {"city": "丽江", "daily_budget": 650, "date": "2026-08-06 (周四)", "day_index": 6, "fatigue_index": 30, "routes": [{"description": "束河→白沙约20分钟，雪山方向田园风光", "from": 0, "geometry": [[100.205, 26.8922], [100.22, 26.9], [100.2333, 26.9603]], "to": 2}], "stops": [{"duration_display": "180 分钟", "duration_min": 180, "poi": {"lat": 26.8922, "lng": 100.205, "name": "束河古镇", "open_hours": "全天", "rating": "4.6", "recommend_reason": "人少一半安静一倍，九鼎龙潭+青龙桥，小孩广场跑", "ticket_price": "免费"}, "time": "09:30", "type": "attraction"}, {"duration_display": "60 分钟", "duration_min": 60, "poi": {"name": "纳西烤鱼 + 酥油茶 + 丽江粑粑", "open_hours": "10:00-21:00", "rating": "4.4", "recommend_reason": "束河古镇内纳西餐厅", "ticket_price": "约120元"}, "time": "12:30", "type": "lunch"}, {"duration_display": "150 分钟", "duration_min": 150, "poi": {"lat": 26.9603, "lng": 100.2333, "name": "白沙古镇 + 白沙壁画", "open_hours": "08:30-17:30", "rating": "4.5", "recommend_reason": "丽江最古老纳西村落，壁画有「丽江敦煌」之称，抬头就是玉龙雪山", "ticket_price": "30元/人"}, "time": "14:00", "type": "attraction"}, {"duration_display": "60 分钟", "duration_min": 60, "poi": {"name": "黑山羊火锅 / 纳西炒菜", "open_hours": "10:00-22:00", "rating": "4.4", "recommend_reason": "丽江特色，黑山羊鲜嫩不膻", "ticket_price": "人均60元"}, "time": "17:00", "type": "dinner"}], "theme": "束河+白沙·慢节奏半日闲逛", "total_distance_km": 30, "weather": {"icon": "sun", "summary": "多云转晴 16-24°C"}}, {"city": "丽江", "daily_budget": 1050, "date": "2026-08-07 (周五)", "day_index": 7, "fatigue_index": 50, "routes": [{"description": "蓝月谷→云杉坪：景区环保车15min，乘小索道（非大索道！）至3240m", "from": 0, "geometry": [[100.2333, 27.075], [100.22, 27.085], [100.21, 27.098]], "to": 2}, {"description": "云杉坪→甘海子景区环保车约10分钟", "from": 2, "geometry": [[100.21, 27.098], [100.24, 27.095], [100.2639, 27.0922]], "to": 3}], "stops": [{"duration_display": "120 分钟", "duration_min": 120, "poi": {"lat": 27.075, "lng": 100.2333, "name": "蓝月谷", "open_hours": "07:00-17:00", "rating": "4.8", "recommend_reason": "「小九寨」蒂芙尼蓝湖水，海拔2900m平坦木栈道", "ticket_price": "进山费100元+电瓶车50元"}, "time": "08:00", "type": "attraction"}, {"duration_display": "150 分钟", "duration_min": 150, "poi": {"lat": 27.098, "lng": 100.21, "name": "🥾 云杉坪轻徒步2-3km", "open_hours": "07:30-16:00", "rating": "4.9", "recommend_reason": "小索道至3240m高山草甸，环形木栈道，8月野花+牦牛+雪山背景——童话世界！", "ticket_price": "小索道60元/人"}, "time": "10:30", "type": "attraction"}, {"duration_display": "60 分钟", "duration_min": 60, "poi": {"lat": 27.0922, "lng": 100.2639, "name": "甘海子野餐（自备干粮）", "open_hours": "全天", "rating": "4.5", "recommend_reason": "玉龙雪山东麓草甸海拔3100m，野花+雪山背景野餐", "ticket_price": "含进山费"}, "time": "13:00", "type": "lunch"}, {"duration_display": "70 分钟", "duration_min": 70, "poi": {"name": "牦牛肉火锅 + 青稞饼", "open_hours": "10:00-22:00", "rating": "4.5", "recommend_reason": "徒步后犒劳！牦牛肉低脂高蛋白", "ticket_price": "人均80元"}, "time": "18:00", "type": "dinner"}], "theme": "玉龙雪山·蓝月谷+🥾云杉坪轻徒步+甘海子", "total_distance_km": 50, "weather": {"icon": "sun", "summary": "晴 15-23°C"}}, {"city": "丽江→楚雄", "daily_budget": 1000, "date": "2026-08-08 (周六)", "day_index": 8, "fatigue_index": 55, "routes": [{"description": "🌿 丽江→楚雄：选G56杭瑞高速（非大丽+昆楚大），远眺苍山落日+金沙江峡谷夕阳，360km/4.5h", "from": 0, "geometry": [[100.13, 26.87], [100.16, 26.75], [100.22, 26.5], [100.35, 26.0], [100.6, 25.55], [101.0, 25.2], [101.4, 25.1], [101.5422, 25.0458]], "to": 2}], "stops": [{"duration_display": "150 分钟", "duration_min": 150, "poi": {"lat": 26.87, "lng": 100.13, "name": "拉市海湿地公园", "open_hours": "08:00-18:00", "rating": "4.2", "recommend_reason": "高原湿地8月水草丰美，骑马走茶马古道或坐船穿芦苇荡", "ticket_price": "30元+骑马100-200元"}, "time": "09:00", "type": "attraction"}, {"duration_display": "60 分钟", "duration_min": 60, "poi": {"name": "拉市海农家菜", "open_hours": "10:00-20:00", "rating": "4.1", "recommend_reason": "湿地周边农家乐，土鸡/腊肉/野菜", "ticket_price": "约120元"}, "time": "12:00", "type": "lunch"}, {"duration_display": "60 分钟", "duration_min": 60, "poi": {"lat": 25.0458, "lng": 101.5422, "name": "楚雄·彝人古镇夜市", "open_hours": "17:00-23:00", "rating": "4.3", "recommend_reason": "彝家烤肉+坨坨肉+苦荞酒，烟火气十足", "ticket_price": "人均60元"}, "time": "18:30", "type": "dinner"}], "theme": "拉市海骑马 + G56高速返程楚雄", "total_distance_km": 360, "weather": {"icon": "cloud-sun", "summary": "多云 16-24°C"}}, {"city": "楚雄→昆明→长沙", "daily_budget": 2300, "date": "2026-08-09 (周日)", "day_index": 9, "fatigue_index": 20, "routes": [{"description": "🌿 楚雄→昆明机场：G56安宁段，滇中红土高原+安宁温泉峡谷，170km/1.5h，舒适收尾", "from": 0, "geometry": [[101.5422, 25.0458], [101.7, 25.03], [102.1, 25.0], [102.4, 25.08], [102.7, 25.1], [102.928, 25.108]], "to": 0}], "stops": [{"duration_display": "60 分钟", "duration_min": 60, "poi": {"lat": 25.108, "lng": 102.928, "name": "昆明长水机场还车+午餐", "open_hours": "全天", "recommend_reason": "还车闭环完成！💰零异地费，吃最后一碗云南米线再走", "ticket_price": "约100元"}, "time": "11:00", "type": "attraction"}], "theme": "轻松收尾·昆明机场还车返程", "total_distance_km": 170, "weather": {"icon": "cloud", "summary": "多云 18-25°C"}}];
+  const days = [{"day_index": 1, "date": "2026-08-01 (周六)", "city": "昆明", "theme": "抵达春城，翠湖初印象", "fatigue_index": 30, "total_distance_km": 40, "daily_budget": 1450, "weather": {"summary": "多云转阵雨 19-26°C", "icon": "cloud-rain"}, "stops": [{"time": "10:30", "type": "attraction", "poi": {"name": "昆明长水机场取车", "recommend_reason": "神州/一嗨机场店取车，经济SUV约200元/天，⚠️昆明取还闭环无异地费", "rating": "4.3", "open_hours": "24h", "ticket_price": "—", "lat": 25.108, "lng": 102.928}, "duration_min": 40}, {"time": "12:00", "type": "lunch", "poi": {"name": "机场周边简餐", "recommend_reason": "取车后顺路解决", "open_hours": "10:00-21:00", "ticket_price": "约80元"}, "duration_min": 50}, {"time": "14:30", "type": "attraction", "poi": {"name": "翠湖公园", "recommend_reason": "昆明市中心免费公园，8月荷花季，有儿童游乐区", "rating": "4.5", "open_hours": "06:00-22:00", "ticket_price": "免费", "lat": 25.0458, "lng": 102.7046}, "duration_min": 120}, {"time": "17:30", "type": "dinner", "poi": {"name": "桥香园过桥米线 + 汽锅鸡", "recommend_reason": "昆明经典组合，翠湖步行10分钟可达", "rating": "4.4", "open_hours": "10:00-21:30", "ticket_price": "人均60元"}, "duration_min": 60}, {"time": "19:00", "type": "evening", "poi": {"name": "昆明老街（钱王街）", "recommend_reason": "青石板路+百年老宅，灯笼亮起氛围好", "rating": "4.3", "open_hours": "全天", "ticket_price": "免费", "lat": 25.0417, "lng": 102.7096}, "duration_min": 60}], "routes": [{"from": 0, "to": 2, "geometry": [[102.928, 25.108], [102.85, 25.12], [102.8, 25.08], [102.75, 25.06], [102.7046, 25.0458]], "description": "机场高速→二环快速→翠湖，约40km/45min"}, {"from": 2, "to": 4, "geometry": [[102.7046, 25.0458], [102.71, 25.043], [102.7096, 25.0417]], "description": "翠湖步行至昆明老街约10分钟"}]}, {"day_index": 2, "date": "2026-08-02 (周日)", "city": "昆明→大理", "theme": "滇池晨光 + G56杭瑞高速·最美高速赴大理", "fatigue_index": 50, "total_distance_km": 330, "daily_budget": 1200, "weather": {"summary": "晴转多云 18-25°C", "icon": "cloud-sun"}, "stops": [{"time": "08:30", "type": "attraction", "poi": {"name": "滇池·海埂公园", "recommend_reason": "云南最大高原湖泊，碧波万顷，湖滨步道亲子散步", "rating": "4.6", "open_hours": "全天", "ticket_price": "免费", "lat": 24.9688, "lng": 102.6635}, "duration_min": 120}, {"time": "12:00", "type": "lunch", "poi": {"name": "楚雄服务区·彝族简餐", "recommend_reason": "彝族风味坨坨肉、苦荞粑粑", "open_hours": "08:00-20:00", "ticket_price": "约120元", "lat": 25.0333, "lng": 101.55}, "duration_min": 40}, {"time": "17:00", "type": "attraction", "poi": {"name": "大理古城", "recommend_reason": "千年白族古城，苍山脚下流水穿城，傍晚光影最美", "rating": "4.7", "open_hours": "全天", "ticket_price": "免费", "lat": 25.6785, "lng": 100.1611}, "duration_min": 150}, {"time": "19:30", "type": "dinner", "poi": {"name": "大理酸辣鱼 + 烤乳扇 + 凉鸡米线", "recommend_reason": "古城「再回首」或「梅子井酒家」", "rating": "4.5", "open_hours": "10:00-22:00", "ticket_price": "人均60元"}, "duration_min": 60}], "routes": [{"from": 0, "to": 2, "geometry": [[102.6635, 24.9688], [102.5, 24.98], [101.9, 25.04], [101.55, 25.033], [100.8, 25.3], [100.4, 25.48], [100.25, 25.62], [100.1611, 25.6785]], "description": "🌿 优选G56杭瑞高速（自然景观>昆楚大高速），穿越彝山峡谷+梯田，320km/4h"}]}, {"day_index": 3, "date": "2026-08-03 (周一)", "city": "大理", "theme": "环洱海自驾·最美环湖130km", "fatigue_index": 55, "total_distance_km": 130, "daily_budget": 900, "weather": {"summary": "多云 18-25°C", "icon": "cloud"}, "stops": [{"time": "09:00", "type": "attraction", "poi": {"name": "喜洲古镇", "recommend_reason": "白族民居最完整古镇，转角楼+稻田，8月翠绿出片", "rating": "4.6", "open_hours": "全天", "ticket_price": "免费", "lat": 25.8538, "lng": 100.1194}, "duration_min": 150}, {"time": "12:30", "type": "attraction", "poi": {"name": "周城扎染体验", "recommend_reason": "非遗手作！小孩亲手做扎染方巾", "rating": "4.7", "open_hours": "09:00-17:00", "ticket_price": "约40-80元/人", "lat": 25.8783, "lng": 100.1056}, "duration_min": 90}, {"time": "14:30", "type": "attraction", "poi": {"name": "双廊古镇", "recommend_reason": "苍洱风光第一镇，湖边咖啡馆发呆", "rating": "4.5", "open_hours": "全天", "ticket_price": "免费", "lat": 25.8506, "lng": 100.2314}, "duration_min": 120}, {"time": "17:00", "type": "attraction", "poi": {"name": "小普陀（日落拍照点🌅）", "recommend_reason": "洱海袖珍小岛，环海东路最佳日落拍照点", "rating": "4.3", "open_hours": "全天", "ticket_price": "免费（远观）", "lat": 25.8119, "lng": 100.2575}, "duration_min": 20}, {"time": "18:30", "type": "dinner", "poi": {"name": "大理砂锅鱼 + 洱海虾 + 海菜汤", "recommend_reason": "白族经典，砂锅鱼用洱海弓鱼慢炖", "rating": "4.5", "open_hours": "11:00-21:30", "ticket_price": "人均70元"}, "duration_min": 60}], "routes": [{"from": 0, "to": 1, "geometry": [[100.1611, 25.6785], [100.14, 25.72], [100.13, 25.77], [100.1194, 25.8538]], "description": "古城→喜洲，环海西路田园段，白族村落+稻田，20km/30min"}, {"from": 1, "to": 2, "geometry": [[100.1194, 25.8538], [100.11, 25.86], [100.1056, 25.8783]], "description": "喜洲→周城约5km/10min"}, {"from": 2, "to": 3, "geometry": [[100.1056, 25.8783], [100.18, 25.87], [100.22, 25.86], [100.2314, 25.8506]], "description": "周城→双廊，环海东路苍洱同框最美段，25km/40min"}, {"from": 3, "to": 4, "geometry": [[100.2314, 25.8506], [100.24, 25.83], [100.2575, 25.8119]], "description": "双廊→小普陀，环海东路日落段，10km/15min"}]}, {"day_index": 4, "date": "2026-08-04 (周二)", "city": "大理", "theme": "苍山感通索道 + 🥾玉带路轻徒步 + 古城闲逛", "fatigue_index": 45, "total_distance_km": 30, "daily_budget": 850, "weather": {"summary": "多云 17-24°C", "icon": "cloud-sun"}, "stops": [{"time": "08:30", "type": "attraction", "poi": {"name": "苍山·感通索道", "recommend_reason": "至海拔2600m，观赏感通寺+清碧溪+苍山大峡谷", "rating": "4.6", "open_hours": "08:30-17:00", "ticket_price": "110元/人往返", "lat": 25.6564, "lng": 100.1333}, "duration_min": 90}, {"time": "10:00", "type": "attraction", "poi": {"name": "🥾 苍山玉带路轻徒步3-5km", "recommend_reason": "平缓石板路无爬升！左森林右洱海全景，6岁娃轻松走", "rating": "4.8", "open_hours": "全天", "ticket_price": "含索道票", "lat": 25.665, "lng": 100.142}, "duration_min": 150}, {"time": "13:00", "type": "lunch", "poi": {"name": "再回首凉鸡米线 + 卤饵丝", "recommend_reason": "古城人民路本地人最爱", "rating": "4.5", "open_hours": "09:00-20:00", "ticket_price": "人均25元"}, "duration_min": 50}, {"time": "14:30", "type": "attraction", "poi": {"name": "古城半日闲逛·人民路/才村码头", "recommend_reason": "徒步后放松，逛手作店+喝咖啡+洱海发呆", "rating": "4.7", "open_hours": "全天", "ticket_price": "免费", "lat": 25.6785, "lng": 100.1611}, "duration_min": 210}, {"time": "18:30", "type": "dinner", "poi": {"name": "野生菌火锅🍄（8月菌子季！）", "recommend_reason": "松茸/牛肝菌/鸡枞，正规餐厅确保煮熟", "rating": "4.7", "open_hours": "11:00-22:00", "ticket_price": "人均80元"}, "duration_min": 70}], "routes": [{"from": 0, "to": 1, "geometry": [[100.1333, 25.6564], [100.138, 25.66], [100.142, 25.665]], "description": "感通索道上站→玉带路入口，沿山腰横切，3-5km石板路"}, {"from": 1, "to": 4, "geometry": [[100.142, 25.665], [100.15, 25.67], [100.1611, 25.6785]], "description": "索道下山→返回古城，约20分钟"}]}, {"day_index": 5, "date": "2026-08-05 (周三)", "city": "大理→沙溪→丽江", "theme": "茶马古道沙溪秘境 + 盘山路赴丽江", "fatigue_index": 55, "total_distance_km": 230, "daily_budget": 1050, "weather": {"summary": "多云 17-24°C", "icon": "cloud"}, "stops": [{"time": "10:30", "type": "attraction", "poi": {"name": "沙溪古镇", "recommend_reason": "茶马古道唯一幸存古集市！古戏台+玉津桥，真正的「从前慢」", "rating": "4.8", "open_hours": "全天", "ticket_price": "免费", "lat": 26.32, "lng": 99.8533}, "duration_min": 150}, {"time": "12:30", "type": "lunch", "poi": {"name": "沙溪马帮菜·火腿炒饭+土鸡汤", "recommend_reason": "寺登街周边小馆，地道马帮风味", "rating": "4.3", "open_hours": "10:00-20:00", "ticket_price": "约120元"}, "duration_min": 50}, {"time": "17:30", "type": "attraction", "poi": {"name": "丽江古城·夜", "recommend_reason": "世界文化遗产，四方街+大水车，比大理更具烟火气", "rating": "4.6", "open_hours": "全天", "ticket_price": "古城维护费约50元", "lat": 26.8722, "lng": 100.2309}, "duration_min": 120}, {"time": "19:30", "type": "dinner", "poi": {"name": "腊排骨火锅 + 鸡豆凉粉 + 丽江粑粑", "recommend_reason": "丽江三件套！「阿妈腊排骨」古城南门店", "rating": "4.6", "open_hours": "10:00-22:30", "ticket_price": "人均70元"}, "duration_min": 60}], "routes": [{"from": 0, "to": 2, "geometry": [[99.8533, 26.32], [99.95, 26.4], [100.03, 26.55], [100.08, 26.65], [100.15, 26.78], [100.2, 26.85], [100.2309, 26.8722]], "description": "🌿 沙溪→丽江：353国道经九河→白汉场→拉市海，远眺老君山+玉龙雪山，约120km/2.5h"}]}, {"day_index": 6, "date": "2026-08-06 (周四)", "city": "丽江", "theme": "束河+白沙·慢节奏半日闲逛", "fatigue_index": 30, "total_distance_km": 30, "daily_budget": 650, "weather": {"summary": "多云转晴 16-24°C", "icon": "sun"}, "stops": [{"time": "09:30", "type": "attraction", "poi": {"name": "束河古镇", "recommend_reason": "人少一半安静一倍，九鼎龙潭+青龙桥，小孩广场跑", "rating": "4.6", "open_hours": "全天", "ticket_price": "免费", "lat": 26.8922, "lng": 100.205}, "duration_min": 180}, {"time": "12:30", "type": "lunch", "poi": {"name": "纳西烤鱼 + 酥油茶 + 丽江粑粑", "recommend_reason": "束河古镇内纳西餐厅", "rating": "4.4", "open_hours": "10:00-21:00", "ticket_price": "约120元"}, "duration_min": 60}, {"time": "14:00", "type": "attraction", "poi": {"name": "白沙古镇 + 白沙壁画", "recommend_reason": "丽江最古老纳西村落，壁画有「丽江敦煌」之称，抬头就是玉龙雪山", "rating": "4.5", "open_hours": "08:30-17:30", "ticket_price": "30元/人", "lat": 26.9603, "lng": 100.2333}, "duration_min": 150}, {"time": "17:00", "type": "dinner", "poi": {"name": "黑山羊火锅 / 纳西炒菜", "recommend_reason": "丽江特色，黑山羊鲜嫩不膻", "rating": "4.4", "open_hours": "10:00-22:00", "ticket_price": "人均60元"}, "duration_min": 60}], "routes": [{"from": 0, "to": 2, "geometry": [[100.205, 26.8922], [100.22, 26.9], [100.2333, 26.9603]], "description": "束河→白沙约20分钟，雪山方向田园风光"}]}, {"day_index": 7, "date": "2026-08-07 (周五)", "city": "丽江", "theme": "玉龙雪山·蓝月谷+🥾云杉坪轻徒步+甘海子", "fatigue_index": 50, "total_distance_km": 50, "daily_budget": 1050, "weather": {"summary": "晴 15-23°C", "icon": "sun"}, "stops": [{"time": "08:00", "type": "attraction", "poi": {"name": "蓝月谷", "recommend_reason": "「小九寨」蒂芙尼蓝湖水，海拔2900m平坦木栈道", "rating": "4.8", "open_hours": "07:00-17:00", "ticket_price": "进山费100元+电瓶车50元", "lat": 27.075, "lng": 100.2333}, "duration_min": 120}, {"time": "10:30", "type": "attraction", "poi": {"name": "🥾 云杉坪轻徒步2-3km", "recommend_reason": "小索道至3240m高山草甸，环形木栈道，8月野花+牦牛+雪山背景——童话世界！", "rating": "4.9", "open_hours": "07:30-16:00", "ticket_price": "小索道60元/人", "lat": 27.098, "lng": 100.21}, "duration_min": 150}, {"time": "13:00", "type": "lunch", "poi": {"name": "甘海子野餐（自备干粮）", "recommend_reason": "玉龙雪山东麓草甸海拔3100m，野花+雪山背景野餐", "rating": "4.5", "open_hours": "全天", "ticket_price": "含进山费", "lat": 27.0922, "lng": 100.2639}, "duration_min": 60}, {"time": "18:00", "type": "dinner", "poi": {"name": "牦牛肉火锅 + 青稞饼", "recommend_reason": "徒步后犒劳！牦牛肉低脂高蛋白", "rating": "4.5", "open_hours": "10:00-22:00", "ticket_price": "人均80元"}, "duration_min": 70}], "routes": [{"from": 0, "to": 2, "geometry": [[100.2333, 27.075], [100.22, 27.085], [100.21, 27.098]], "description": "蓝月谷→云杉坪：景区环保车15min，乘小索道（非大索道！）至3240m"}, {"from": 2, "to": 3, "geometry": [[100.21, 27.098], [100.24, 27.095], [100.2639, 27.0922]], "description": "云杉坪→甘海子景区环保车约10分钟"}]}, {"day_index": 8, "date": "2026-08-08 (周六)", "city": "丽江→楚雄", "theme": "拉市海骑马 + G56高速返程楚雄", "fatigue_index": 55, "total_distance_km": 360, "daily_budget": 1000, "weather": {"summary": "多云 16-24°C", "icon": "cloud-sun"}, "stops": [{"time": "09:00", "type": "attraction", "poi": {"name": "拉市海湿地公园", "recommend_reason": "高原湿地8月水草丰美，骑马走茶马古道或坐船穿芦苇荡", "rating": "4.2", "open_hours": "08:00-18:00", "ticket_price": "30元+骑马100-200元", "lat": 26.87, "lng": 100.13}, "duration_min": 150}, {"time": "12:00", "type": "lunch", "poi": {"name": "拉市海农家菜", "recommend_reason": "湿地周边农家乐，土鸡/腊肉/野菜", "rating": "4.1", "open_hours": "10:00-20:00", "ticket_price": "约120元"}, "duration_min": 60}, {"time": "18:30", "type": "dinner", "poi": {"name": "楚雄·彝人古镇夜市", "recommend_reason": "彝家烤肉+坨坨肉+苦荞酒，烟火气十足", "rating": "4.3", "open_hours": "17:00-23:00", "ticket_price": "人均60元", "lat": 25.0458, "lng": 101.5422}, "duration_min": 60}], "routes": [{"from": 0, "to": 2, "geometry": [[100.13, 26.87], [100.16, 26.75], [100.22, 26.5], [100.35, 26.0], [100.6, 25.55], [101.0, 25.2], [101.4, 25.1], [101.5422, 25.0458]], "description": "🌿 丽江→楚雄：选G56杭瑞高速（非大丽+昆楚大），远眺苍山落日+金沙江峡谷夕阳，360km/4.5h"}]}, {"day_index": 9, "date": "2026-08-09 (周日)", "city": "楚雄→昆明→长沙", "theme": "轻松收尾·昆明机场还车返程", "fatigue_index": 20, "total_distance_km": 170, "daily_budget": 2300, "weather": {"summary": "多云 18-25°C", "icon": "cloud"}, "stops": [{"time": "11:00", "type": "attraction", "poi": {"name": "昆明长水机场还车+午餐", "recommend_reason": "还车闭环完成！💰零异地费，吃最后一碗云南米线再走", "open_hours": "全天", "ticket_price": "约100元", "lat": 25.108, "lng": 102.928}, "duration_min": 60}], "routes": [{"from": 0, "to": 0, "geometry": [[101.5422, 25.0458], [101.7, 25.03], [102.1, 25.0], [102.4, 25.08], [102.7, 25.1], [102.928, 25.108]], "description": "🌿 楚雄→昆明机场：G56安宁段，滇中红土高原+安宁温泉峡谷，170km/1.5h，舒适收尾"}]}];
 
   // === 瓦片源 ===
   const TILE_SOURCES = [
@@ -2188,7 +2193,6 @@ footer {
 
   function addTiles(map) {
     let tileLayer = null;
-    let sourceIdx = 0;
     function loadSrc(idx) {
       if (idx >= TILE_SOURCES.length) return;
       if (tileLayer) map.removeLayer(tileLayer);
@@ -2201,13 +2205,29 @@ footer {
     loadSrc(0);
   }
 
-  // === 总览地图：只画大头针 + 跨城连线，不画小圆点 ===
+  // === 当前选中的标签 ===
+  let currentTab = 'overview';
+
+  // === 总览地图：画完整路线 + 大头针 ===
   const overviewMap = L.map('map-overview', {preferCanvas: true});
   addTiles(overviewMap);
   const dayPinsData = [];
 
   days.forEach((day, idx) => {
     const color = dayColors[idx % dayColors.length];
+    
+    // 画当天路线（实线，用 geometry 坐标）
+    const routes = day.routes || [];
+    routes.forEach(r => {
+      if (r.geometry && r.geometry.length >= 2) {
+        const latlngs = r.geometry.map(p => [p[1], p[0]]); // [lng,lat] → [lat,lng]
+        L.polyline(latlngs, {
+          color: color, weight: 6, opacity: 0.85, lineCap: 'round', lineJoin: 'round'
+        }).addTo(overviewMap).bindTooltip('D' + day.day_index + ' ' + day.city + ' · ' + (r.description || ''), {sticky: true});
+        latlngs.forEach(ll => allLatLngs.push(ll));
+      }
+    });
+
     // 找主目的地
     let mainStop = null;
     for (const s of day.stops) {
@@ -2232,18 +2252,11 @@ footer {
       iconSize: [48, 65], iconAnchor: [24, 57]
     });
     const pin = L.marker([mainStop.poi.lat, mainStop.poi.lng], {icon: pinIcon, zIndexOffset: 1000}).addTo(overviewMap);
-    pin.bindPopup(`<div style="font-size:14px;min-width:180px;"><b style="font-size:17px;color:${color};">D${day.day_index} ${day.city}</b><br>📅 ${day.date}<br>🎯 ${day.theme}<br>🚗 ${day.total_distance_km}km | 🚶 体力${day.fatigue_index}<br><br><span style="color:#888;font-size:12px;">点击上方标签可查看当日详细地图</span></div>`);
-    allLatLngs.push([mainStop.poi.lat, mainStop.poi.lng]);
+    pin.bindPopup(`<div style="font-size:14px;min-width:180px;"><b style="font-size:17px;color:${color};">D${day.day_index} ${day.city}</b><br>📅 ${day.date}<br>🎯 ${day.theme}<br>🚗 ${day.total_distance_km}km | 🚶 体力${day.fatigue_index}</div>`);
+    if (allLatLngs.length === 0 || (mainStop.poi.lat !== allLatLngs[allLatLngs.length-1][0])) {
+      allLatLngs.push([mainStop.poi.lat, mainStop.poi.lng]);
+    }
   });
-
-  // 跨城连线
-  for (let i = 0; i < dayPinsData.length - 1; i++) {
-    const from = dayPinsData[i], to = dayPinsData[i+1];
-    if (from.city === to.city) continue;
-    L.polyline([[from.lat, from.lng],[to.lat, to.lng]], {
-      color: '#666', weight: 4, opacity: 0.5, dashArray: '10,8', lineCap: 'round'
-    }).addTo(overviewMap).bindTooltip('D' + from.day + '→D' + to.day + ' 跨城', {sticky: true});
-  }
 
   // 总览图例
   const ovLegend = L.control({position: 'bottomleft'});
@@ -2252,13 +2265,12 @@ footer {
     div.innerHTML = `<div style="background:rgba(255,255,255,0.95);padding:12px 16px;border-radius:10px;font-size:14px;line-height:2;box-shadow:0 2px 10px rgba(0,0,0,0.2);">
       <div style="font-weight:700;margin-bottom:4px;font-size:15px;">🗺️ 图例</div>
       <div><span style="display:inline-block;width:16px;height:16px;background:#e74c3c;border-radius:50% 50% 50% 0;transform:rotate(-45deg);vertical-align:middle;border:2px solid #fff;"></span> 每日主目的地</div>
-      <div><span style="display:inline-block;width:30px;height:4px;background:#666;border-top:2px dashed #666;vertical-align:middle;"></span> 跨城衔接</div>
-      <div style="margin-top:4px;color:#888;font-size:12px;">💡 点击上方 D1-D9 标签查看每日详细地图</div>
+      <div><span style="display:inline-block;width:30px;height:6px;background:#3498db;border-radius:3px;vertical-align:middle;"></span> 每日自驾路线（按天着色）</div>
+      <div style="margin-top:4px;color:#888;font-size:12px;">💡 点击 D1-D9 标签查看每日详细地图</div>
     </div>`;
     return div;
   };
   ovLegend.addTo(overviewMap);
-
   if (allLatLngs.length > 1) overviewMap.fitBounds(allLatLngs, {padding: [60, 60], maxZoom: 12});
 
   // === 每日详细地图 ===
@@ -2281,12 +2293,12 @@ footer {
       if (r.geometry && r.geometry.length >= 2) {
         const latlngs = r.geometry.map(p => [p[1], p[0]]);
         L.polyline(latlngs, {color, weight: 8, opacity: 0.9, lineCap: 'round', lineJoin: 'round'})
-          .addTo(dm).bindTooltip('D' + day.day_index + ' 路段 ' + r.from + '→' + r.to, {sticky: true});
+          .addTo(dm).bindTooltip(r.description || ('D'+day.day_index+' 路段'), {sticky: true});
         latlngs.forEach(ll => dayLatLngs.push(ll));
       }
     });
 
-    // 画所有站点（每天只有几个 marker，不会重叠）
+    // 画站点
     day.stops.forEach((s, i) => {
       if (!s.poi.lat || !s.poi.lng) return;
       const isMain = (s.type === 'attraction' || s.type === 'evening');
@@ -2326,10 +2338,74 @@ footer {
     }
   });
 
-  // === 标签页切换 ===
+  // === 标签页切换 + 导航按钮更新 ===
+  function updateNavBar(tab) {
+    const navInfo = document.getElementById('nav-info');
+    const navBtn = document.getElementById('nav-btn');
+    if (!navInfo || !navBtn) return;
+    
+    if (tab === 'overview') {
+      navInfo.innerHTML = '📌 当前选中：全程总览地图';
+      // Build full route URL with ALL waypoints as via points
+      const allWp = [];
+      days.forEach(day => {
+        for (const s of day.stops) {
+          if (s.poi.lat && s.poi.lng && (s.type === 'attraction' || s.type === 'evening')) {
+            allWp.push({name: 'D'+day.day_index+' '+s.poi.name, lng: s.poi.lng, lat: s.poi.lat});
+            break;
+          }
+        }
+      });
+      if (allWp.length >= 2) {
+        const from = allWp[0], to = allWp[allWp.length-1];
+        const via = allWp.slice(1, -1);
+        let url = `https://uri.amap.com/navigation?from=${from.lng},${from.lat},${encodeURIComponent(from.name)}&to=${to.lng},${to.lat},${encodeURIComponent(to.name)}`;
+        if (via.length > 0) {
+          // 高德 via 最多支持约16个途经点，我们最多9天
+          url += '&via=' + via.map(w => `${w.lng},${w.lat},${encodeURIComponent(w.name)}`).join('|');
+        }
+        url += '&mode=car&policy=2&src=mypage&coordinate=wgs84&callnative=1';
+        navBtn.href = url;
+        navBtn.style.display = 'inline-flex';
+      }
+    } else {
+      const dayIdx = parseInt(tab.replace('day',''));
+      const day = days.find(d => d.day_index === dayIdx);
+      if (!day) return;
+      
+      navInfo.innerHTML = `📌 D${dayIdx} ${day.date} · ${day.theme} · ${day.total_distance_km}km`;
+      
+      // 收集当天所有有坐标的站点作为途经点
+      const wp = [];
+      day.stops.forEach(s => {
+        if (s.poi.lat && s.poi.lng) {
+          wp.push({name: s.poi.name, lng: s.poi.lng, lat: s.poi.lat});
+        }
+      });
+      
+      if (wp.length >= 2) {
+        const from = wp[0], to = wp[wp.length - 1];
+        const via = wp.slice(1, -1);
+        let url = `https://uri.amap.com/navigation?from=${from.lng},${from.lat},${encodeURIComponent(from.name)}&to=${to.lng},${to.lat},${encodeURIComponent(to.name)}`;
+        if (via.length > 0) {
+          url += '&via=' + via.map(w => `${w.lng},${w.lat},${encodeURIComponent(w.name)}`).join('|');
+        }
+        // policy=2 表示避免收费/多路径，让用户选景观路线
+        url += '&mode=car&policy=0&src=mypage&coordinate=wgs84&callnative=1';
+        navBtn.href = url;
+        navBtn.style.display = 'inline-flex';
+      } else {
+        navInfo.innerHTML += '（坐标不足，无法导航）';
+        navBtn.style.display = 'none';
+      }
+    }
+  }
+
   document.querySelectorAll('.map-tab').forEach(btn => {
     btn.addEventListener('click', function() {
       const tab = this.dataset.tab;
+      currentTab = tab;
+      
       // 切换按钮样式
       document.querySelectorAll('.map-tab').forEach(b => {
         b.style.background = '#fff';
@@ -2348,14 +2424,19 @@ footer {
       const targetEl = document.getElementById(targetId);
       if (targetEl) {
         targetEl.style.display = 'block';
-        // Leaflet 需要 invalidateSize 来正确渲染
         setTimeout(() => {
           if (tab === 'overview') overviewMap.invalidateSize();
           else if (dayMaps[parseInt(tab.replace('day',''))]) dayMaps[parseInt(tab.replace('day',''))].invalidateSize();
         }, 100);
       }
+      
+      // 更新导航按钮
+      updateNavBar(tab);
     });
   });
+
+  // 初始化导航按钮
+  updateNavBar('overview');
 
   // 预算饼图
   const ctx = document.getElementById('budget-pie');
@@ -2372,7 +2453,37 @@ footer {
       },
       options: {plugins: {legend: {position: 'bottom'}}}
     });
-  }</script>
+  }
+
+  // === 侧边栏 ===
+  function toggleSidebar() {
+    document.getElementById('sidebar').classList.toggle('open');
+    document.getElementById('sidebarOverlay').classList.toggle('show');
+  }
+  const navLinks = document.querySelectorAll('.sidebar a');
+  const sections = [];
+  document.querySelectorAll('section, article.day-card').forEach(el => {
+    if (el.id) sections.push(el);
+  });
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => {
+      if (window.scrollY >= s.offsetTop - 100) current = s.id;
+    });
+    navLinks.forEach(a => {
+      a.classList.remove('active');
+      if (a.getAttribute('href') === '#' + current) a.classList.add('active');
+    });
+  });
+  navLinks.forEach(a => {
+    a.addEventListener('click', () => {
+      if (window.innerWidth <= 768) {
+        document.getElementById('sidebar').classList.remove('open');
+        document.getElementById('sidebarOverlay').classList.remove('show');
+      }
+    });
+  });
+</script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 <style>
 /* 出游规划师 · HTML 行程书样式 · v1.0 */
@@ -2743,6 +2854,15 @@ footer {
 .amap-export-btn:hover { background: #0070cc; }
 .amap-export-btn:active { background: #005fa3; }
 
+
+/* === v8: 导航条 === */
+#nav-bar { transition: all 0.2s; }
+#nav-btn { white-space: nowrap; }
+@media (max-width: 768px) {
+  #nav-bar { flex-direction: column; align-items: stretch; }
+  #nav-btn { justify-content: center; text-align: center; }
+}
+
 </style>
 </head>
 <body>
@@ -2827,27 +2947,17 @@ footer {
   </div>
 
   <!-- 总览地图 -->
-  <button class="amap-export-btn" onclick="exportFullRoute()" style="margin-bottom:8px;">📱 导出全程路线到高德地图</button>
   <div id="map-overview" class="map-pane" style="height: 560px; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.08);"></div>
   
   <!-- 每日小地图 -->
-  <button class="amap-export-btn" onclick="exportToAmap(1)" style="margin-bottom:8px;">📱 导出D1路线到高德地图</button>
   <div id="map-day1" class="map-pane" style="height: 400px; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); display:none;"></div>
-  <button class="amap-export-btn" onclick="exportToAmap(2)" style="margin-bottom:8px;">📱 导出D2路线到高德地图</button>
   <div id="map-day2" class="map-pane" style="height: 400px; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); display:none;"></div>
-  <button class="amap-export-btn" onclick="exportToAmap(3)" style="margin-bottom:8px;">📱 导出D3路线到高德地图</button>
   <div id="map-day3" class="map-pane" style="height: 400px; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); display:none;"></div>
-  <button class="amap-export-btn" onclick="exportToAmap(4)" style="margin-bottom:8px;">📱 导出D4路线到高德地图</button>
   <div id="map-day4" class="map-pane" style="height: 400px; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); display:none;"></div>
-  <button class="amap-export-btn" onclick="exportToAmap(5)" style="margin-bottom:8px;">📱 导出D5路线到高德地图</button>
   <div id="map-day5" class="map-pane" style="height: 400px; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); display:none;"></div>
-  <button class="amap-export-btn" onclick="exportToAmap(6)" style="margin-bottom:8px;">📱 导出D6路线到高德地图</button>
   <div id="map-day6" class="map-pane" style="height: 400px; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); display:none;"></div>
-  <button class="amap-export-btn" onclick="exportToAmap(7)" style="margin-bottom:8px;">📱 导出D7路线到高德地图</button>
   <div id="map-day7" class="map-pane" style="height: 400px; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); display:none;"></div>
-  <button class="amap-export-btn" onclick="exportToAmap(8)" style="margin-bottom:8px;">📱 导出D8路线到高德地图</button>
   <div id="map-day8" class="map-pane" style="height: 400px; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); display:none;"></div>
-  <button class="amap-export-btn" onclick="exportToAmap(9)" style="margin-bottom:8px;">📱 导出D9路线到高德地图</button>
   <div id="map-day9" class="map-pane" style="height: 400px; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); display:none;"></div>
 </section>
 
@@ -4319,7 +4429,7 @@ footer {
       <h4>真实笔记参考 <span class="xhs-count">6 篇</span></h4>
       <div class="xhs-grid">
         
-          <a class="xhs-card" href="https://www.xiaohongshu.com/search_result?keyword=%E6%B4%B1%E6%B5%B7%E8%87%AA%E9%A9%BE%E4%BA%B2%E5%AD%90" target="_blank" rel="noopener">
+          <a class="xhs-card" href="https://search.bilibili.com/all?keyword=%E6%B4%B1%E6%B5%B7%E8%87%AA%E9%A9%BE%E4%BA%B2%E5%AD%90%E6%B8%B8" target="_blank" rel="noopener">
             
             <div class="xhs-body">
               <div class="xhs-title">大理自驾环洱海·带着5岁娃的真实体验</div>
@@ -4337,7 +4447,7 @@ footer {
             </div>
           </a>
         
-          <a class="xhs-card" href="https://www.xiaohongshu.com/search_result?keyword=%E4%BA%91%E5%8D%97%E4%BA%B2%E5%AD%90%E9%81%BF%E5%9D%91" target="_blank" rel="noopener">
+          <a class="xhs-card" href="https://search.bilibili.com/all?keyword=%E4%BA%91%E5%8D%97%E4%BA%B2%E5%AD%90%E6%B8%B8%E9%81%BF%E5%9D%91%E6%8C%87%E5%8D%97" target="_blank" rel="noopener">
             
             <div class="xhs-body">
               <div class="xhs-title">云南亲子游避坑指南·大理丽江9天</div>
@@ -4355,7 +4465,7 @@ footer {
             </div>
           </a>
         
-          <a class="xhs-card" href="https://www.xiaohongshu.com/search_result?keyword=%E4%BA%91%E5%8D%97%E6%9C%80%E7%BE%8E%E8%87%AA%E9%A9%BE%E8%B7%AF%E6%AE%B5" target="_blank" rel="noopener">
+          <a class="xhs-card" href="https://search.bilibili.com/all?keyword=%E4%BA%91%E5%8D%97%E6%9C%80%E7%BE%8E%E8%87%AA%E9%A9%BE%E5%85%AC%E8%B7%AF" target="_blank" rel="noopener">
             
             <div class="xhs-body">
               <div class="xhs-title">昆明大理丽江自驾·最美路段排名</div>
@@ -4373,7 +4483,7 @@ footer {
             </div>
           </a>
         
-          <a class="xhs-card" href="https://www.xiaohongshu.com/search_result?keyword=%E4%B8%BD%E6%B1%9F%E7%BE%8E%E9%A3%9F%E4%BA%B2%E5%AD%90" target="_blank" rel="noopener">
+          <a class="xhs-card" href="https://search.bilibili.com/all?keyword=%E4%B8%BD%E6%B1%9F%E7%BE%8E%E9%A3%9F%E6%8E%A8%E8%8D%90" target="_blank" rel="noopener">
             
             <div class="xhs-body">
               <div class="xhs-title">丽江·带小孩吃遍古城不踩雷</div>
@@ -4391,7 +4501,7 @@ footer {
             </div>
           </a>
         
-          <a class="xhs-card" href="https://www.xiaohongshu.com/search_result?keyword=%E5%A4%A7%E7%90%86%E7%99%BD%E6%97%8F%E7%BE%8E%E9%A3%9F" target="_blank" rel="noopener">
+          <a class="xhs-card" href="https://search.bilibili.com/all?keyword=%E5%A4%A7%E7%90%86%E7%99%BD%E6%97%8F%E7%89%B9%E8%89%B2%E7%BE%8E%E9%A3%9F" target="_blank" rel="noopener">
             
             <div class="xhs-body">
               <div class="xhs-title">大理古城+喜洲·白族特色菜去哪吃</div>
@@ -4409,7 +4519,7 @@ footer {
             </div>
           </a>
         
-          <a class="xhs-card" href="https://www.xiaohongshu.com/search_result?keyword=%E4%BA%91%E5%8D%97%E5%85%AB%E6%9C%88%E5%A4%A9%E6%B0%94" target="_blank" rel="noopener">
+          <a class="xhs-card" href="https://search.bilibili.com/all?keyword=%E4%BA%91%E5%8D%978%E6%9C%88%E6%97%85%E6%B8%B8%E5%A4%A9%E6%B0%94" target="_blank" rel="noopener">
             
             <div class="xhs-body">
               <div class="xhs-title">八月初云南天气实测·带娃怎么穿</div>
@@ -4516,377 +4626,13 @@ footer {
   <p>本报告所有价格 / 营业 / 评分均为查询时刻的参考值，请出行前再核实。</p>
 </footer>
 
-<script>
-  // 总览地图 —— 国内可用瓦片源（按可达性顺序），任何一个失败自动切下一个
-  const map = L.map('map', { preferCanvas: true });
 
-  const TILE_SOURCES = [
-    {
-      // 高德矢量瓦片（无需 key，国内最稳）
-      url: 'https://webrd0{s}.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x={x}&y={y}&z={z}',
-      options: { subdomains: ['1','2','3','4'], attribution: '高德地图', maxZoom: 18 }
-    },
-    {
-      // 高德卫星瓦片（备用）
-      url: 'https://webst0{s}.is.autonavi.com/appmaptile?style=6&x={x}&y={y}&z={z}',
-      options: { subdomains: ['1','2','3','4'], attribution: '高德卫星', maxZoom: 18 }
-    },
-    {
-      // 腾讯地图瓦片（再备用）
-      url: 'https://rt{s}.map.gtimg.com/realtimerender?z={z}&x={x}&y={y}&type=vector&style=0',
-      options: { subdomains: ['0','1','2','3'], attribution: '腾讯地图', maxZoom: 18 }
-    },
-    {
-      // OSM（最后兜底，国内可能慢）
-      url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-      options: { subdomains: ['a','b','c'], attribution: 'OSM', maxZoom: 18 }
-    }
-  ];
-
-  let tileLayer;
-  let sourceIdx = 0;
-  function loadTileSource(idx) {
-    if (idx >= TILE_SOURCES.length) {
-      document.getElementById('map').innerHTML =
-        '<div style="padding:40px;text-align:center;color:#888;">地图加载失败，请检查网络后刷新</div>';
-      return;
-    }
-    if (tileLayer) map.removeLayer(tileLayer);
-    const src = TILE_SOURCES[idx];
-    tileLayer = L.tileLayer(src.url, src.options);
-    let errorCount = 0;
-    tileLayer.on('tileerror', function () {
-      errorCount++;
-      if (errorCount > 3) {
-        console.warn('瓦片源失败，切换到下一个：', src.attribution);
-        loadTileSource(idx + 1);
-      }
-    });
-    tileLayer.addTo(map);
-  }
-  loadTileSource(0);
-
-  const dayColors = ['#e74c3c','#3498db','#2ecc71','#f39c12','#9b59b6','#1abc9c','#e67e22'];
-  const allLatLngs = [];
-  const days = [{"city": "\u6606\u660e", "daily_budget": 1450, "date": "2026-08-01 (\u5468\u516d)", "day_index": 1, "fatigue_index": 30, "routes": [{"description": "\u673a\u573a\u9ad8\u901f\u2192\u4e8c\u73af\u5feb\u901f\u2192\u7fe0\u6e56\uff0c\u7ea640km/45min", "from": 0, "geometry": [[102.928, 25.108], [102.85, 25.12], [102.8, 25.08], [102.75, 25.06], [102.7046, 25.0458]], "to": 2}, {"description": "\u7fe0\u6e56\u6b65\u884c\u81f3\u6606\u660e\u8001\u8857\u7ea610\u5206\u949f", "from": 2, "geometry": [[102.7046, 25.0458], [102.71, 25.043], [102.7096, 25.0417]], "to": 4}], "stops": [{"duration_display": "40 \u5206\u949f", "duration_min": 40, "poi": {"lat": 25.108, "lng": 102.928, "name": "\u6606\u660e\u957f\u6c34\u673a\u573a\u53d6\u8f66", "open_hours": "24h", "rating": "4.3", "recommend_reason": "\u795e\u5dde/\u4e00\u55e8\u673a\u573a\u5e97\u53d6\u8f66\uff0c\u7ecf\u6d4eSUV\u7ea6200\u5143/\u5929\uff0c\u26a0\ufe0f\u6606\u660e\u53d6\u8fd8\u95ed\u73af\u65e0\u5f02\u5730\u8d39", "ticket_price": "\u2014"}, "time": "10:30", "type": "attraction"}, {"duration_display": "50 \u5206\u949f", "duration_min": 50, "poi": {"name": "\u673a\u573a\u5468\u8fb9\u7b80\u9910", "open_hours": "10:00-21:00", "recommend_reason": "\u53d6\u8f66\u540e\u987a\u8def\u89e3\u51b3", "ticket_price": "\u7ea680\u5143"}, "time": "12:00", "type": "lunch"}, {"duration_display": "120 \u5206\u949f", "duration_min": 120, "poi": {"lat": 25.0458, "lng": 102.7046, "name": "\u7fe0\u6e56\u516c\u56ed", "open_hours": "06:00-22:00", "rating": "4.5", "recommend_reason": "\u6606\u660e\u5e02\u4e2d\u5fc3\u514d\u8d39\u516c\u56ed\uff0c8\u6708\u8377\u82b1\u5b63\uff0c\u6709\u513f\u7ae5\u6e38\u4e50\u533a", "ticket_price": "\u514d\u8d39"}, "time": "14:30", "type": "attraction"}, {"duration_display": "60 \u5206\u949f", "duration_min": 60, "poi": {"name": "\u6865\u9999\u56ed\u8fc7\u6865\u7c73\u7ebf + \u6c7d\u9505\u9e21", "open_hours": "10:00-21:30", "rating": "4.4", "recommend_reason": "\u6606\u660e\u7ecf\u5178\u7ec4\u5408\uff0c\u7fe0\u6e56\u6b65\u884c10\u5206\u949f\u53ef\u8fbe", "ticket_price": "\u4eba\u574760\u5143"}, "time": "17:30", "type": "dinner"}, {"duration_display": "60 \u5206\u949f", "duration_min": 60, "poi": {"lat": 25.0417, "lng": 102.7096, "name": "\u6606\u660e\u8001\u8857\uff08\u94b1\u738b\u8857\uff09", "open_hours": "\u5168\u5929", "rating": "4.3", "recommend_reason": "\u9752\u77f3\u677f\u8def+\u767e\u5e74\u8001\u5b85\uff0c\u706f\u7b3c\u4eae\u8d77\u6c1b\u56f4\u597d", "ticket_price": "\u514d\u8d39"}, "time": "19:00", "type": "evening"}], "theme": "\u62b5\u8fbe\u6625\u57ce\uff0c\u7fe0\u6e56\u521d\u5370\u8c61", "total_distance_km": 40, "weather": {"icon": "cloud-rain", "summary": "\u591a\u4e91\u8f6c\u9635\u96e8 19-26\u00b0C"}}, {"city": "\u6606\u660e\u2192\u5927\u7406", "daily_budget": 1200, "date": "2026-08-02 (\u5468\u65e5)", "day_index": 2, "fatigue_index": 50, "routes": [{"description": "\ud83c\udf3f \u4f18\u9009G56\u676d\u745e\u9ad8\u901f\uff08\u81ea\u7136\u666f\u89c2\u003e\u6606\u695a\u5927\u9ad8\u901f\uff09\uff0c\u7a7f\u8d8a\u5f5d\u5c71\u5ce1\u8c37+\u68af\u7530\uff0c320km/4h", "from": 0, "geometry": [[102.6635, 24.9688], [102.5, 24.98], [101.9, 25.04], [101.55, 25.033], [100.8, 25.3], [100.4, 25.48], [100.25, 25.62], [100.1611, 25.6785]], "to": 2}], "stops": [{"duration_display": "120 \u5206\u949f", "duration_min": 120, "poi": {"lat": 24.9688, "lng": 102.6635, "name": "\u6ec7\u6c60\u00b7\u6d77\u57c2\u516c\u56ed", "open_hours": "\u5168\u5929", "rating": "4.6", "recommend_reason": "\u4e91\u5357\u6700\u5927\u9ad8\u539f\u6e56\u6cca\uff0c\u78a7\u6ce2\u4e07\u9877\uff0c\u6e56\u6ee8\u6b65\u9053\u4eb2\u5b50\u6563\u6b65", "ticket_price": "\u514d\u8d39"}, "time": "08:30", "type": "attraction"}, {"duration_display": "40 \u5206\u949f", "duration_min": 40, "poi": {"lat": 25.0333, "lng": 101.55, "name": "\u695a\u96c4\u670d\u52a1\u533a\u00b7\u5f5d\u65cf\u7b80\u9910", "open_hours": "08:00-20:00", "recommend_reason": "\u5f5d\u65cf\u98ce\u5473\u5768\u5768\u8089\u3001\u82e6\u835e\u7c91\u7c91", "ticket_price": "\u7ea6120\u5143"}, "time": "12:00", "type": "lunch"}, {"duration_display": "150 \u5206\u949f", "duration_min": 150, "poi": {"lat": 25.6785, "lng": 100.1611, "name": "\u5927\u7406\u53e4\u57ce", "open_hours": "\u5168\u5929", "rating": "4.7", "recommend_reason": "\u5343\u5e74\u767d\u65cf\u53e4\u57ce\uff0c\u82cd\u5c71\u811a\u4e0b\u6d41\u6c34\u7a7f\u57ce\uff0c\u508d\u665a\u5149\u5f71\u6700\u7f8e", "ticket_price": "\u514d\u8d39"}, "time": "17:00", "type": "attraction"}, {"duration_display": "60 \u5206\u949f", "duration_min": 60, "poi": {"name": "\u5927\u7406\u9178\u8fa3\u9c7c + \u70e4\u4e73\u6247 + \u51c9\u9e21\u7c73\u7ebf", "open_hours": "10:00-22:00", "rating": "4.5", "recommend_reason": "\u53e4\u57ce\u300c\u518d\u56de\u9996\u300d\u6216\u300c\u6885\u5b50\u4e95\u9152\u5bb6\u300d", "ticket_price": "\u4eba\u574760\u5143"}, "time": "19:30", "type": "dinner"}], "theme": "\u6ec7\u6c60\u6668\u5149 + G56\u676d\u745e\u9ad8\u901f\u00b7\u6700\u7f8e\u9ad8\u901f\u8d74\u5927\u7406", "total_distance_km": 330, "weather": {"icon": "cloud-sun", "summary": "\u6674\u8f6c\u591a\u4e91 18-25\u00b0C"}}, {"city": "\u5927\u7406", "daily_budget": 900, "date": "2026-08-03 (\u5468\u4e00)", "day_index": 3, "fatigue_index": 55, "routes": [{"description": "\u53e4\u57ce\u2192\u559c\u6d32\uff0c\u73af\u6d77\u897f\u8def\u7530\u56ed\u6bb5\uff0c\u767d\u65cf\u6751\u843d+\u7a3b\u7530\uff0c20km/30min", "from": 0, "geometry": [[100.1611, 25.6785], [100.14, 25.72], [100.13, 25.77], [100.1194, 25.8538]], "to": 1}, {"description": "\u559c\u6d32\u2192\u5468\u57ce\u7ea65km/10min", "from": 1, "geometry": [[100.1194, 25.8538], [100.11, 25.86], [100.1056, 25.8783]], "to": 2}, {"description": "\u5468\u57ce\u2192\u53cc\u5eca\uff0c\u73af\u6d77\u4e1c\u8def\u82cd\u6d31\u540c\u6846\u6700\u7f8e\u6bb5\uff0c25km/40min", "from": 2, "geometry": [[100.1056, 25.8783], [100.18, 25.87], [100.22, 25.86], [100.2314, 25.8506]], "to": 3}, {"description": "\u53cc\u5eca\u2192\u5c0f\u666e\u9640\uff0c\u73af\u6d77\u4e1c\u8def\u65e5\u843d\u6bb5\uff0c10km/15min", "from": 3, "geometry": [[100.2314, 25.8506], [100.24, 25.83], [100.2575, 25.8119]], "to": 4}], "stops": [{"duration_display": "150 \u5206\u949f", "duration_min": 150, "poi": {"lat": 25.8538, "lng": 100.1194, "name": "\u559c\u6d32\u53e4\u9547", "open_hours": "\u5168\u5929", "rating": "4.6", "recommend_reason": "\u767d\u65cf\u6c11\u5c45\u6700\u5b8c\u6574\u53e4\u9547\uff0c\u8f6c\u89d2\u697c+\u7a3b\u7530\uff0c8\u6708\u7fe0\u7eff\u51fa\u7247", "ticket_price": "\u514d\u8d39"}, "time": "09:00", "type": "attraction"}, {"duration_display": "90 \u5206\u949f", "duration_min": 90, "poi": {"lat": 25.8783, "lng": 100.1056, "name": "\u5468\u57ce\u624e\u67d3\u4f53\u9a8c", "open_hours": "09:00-17:00", "rating": "4.7", "recommend_reason": "\u975e\u9057\u624b\u4f5c\uff01\u5c0f\u5b69\u4eb2\u624b\u505a\u624e\u67d3\u65b9\u5dfe", "ticket_price": "\u7ea640-80\u5143/\u4eba"}, "time": "12:30", "type": "attraction"}, {"duration_display": "120 \u5206\u949f", "duration_min": 120, "poi": {"lat": 25.8506, "lng": 100.2314, "name": "\u53cc\u5eca\u53e4\u9547", "open_hours": "\u5168\u5929", "rating": "4.5", "recommend_reason": "\u82cd\u6d31\u98ce\u5149\u7b2c\u4e00\u9547\uff0c\u6e56\u8fb9\u5496\u5561\u9986\u53d1\u5446", "ticket_price": "\u514d\u8d39"}, "time": "14:30", "type": "attraction"}, {"duration_display": "20 \u5206\u949f", "duration_min": 20, "poi": {"lat": 25.8119, "lng": 100.2575, "name": "\u5c0f\u666e\u9640\uff08\u65e5\u843d\u62cd\u7167\u70b9\ud83c\udf05\uff09", "open_hours": "\u5168\u5929", "rating": "4.3", "recommend_reason": "\u6d31\u6d77\u8896\u73cd\u5c0f\u5c9b\uff0c\u73af\u6d77\u4e1c\u8def\u6700\u4f73\u65e5\u843d\u62cd\u7167\u70b9", "ticket_price": "\u514d\u8d39\uff08\u8fdc\u89c2\uff09"}, "time": "17:00", "type": "attraction"}, {"duration_display": "60 \u5206\u949f", "duration_min": 60, "poi": {"name": "\u5927\u7406\u7802\u9505\u9c7c + \u6d31\u6d77\u867e + \u6d77\u83dc\u6c64", "open_hours": "11:00-21:30", "rating": "4.5", "recommend_reason": "\u767d\u65cf\u7ecf\u5178\uff0c\u7802\u9505\u9c7c\u7528\u6d31\u6d77\u5f13\u9c7c\u6162\u7096", "ticket_price": "\u4eba\u574770\u5143"}, "time": "18:30", "type": "dinner"}], "theme": "\u73af\u6d31\u6d77\u81ea\u9a7e\u00b7\u6700\u7f8e\u73af\u6e56130km", "total_distance_km": 130, "weather": {"icon": "cloud", "summary": "\u591a\u4e91 18-25\u00b0C"}}, {"city": "\u5927\u7406", "daily_budget": 850, "date": "2026-08-04 (\u5468\u4e8c)", "day_index": 4, "fatigue_index": 45, "routes": [{"description": "\u611f\u901a\u7d22\u9053\u4e0a\u7ad9\u2192\u7389\u5e26\u8def\u5165\u53e3\uff0c\u6cbf\u5c71\u8170\u6a2a\u5207\uff0c3-5km\u77f3\u677f\u8def", "from": 0, "geometry": [[100.1333, 25.6564], [100.138, 25.66], [100.142, 25.665]], "to": 1}, {"description": "\u7d22\u9053\u4e0b\u5c71\u2192\u8fd4\u56de\u53e4\u57ce\uff0c\u7ea620\u5206\u949f", "from": 1, "geometry": [[100.142, 25.665], [100.15, 25.67], [100.1611, 25.6785]], "to": 4}], "stops": [{"duration_display": "90 \u5206\u949f", "duration_min": 90, "poi": {"lat": 25.6564, "lng": 100.1333, "name": "\u82cd\u5c71\u00b7\u611f\u901a\u7d22\u9053", "open_hours": "08:30-17:00", "rating": "4.6", "recommend_reason": "\u81f3\u6d77\u62d42600m\uff0c\u89c2\u8d4f\u611f\u901a\u5bfa+\u6e05\u78a7\u6eaa+\u82cd\u5c71\u5927\u5ce1\u8c37", "ticket_price": "110\u5143/\u4eba\u5f80\u8fd4"}, "time": "08:30", "type": "attraction"}, {"duration_display": "150 \u5206\u949f", "duration_min": 150, "poi": {"lat": 25.665, "lng": 100.142, "name": "\ud83e\udd7e \u82cd\u5c71\u7389\u5e26\u8def\u8f7b\u5f92\u6b653-5km", "open_hours": "\u5168\u5929", "rating": "4.8", "recommend_reason": "\u5e73\u7f13\u77f3\u677f\u8def\u65e0\u722c\u5347\uff01\u5de6\u68ee\u6797\u53f3\u6d31\u6d77\u5168\u666f\uff0c6\u5c81\u5a03\u8f7b\u677e\u8d70", "ticket_price": "\u542b\u7d22\u9053\u7968"}, "time": "10:00", "type": "attraction"}, {"duration_display": "50 \u5206\u949f", "duration_min": 50, "poi": {"name": "\u518d\u56de\u9996\u51c9\u9e21\u7c73\u7ebf + \u5364\u9975\u4e1d", "open_hours": "09:00-20:00", "rating": "4.5", "recommend_reason": "\u53e4\u57ce\u4eba\u6c11\u8def\u672c\u5730\u4eba\u6700\u7231", "ticket_price": "\u4eba\u574725\u5143"}, "time": "13:00", "type": "lunch"}, {"duration_display": "210 \u5206\u949f", "duration_min": 210, "poi": {"lat": 25.6785, "lng": 100.1611, "name": "\u53e4\u57ce\u534a\u65e5\u95f2\u901b\u00b7\u4eba\u6c11\u8def/\u624d\u6751\u7801\u5934", "open_hours": "\u5168\u5929", "rating": "4.7", "recommend_reason": "\u5f92\u6b65\u540e\u653e\u677e\uff0c\u901b\u624b\u4f5c\u5e97+\u559d\u5496\u5561+\u6d31\u6d77\u53d1\u5446", "ticket_price": "\u514d\u8d39"}, "time": "14:30", "type": "attraction"}, {"duration_display": "70 \u5206\u949f", "duration_min": 70, "poi": {"name": "\u91ce\u751f\u83cc\u706b\u9505\ud83c\udf44\uff088\u6708\u83cc\u5b50\u5b63\uff01\uff09", "open_hours": "11:00-22:00", "rating": "4.7", "recommend_reason": "\u677e\u8338/\u725b\u809d\u83cc/\u9e21\u679e\uff0c\u6b63\u89c4\u9910\u5385\u786e\u4fdd\u716e\u719f", "ticket_price": "\u4eba\u574780\u5143"}, "time": "18:30", "type": "dinner"}], "theme": "\u82cd\u5c71\u611f\u901a\u7d22\u9053 + \ud83e\udd7e\u7389\u5e26\u8def\u8f7b\u5f92\u6b65 + \u53e4\u57ce\u95f2\u901b", "total_distance_km": 30, "weather": {"icon": "cloud-sun", "summary": "\u591a\u4e91 17-24\u00b0C"}}, {"city": "\u5927\u7406\u2192\u6c99\u6eaa\u2192\u4e3d\u6c5f", "daily_budget": 1050, "date": "2026-08-05 (\u5468\u4e09)", "day_index": 5, "fatigue_index": 55, "routes": [{"description": "\ud83c\udf3f \u6c99\u6eaa\u2192\u4e3d\u6c5f\uff1a353\u56fd\u9053\u7ecf\u4e5d\u6cb3\u2192\u767d\u6c49\u573a\u2192\u62c9\u5e02\u6d77\uff0c\u8fdc\u773a\u8001\u541b\u5c71+\u7389\u9f99\u96ea\u5c71\uff0c\u7ea6120km/2.5h", "from": 0, "geometry": [[99.8533, 26.32], [99.95, 26.4], [100.03, 26.55], [100.08, 26.65], [100.15, 26.78], [100.2, 26.85], [100.2309, 26.8722]], "to": 2}], "stops": [{"duration_display": "150 \u5206\u949f", "duration_min": 150, "poi": {"lat": 26.32, "lng": 99.8533, "name": "\u6c99\u6eaa\u53e4\u9547", "open_hours": "\u5168\u5929", "rating": "4.8", "recommend_reason": "\u8336\u9a6c\u53e4\u9053\u552f\u4e00\u5e78\u5b58\u53e4\u96c6\u5e02\uff01\u53e4\u620f\u53f0+\u7389\u6d25\u6865\uff0c\u771f\u6b63\u7684\u300c\u4ece\u524d\u6162\u300d", "ticket_price": "\u514d\u8d39"}, "time": "10:30", "type": "attraction"}, {"duration_display": "50 \u5206\u949f", "duration_min": 50, "poi": {"name": "\u6c99\u6eaa\u9a6c\u5e2e\u83dc\u00b7\u706b\u817f\u7092\u996d+\u571f\u9e21\u6c64", "open_hours": "10:00-20:00", "rating": "4.3", "recommend_reason": "\u5bfa\u767b\u8857\u5468\u8fb9\u5c0f\u9986\uff0c\u5730\u9053\u9a6c\u5e2e\u98ce\u5473", "ticket_price": "\u7ea6120\u5143"}, "time": "12:30", "type": "lunch"}, {"duration_display": "120 \u5206\u949f", "duration_min": 120, "poi": {"lat": 26.8722, "lng": 100.2309, "name": "\u4e3d\u6c5f\u53e4\u57ce\u00b7\u591c", "open_hours": "\u5168\u5929", "rating": "4.6", "recommend_reason": "\u4e16\u754c\u6587\u5316\u9057\u4ea7\uff0c\u56db\u65b9\u8857+\u5927\u6c34\u8f66\uff0c\u6bd4\u5927\u7406\u66f4\u5177\u70df\u706b\u6c14", "ticket_price": "\u53e4\u57ce\u7ef4\u62a4\u8d39\u7ea650\u5143"}, "time": "17:30", "type": "attraction"}, {"duration_display": "60 \u5206\u949f", "duration_min": 60, "poi": {"name": "\u814a\u6392\u9aa8\u706b\u9505 + \u9e21\u8c46\u51c9\u7c89 + \u4e3d\u6c5f\u7c91\u7c91", "open_hours": "10:00-22:30", "rating": "4.6", "recommend_reason": "\u4e3d\u6c5f\u4e09\u4ef6\u5957\uff01\u300c\u963f\u5988\u814a\u6392\u9aa8\u300d\u53e4\u57ce\u5357\u95e8\u5e97", "ticket_price": "\u4eba\u574770\u5143"}, "time": "19:30", "type": "dinner"}], "theme": "\u8336\u9a6c\u53e4\u9053\u6c99\u6eaa\u79d8\u5883 + \u76d8\u5c71\u8def\u8d74\u4e3d\u6c5f", "total_distance_km": 230, "weather": {"icon": "cloud", "summary": "\u591a\u4e91 17-24\u00b0C"}}, {"city": "\u4e3d\u6c5f", "daily_budget": 650, "date": "2026-08-06 (\u5468\u56db)", "day_index": 6, "fatigue_index": 30, "routes": [{"description": "\u675f\u6cb3\u2192\u767d\u6c99\u7ea620\u5206\u949f\uff0c\u96ea\u5c71\u65b9\u5411\u7530\u56ed\u98ce\u5149", "from": 0, "geometry": [[100.205, 26.8922], [100.22, 26.9], [100.2333, 26.9603]], "to": 2}], "stops": [{"duration_display": "180 \u5206\u949f", "duration_min": 180, "poi": {"lat": 26.8922, "lng": 100.205, "name": "\u675f\u6cb3\u53e4\u9547", "open_hours": "\u5168\u5929", "rating": "4.6", "recommend_reason": "\u4eba\u5c11\u4e00\u534a\u5b89\u9759\u4e00\u500d\uff0c\u4e5d\u9f0e\u9f99\u6f6d+\u9752\u9f99\u6865\uff0c\u5c0f\u5b69\u5e7f\u573a\u8dd1", "ticket_price": "\u514d\u8d39"}, "time": "09:30", "type": "attraction"}, {"duration_display": "60 \u5206\u949f", "duration_min": 60, "poi": {"name": "\u7eb3\u897f\u70e4\u9c7c + \u9165\u6cb9\u8336 + \u4e3d\u6c5f\u7c91\u7c91", "open_hours": "10:00-21:00", "rating": "4.4", "recommend_reason": "\u675f\u6cb3\u53e4\u9547\u5185\u7eb3\u897f\u9910\u5385", "ticket_price": "\u7ea6120\u5143"}, "time": "12:30", "type": "lunch"}, {"duration_display": "150 \u5206\u949f", "duration_min": 150, "poi": {"lat": 26.9603, "lng": 100.2333, "name": "\u767d\u6c99\u53e4\u9547 + \u767d\u6c99\u58c1\u753b", "open_hours": "08:30-17:30", "rating": "4.5", "recommend_reason": "\u4e3d\u6c5f\u6700\u53e4\u8001\u7eb3\u897f\u6751\u843d\uff0c\u58c1\u753b\u6709\u300c\u4e3d\u6c5f\u6566\u714c\u300d\u4e4b\u79f0\uff0c\u62ac\u5934\u5c31\u662f\u7389\u9f99\u96ea\u5c71", "ticket_price": "30\u5143/\u4eba"}, "time": "14:00", "type": "attraction"}, {"duration_display": "60 \u5206\u949f", "duration_min": 60, "poi": {"name": "\u9ed1\u5c71\u7f8a\u706b\u9505 / \u7eb3\u897f\u7092\u83dc", "open_hours": "10:00-22:00", "rating": "4.4", "recommend_reason": "\u4e3d\u6c5f\u7279\u8272\uff0c\u9ed1\u5c71\u7f8a\u9c9c\u5ae9\u4e0d\u81bb", "ticket_price": "\u4eba\u574760\u5143"}, "time": "17:00", "type": "dinner"}], "theme": "\u675f\u6cb3+\u767d\u6c99\u00b7\u6162\u8282\u594f\u534a\u65e5\u95f2\u901b", "total_distance_km": 30, "weather": {"icon": "sun", "summary": "\u591a\u4e91\u8f6c\u6674 16-24\u00b0C"}}, {"city": "\u4e3d\u6c5f", "daily_budget": 1050, "date": "2026-08-07 (\u5468\u4e94)", "day_index": 7, "fatigue_index": 50, "routes": [{"description": "\u84dd\u6708\u8c37\u2192\u4e91\u6749\u576a\uff1a\u666f\u533a\u73af\u4fdd\u8f6615min\uff0c\u4e58\u5c0f\u7d22\u9053\uff08\u975e\u5927\u7d22\u9053\uff01\uff09\u81f33240m", "from": 0, "geometry": [[100.2333, 27.075], [100.22, 27.085], [100.21, 27.098]], "to": 2}, {"description": "\u4e91\u6749\u576a\u2192\u7518\u6d77\u5b50\u666f\u533a\u73af\u4fdd\u8f66\u7ea610\u5206\u949f", "from": 2, "geometry": [[100.21, 27.098], [100.24, 27.095], [100.2639, 27.0922]], "to": 3}], "stops": [{"duration_display": "120 \u5206\u949f", "duration_min": 120, "poi": {"lat": 27.075, "lng": 100.2333, "name": "\u84dd\u6708\u8c37", "open_hours": "07:00-17:00", "rating": "4.8", "recommend_reason": "\u300c\u5c0f\u4e5d\u5be8\u300d\u8482\u8299\u5c3c\u84dd\u6e56\u6c34\uff0c\u6d77\u62d42900m\u5e73\u5766\u6728\u6808\u9053", "ticket_price": "\u8fdb\u5c71\u8d39100\u5143+\u7535\u74f6\u8f6650\u5143"}, "time": "08:00", "type": "attraction"}, {"duration_display": "150 \u5206\u949f", "duration_min": 150, "poi": {"lat": 27.098, "lng": 100.21, "name": "\ud83e\udd7e \u4e91\u6749\u576a\u8f7b\u5f92\u6b652-3km", "open_hours": "07:30-16:00", "rating": "4.9", "recommend_reason": "\u5c0f\u7d22\u9053\u81f33240m\u9ad8\u5c71\u8349\u7538\uff0c\u73af\u5f62\u6728\u6808\u9053\uff0c8\u6708\u91ce\u82b1+\u7266\u725b+\u96ea\u5c71\u80cc\u666f\u2014\u2014\u7ae5\u8bdd\u4e16\u754c\uff01", "ticket_price": "\u5c0f\u7d22\u905360\u5143/\u4eba"}, "time": "10:30", "type": "attraction"}, {"duration_display": "60 \u5206\u949f", "duration_min": 60, "poi": {"lat": 27.0922, "lng": 100.2639, "name": "\u7518\u6d77\u5b50\u91ce\u9910\uff08\u81ea\u5907\u5e72\u7cae\uff09", "open_hours": "\u5168\u5929", "rating": "4.5", "recommend_reason": "\u7389\u9f99\u96ea\u5c71\u4e1c\u9e93\u8349\u7538\u6d77\u62d43100m\uff0c\u91ce\u82b1+\u96ea\u5c71\u80cc\u666f\u91ce\u9910", "ticket_price": "\u542b\u8fdb\u5c71\u8d39"}, "time": "13:00", "type": "lunch"}, {"duration_display": "70 \u5206\u949f", "duration_min": 70, "poi": {"name": "\u7266\u725b\u8089\u706b\u9505 + \u9752\u7a1e\u997c", "open_hours": "10:00-22:00", "rating": "4.5", "recommend_reason": "\u5f92\u6b65\u540e\u7292\u52b3\uff01\u7266\u725b\u8089\u4f4e\u8102\u9ad8\u86cb\u767d", "ticket_price": "\u4eba\u574780\u5143"}, "time": "18:00", "type": "dinner"}], "theme": "\u7389\u9f99\u96ea\u5c71\u00b7\u84dd\u6708\u8c37+\ud83e\udd7e\u4e91\u6749\u576a\u8f7b\u5f92\u6b65+\u7518\u6d77\u5b50", "total_distance_km": 50, "weather": {"icon": "sun", "summary": "\u6674 15-23\u00b0C"}}, {"city": "\u4e3d\u6c5f\u2192\u695a\u96c4", "daily_budget": 1000, "date": "2026-08-08 (\u5468\u516d)", "day_index": 8, "fatigue_index": 55, "routes": [{"description": "\ud83c\udf3f \u4e3d\u6c5f\u2192\u695a\u96c4\uff1a\u9009G56\u676d\u745e\u9ad8\u901f\uff08\u975e\u5927\u4e3d+\u6606\u695a\u5927\uff09\uff0c\u8fdc\u773a\u82cd\u5c71\u843d\u65e5+\u91d1\u6c99\u6c5f\u5ce1\u8c37\u5915\u9633\uff0c360km/4.5h", "from": 0, "geometry": [[100.13, 26.87], [100.16, 26.75], [100.22, 26.5], [100.35, 26.0], [100.6, 25.55], [101.0, 25.2], [101.4, 25.1], [101.5422, 25.0458]], "to": 2}], "stops": [{"duration_display": "150 \u5206\u949f", "duration_min": 150, "poi": {"lat": 26.87, "lng": 100.13, "name": "\u62c9\u5e02\u6d77\u6e7f\u5730\u516c\u56ed", "open_hours": "08:00-18:00", "rating": "4.2", "recommend_reason": "\u9ad8\u539f\u6e7f\u57308\u6708\u6c34\u8349\u4e30\u7f8e\uff0c\u9a91\u9a6c\u8d70\u8336\u9a6c\u53e4\u9053\u6216\u5750\u8239\u7a7f\u82a6\u82c7\u8361", "ticket_price": "30\u5143+\u9a91\u9a6c100-200\u5143"}, "time": "09:00", "type": "attraction"}, {"duration_display": "60 \u5206\u949f", "duration_min": 60, "poi": {"name": "\u62c9\u5e02\u6d77\u519c\u5bb6\u83dc", "open_hours": "10:00-20:00", "rating": "4.1", "recommend_reason": "\u6e7f\u5730\u5468\u8fb9\u519c\u5bb6\u4e50\uff0c\u571f\u9e21/\u814a\u8089/\u91ce\u83dc", "ticket_price": "\u7ea6120\u5143"}, "time": "12:00", "type": "lunch"}, {"duration_display": "60 \u5206\u949f", "duration_min": 60, "poi": {"lat": 25.0458, "lng": 101.5422, "name": "\u695a\u96c4\u00b7\u5f5d\u4eba\u53e4\u9547\u591c\u5e02", "open_hours": "17:00-23:00", "rating": "4.3", "recommend_reason": "\u5f5d\u5bb6\u70e4\u8089+\u5768\u5768\u8089+\u82e6\u835e\u9152\uff0c\u70df\u706b\u6c14\u5341\u8db3", "ticket_price": "\u4eba\u574760\u5143"}, "time": "18:30", "type": "dinner"}], "theme": "\u62c9\u5e02\u6d77\u9a91\u9a6c + G56\u9ad8\u901f\u8fd4\u7a0b\u695a\u96c4", "total_distance_km": 360, "weather": {"icon": "cloud-sun", "summary": "\u591a\u4e91 16-24\u00b0C"}}, {"city": "\u695a\u96c4\u2192\u6606\u660e\u2192\u957f\u6c99", "daily_budget": 2300, "date": "2026-08-09 (\u5468\u65e5)", "day_index": 9, "fatigue_index": 20, "routes": [{"description": "\ud83c\udf3f \u695a\u96c4\u2192\u6606\u660e\u673a\u573a\uff1aG56\u5b89\u5b81\u6bb5\uff0c\u6ec7\u4e2d\u7ea2\u571f\u9ad8\u539f+\u5b89\u5b81\u6e29\u6cc9\u5ce1\u8c37\uff0c170km/1.5h\uff0c\u8212\u9002\u6536\u5c3e", "from": 0, "geometry": [[101.5422, 25.0458], [101.7, 25.03], [102.1, 25.0], [102.4, 25.08], [102.7, 25.1], [102.928, 25.108]], "to": 0}], "stops": [{"duration_display": "60 \u5206\u949f", "duration_min": 60, "poi": {"lat": 25.108, "lng": 102.928, "name": "\u6606\u660e\u957f\u6c34\u673a\u573a\u8fd8\u8f66+\u5348\u9910", "open_hours": "\u5168\u5929", "recommend_reason": "\u8fd8\u8f66\u95ed\u73af\u5b8c\u6210\uff01\ud83d\udcb0\u96f6\u5f02\u5730\u8d39\uff0c\u5403\u6700\u540e\u4e00\u7897\u4e91\u5357\u7c73\u7ebf\u518d\u8d70", "ticket_price": "\u7ea6100\u5143"}, "time": "11:00", "type": "attraction"}], "theme": "\u8f7b\u677e\u6536\u5c3e\u00b7\u6606\u660e\u673a\u573a\u8fd8\u8f66\u8fd4\u7a0b", "total_distance_km": 170, "weather": {"icon": "cloud", "summary": "\u591a\u4e91 18-25\u00b0C"}}];
-
-  // === 碰撞检测：计算每个 marker 的偏移 ===
-  function haversine(a, b) {
-    const R = 6371, dlat = (b[0]-a[0]) * Math.PI/180, dlng = (b[1]-a[1]) * Math.PI/180;
-    const x = Math.sin(dlat/2)**2 + Math.cos(a[0]*Math.PI/180) * Math.cos(b[0]*Math.PI/180) * Math.sin(dlng/2)**2;
-    return R * 2 * Math.atan2(Math.sqrt(x), Math.sqrt(1-x));
-  }
-
-  // 收集所有 marker（pin + dot）
-  const allMarkers = [];
-  const placedMarkers = []; // {lat, lng, offsetDir, label}
-
-  days.forEach((day, idx) => {
-    const color = dayColors[idx % dayColors.length];
-    const stopsWithCoord = [];
-    day.stops.forEach((s, i) => {
-      if (s.poi.lat && s.poi.lng) stopsWithCoord.push({stop: s, index: i});
-    });
-    if (stopsWithCoord.length === 0) return;
-
-    // 主目的地
-    let mainStop = stopsWithCoord[0];
-    for (const sc of stopsWithCoord) {
-      if (sc.stop.type === 'attraction' || sc.stop.type === 'evening') { mainStop = sc; break; }
-    }
-
-    // === 路线绘制 ===
-    const routes = day.routes || [];
-    routes.forEach(r => {
-      if (r.geometry && r.geometry.length >= 2) {
-        const latlngs = r.geometry.map(p => [p[1], p[0]]);
-        L.polyline(latlngs, {color, weight: 8, opacity: 0.9, lineCap: 'round', lineJoin: 'round'})
-          .addTo(map).bindTooltip('D' + day.day_index + ' 路段 ' + r.from + '→' + r.to, {sticky: true});
-      } else {
-        const sf = day.stops[r.from], st = day.stops[r.to];
-        if (sf && st && sf.poi.lat && st.poi.lat) {
-          L.polyline([[sf.poi.lat, sf.poi.lng],[st.poi.lat, st.poi.lng]], {color: '#aaa', weight: 4, opacity: 0.7, dashArray: '6,6'})
-            .addTo(map).bindTooltip('D' + day.day_index + ' 路段 ' + r.from + '→' + r.to, {sticky: true});
-        }
-      }
-    });
-
-    // === 注册 marker（先不画，碰撞检测后统一画）===
-    // 主目的地 pin
-    allMarkers.push({
-      type: 'pin', day: day.day_index, city: day.city, date: day.date, theme: day.theme,
-      dist: day.total_distance_km, fatigue: day.fatigue_index,
-      lat: mainStop.stop.poi.lat, lng: mainStop.stop.poi.lng,
-      name: mainStop.stop.poi.name, color, time: mainStop.stop.time,
-      isMain: true
-    });
-    // 其他站点 dot
-    stopsWithCoord.forEach(sc => {
-      if (sc.index === mainStop.index) return;
-      allMarkers.push({
-        type: 'dot', day: day.day_index, index: sc.index,
-        lat: sc.stop.poi.lat, lng: sc.stop.poi.lng,
-        name: sc.stop.poi.name, color, time: sc.stop.time,
-        duration: sc.stop.duration_display || '', isMain: false
-      });
-    });
-  });
-
-  // === 碰撞检测 + 偏移分配 ===
-  // 对每个 marker 检查与已放置 marker 的距离，<3km 则分配偏移方向
-  const OFFSET_DIST = 0.025; // ~2.5km 偏移
-  const offsetDirs = [
-    [0, 1], [1, 0], [0, -1], [-1, 0],   // 右/下/左/上
-    [0.7, 0.7], [0.7, -0.7], [-0.7, -0.7], [-0.7, 0.7]  // 对角线
-  ];
-
-  allMarkers.forEach(mk => {
-    let offset = [0, 0];
-    let needsOffset = false;
-
-    for (const pm of placedMarkers) {
-      const dist = haversine([mk.lat, mk.lng], [pm.lat + pm.offset[0], pm.lng + pm.offset[1]]);
-      if (dist < 2) {
-        needsOffset = true;
-        // 找一个不冲突的偏移方向
-        for (const dir of offsetDirs) {
-          const testLat = mk.lat + dir[0] * OFFSET_DIST;
-          const testLng = mk.lng + dir[1] * OFFSET_DIST;
-          let conflict = false;
-          for (const pm2 of placedMarkers) {
-            if (haversine([testLat, testLng], [pm2.lat + pm2.offset[0], pm2.lng + pm2.offset[1]]) < 2) {
-              conflict = true; break;
-            }
-          }
-          if (!conflict) { offset = [dir[0] * OFFSET_DIST, dir[1] * OFFSET_DIST]; break; }
-        }
-        break;
-      }
-    }
-
-    mk.offset = offset;
-    mk.needsArrow = needsOffset;
-    placedMarkers.push(mk);
-  });
-
-  // === 绘制 markers（带偏移 + 箭头）===
-  allMarkers.forEach(mk => {
-    const displayLat = mk.lat + mk.offset[0];
-    const displayLng = mk.lng + mk.offset[1];
-
-    if (mk.type === 'pin') {
-      // 大头针
-      const pinIcon = L.divIcon({
-        className: 'day-pin',
-        html: `<div style="position:relative;display:flex;flex-direction:column;align-items:center;filter:drop-shadow(0 3px 5px rgba(0,0,0,0.4));">
-          <div style="background:${mk.color};color:#fff;width:44px;height:44px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);display:flex;align-items:center;justify-content:center;border:3px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,0.35);">
-            <span style="transform:rotate(45deg);font-weight:800;font-size:18px;">D${mk.day}</span>
-          </div>
-          <div style="margin-top:2px;background:rgba(255,255,255,0.95);padding:2px 8px;border-radius:4px;font-size:12px;font-weight:600;color:#333;white-space:nowrap;box-shadow:0 1px 3px rgba(0,0,0,0.2);">${mk.city}</div>
-        </div>`,
-        iconSize: [44, 60], iconAnchor: [22, 52]
-      });
-      const pin = L.marker([displayLat, displayLng], {icon: pinIcon, zIndexOffset: 1000}).addTo(map);
-      pin.bindPopup(`<div style="font-size:14px;"><b style="font-size:16px;color:${mk.color};">D${mk.day} ${mk.city}</b><br>📅 ${mk.date}<br>🎯 ${mk.theme}<br>🚗 ${mk.dist}km | 🚶 体力${mk.fatigue}</div>`);
-      allLatLngs.push([displayLat, displayLng]);
-    } else {
-      // 小圆点
-      const dotIcon = L.divIcon({
-        className: 'stop-dot',
-        html: `<div style="background:${mk.color};color:#fff;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:11px;border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,0.3);">${mk.index+1}</div>`,
-        iconSize: [24, 24], iconAnchor: [12, 12]
-      });
-      const m = L.marker([displayLat, displayLng], {icon: dotIcon}).addTo(map);
-      m.bindPopup(`<b>D${mk.day} 第${mk.index+1}站 · ${mk.name}</b><br>🕐 ${mk.time}<br>⏱️ ${mk.duration}`);
-      allLatLngs.push([displayLat, displayLng]);
-    }
-
-    // 如果有偏移，画箭头从 marker 指向真实位置
-    if (mk.needsArrow && (mk.offset[0] !== 0 || mk.offset[1] !== 0)) {
-      // 画一条带箭头的虚线
-      L.polyline([
-        [displayLat, displayLng],
-        [mk.lat, mk.lng]
-      ], {
-        color: mk.color, weight: 2, opacity: 0.6, dashArray: '4,4'
-      }).addTo(map);
-
-      // 在真实位置画一个小十字
-      L.circleMarker([mk.lat, mk.lng], {
-        radius: 3, color: mk.color, fillColor: mk.color, fillOpacity: 0.8, weight: 1
-      }).addTo(map);
-    }
-  });
-
-  // === 天间衔接线 ===
-  const dayCityLabels = [];
-  days.forEach((day, idx) => {
-    const color = dayColors[idx % dayColors.length];
-    for (const s of day.stops) {
-      if (s.poi.lat && s.poi.lng && (s.type === 'attraction' || s.type === 'evening')) {
-        dayCityLabels.push({lat: s.poi.lat, lng: s.poi.lng, city: day.city, day: day.day_index});
-        break;
-      }
-    }
-  });
-  for (let i = 0; i < dayCityLabels.length - 1; i++) {
-    const from = dayCityLabels[i], to = dayCityLabels[i+1];
-    if (from.city === to.city) continue;
-    L.polyline([[from.lat, from.lng],[to.lat, to.lng]], {
-      color: '#555', weight: 5, opacity: 0.5, dashArray: '10,8', lineCap: 'round'
-    }).addTo(map).bindTooltip('D' + from.day + '→D' + to.day + ' 跨城衔接', {sticky: true});
-  }
-
-  // === 路线图例 ===
-  const legend = L.control({position: 'bottomleft'});
-  legend.onAdd = function() {
-    const div = L.DomUtil.create('div', 'map-legend');
-    div.innerHTML = `
-      <div style="background:rgba(255,255,255,0.95);padding:12px 16px;border-radius:10px;font-size:14px;line-height:2;box-shadow:0 2px 10px rgba(0,0,0,0.2);">
-        <div style="font-weight:700;margin-bottom:4px;font-size:15px;">🗺️ 图例</div>
-        <div><span style="display:inline-block;width:14px;height:14px;background:#e74c3c;border-radius:50% 50% 50% 0;transform:rotate(-45deg);vertical-align:middle;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,0.3);"></span> 每日主目的地（大头针）</div>
-        <div><span style="display:inline-block;width:12px;height:12px;background:#3498db;border-radius:50%;vertical-align:middle;border:2px solid #fff;"></span> 当日其他站点</div>
-        <div><span style="display:inline-block;width:30px;height:5px;background:#3498db;vertical-align:middle;border-radius:2px;"></span> 当日自驾路线</div>
-        <div><span style="display:inline-block;width:30px;height:4px;background:#555;border-top:2px dashed #555;vertical-align:middle;"></span> 跨城衔接段</div>
-        <div><span style="display:inline-block;width:20px;height:2px;background:#e74c3c;border-top:2px dashed #e74c3c;vertical-align:middle;"></span> → ⊕ 标签偏移指向真实位置</div>
-      </div>`;
-    return div;
-  };
-  legend.addTo(map);
-  if (allLatLngs.length === 1) {
-    map.setView(allLatLngs[0], 13);
-  } else if (allLatLngs.length > 1) {
-    map.fitBounds(allLatLngs, { padding: [60, 60], maxZoom: 14 });
-  } else {
-    map.setView([35, 105], 5);
-  }
-
-  // 预算饼图
-  const ctx = document.getElementById('budget-pie');
-  if (ctx) {
-    const bd = {"accommodation": 2560, "buffer": 840, "food": 2350, "ticket": 1050, "transport_intra": 0, "transport_long": 5100};
-    new Chart(ctx, {
-      type: 'doughnut',
-      data: {
-        labels: ['大交通','住宿','餐饮','门票','市内交通','备用'],
-        datasets: [{
-          data: [bd.transport_long, bd.accommodation, bd.food, bd.ticket, bd.transport_intra, bd.buffer],
-          backgroundColor: ['#3498db','#9b59b6','#e74c3c','#f39c12','#1abc9c','#95a5a6'],
-        }]
-      },
-      options: { plugins: { legend: { position: 'bottom' } } }
-    });
-  }
-</script>
 </div>
 
-<script>
-// === v7: 侧边栏切换 ===
-function toggleSidebar() {
-  document.getElementById('sidebar').classList.toggle('open');
-  document.getElementById('sidebarOverlay').classList.toggle('show');
-}
-
-// 滚动时高亮当前章节
-const navLinks = document.querySelectorAll('.sidebar a');
-const sections = [];
-document.querySelectorAll('section, article.day-card').forEach(el => {
-  if (el.id) sections.push(el);
-});
-window.addEventListener('scroll', () => {
-  let current = '';
-  sections.forEach(s => {
-    if (window.scrollY >= s.offsetTop - 100) current = s.id;
-  });
-  navLinks.forEach(a => {
-    a.classList.remove('active');
-    if (a.getAttribute('href') === '#' + current) a.classList.add('active');
-  });
-});
-
-// 点击侧边栏链接后关闭菜单（移动端）
-navLinks.forEach(a => {
-  a.addEventListener('click', () => {
-    if (window.innerWidth <= 768) {
-      document.getElementById('sidebar').classList.remove('open');
-      document.getElementById('sidebarOverlay').classList.remove('show');
-    }
-  });
-});
-
-// === v7: 高德地图导出 ===
-function exportToAmap(dayIndex) {
-  const day = days.find(d => d.day_index === dayIndex);
-  if (!day) return;
-  
-  // 收集当天所有有坐标的站点
-  const waypoints = [];
-  day.stops.forEach(s => {
-    if (s.poi.lat && s.poi.lng) {
-      waypoints.push({name: s.poi.name, lng: s.poi.lng, lat: s.poi.lat});
-    }
-  });
-  
-  if (waypoints.length < 2) {
-    alert('该天站点坐标不足，无法导出');
-    return;
-  }
-  
-  // 高德地图路线规划 URL
-  const from = waypoints[0];
-  const to = waypoints[waypoints.length - 1];
-  const via = waypoints.slice(1, -1);
-  
-  let url = `https://uri.amap.com/navigation?from=${from.lng},${from.lat},${encodeURIComponent(from.name)}&to=${to.lng},${to.lat},${encodeURIComponent(to.name)}`;
-  if (via.length > 0) {
-    const viaStr = via.map(w => `${w.lng},${w.lat},${encodeURIComponent(w.name)}`).join('|');
-    url += `&via=${viaStr}`;
-  }
-  url += `&mode=car&policy=0&src=mypage&coordinate=gcj02&callnative=1`;
-  
-  window.open(url, '_blank');
-}
-
-// === v7: 图片点击放大 ===
-document.addEventListener('click', function(e) {
-  if (e.target.classList.contains('poi-img')) {
-    const src = e.target.src;
-    const overlay = document.createElement('div');
-    overlay.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.85);z-index:9999;display:flex;align-items:center;justify-content:center;cursor:zoom-out;';
-    const img = document.createElement('img');
-    img.src = src;
-    img.style.cssText = 'max-width:90%;max-height:90%;border-radius:8px;box-shadow:0 4px 20px rgba(0,0,0,0.5);';
-    overlay.appendChild(img);
-    overlay.onclick = () => overlay.remove();
-    document.body.appendChild(overlay);
-  }
-});
-</script>
 
 
-<script>
-function exportFullRoute() {
-  // Collect all main destinations across all days
-  const waypoints = [];
-  days.forEach(day => {
-    for (const s of day.stops) {
-      if (s.poi.lat && s.poi.lng && (s.type === 'attraction' || s.type === 'evening')) {
-        waypoints.push({name: 'D' + day.day_index + ' ' + s.poi.name, lng: s.poi.lng, lat: s.poi.lat});
-        break;
-      }
-    }
-  });
-  if (waypoints.length < 2) { alert('坐标不足'); return; }
-  const from = waypoints[0], to = waypoints[waypoints.length - 1];
-  const via = waypoints.slice(1, -1);
-  let url = `https://uri.amap.com/navigation?from=${from.lng},${from.lat},${encodeURIComponent(from.name)}&to=${to.lng},${to.lat},${encodeURIComponent(to.name)}`;
-  if (via.length > 0) {
-    url += `&via=${via.map(w => `${w.lng},${w.lat},${encodeURIComponent(w.name)}`).join('|')}`;
-  }
-  url += `&mode=car&policy=0&src=mypage&coordinate=gcj02&callnative=1`;
-  window.open(url, '_blank');
-}
-</script>
+
+
 
 </body>
 </html>
