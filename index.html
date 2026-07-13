@@ -317,8 +317,2243 @@ footer {
   ③ 同一天 POI 用同色 marker，不同天换色；起终点要有方向感
 -->
 <section id="overview-map">
-  <h2>📍 总览地图</h2>
-  <div id="map" style="height: 480px; border-radius: 12px;"></div>
+  <h2>📍 行程地图</h2>
+  
+  <!-- 标签页切换 -->
+  <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px;">
+    <button class="map-tab active" data-tab="overview" style="padding:8px 16px;border:2px solid #3498db;background:#3498db;color:#fff;border-radius:8px;cursor:pointer;font-size:14px;font-weight:600;">🗺️ 总览</button>
+    <button class="map-tab" data-tab="day1" style="padding:8px 14px;border:2px solid #ddd;background:#fff;color:#333;border-radius:8px;cursor:pointer;font-size:13px;">D1 昆明</button>
+    <button class="map-tab" data-tab="day2" style="padding:8px 14px;border:2px solid #ddd;background:#fff;color:#333;border-radius:8px;cursor:pointer;font-size:13px;">D2 昆→大</button>
+    <button class="map-tab" data-tab="day3" style="padding:8px 14px;border:2px solid #ddd;background:#fff;color:#333;border-radius:8px;cursor:pointer;font-size:13px;">D3 洱海</button>
+    <button class="map-tab" data-tab="day4" style="padding:8px 14px;border:2px solid #ddd;background:#fff;color:#333;border-radius:8px;cursor:pointer;font-size:13px;">D4 苍山</button>
+    <button class="map-tab" data-tab="day5" style="padding:8px 14px;border:2px solid #ddd;background:#fff;color:#333;border-radius:8px;cursor:pointer;font-size:13px;">D5 沙溪</button>
+    <button class="map-tab" data-tab="day6" style="padding:8px 14px;border:2px solid #ddd;background:#fff;color:#333;border-radius:8px;cursor:pointer;font-size:13px;">D6 束河</button>
+    <button class="map-tab" data-tab="day7" style="padding:8px 14px;border:2px solid #ddd;background:#fff;color:#333;border-radius:8px;cursor:pointer;font-size:13px;">D7 雪山</button>
+    <button class="map-tab" data-tab="day8" style="padding:8px 14px;border:2px solid #ddd;background:#fff;color:#333;border-radius:8px;cursor:pointer;font-size:13px;">D8 返程</button>
+    <button class="map-tab" data-tab="day9" style="padding:8px 14px;border:2px solid #ddd;background:#fff;color:#333;border-radius:8px;cursor:pointer;font-size:13px;">D9 收尾</button>
+  </div>
+
+  <!-- 总览地图 -->
+  <div id="map-overview" class="map-pane" style="height: 560px; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.08);"></div>
+  
+  <!-- 每日小地图 -->
+  <div id="map-day1" class="map-pane" style="height: 400px; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); display:none;"></div>
+  <div id="map-day2" class="map-pane" style="height: 400px; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); display:none;"></div>
+  <div id="map-day3" class="map-pane" style="height: 400px; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); display:none;"></div>
+  <div id="map-day4" class="map-pane" style="height: 400px; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); display:none;"></div>
+  <div id="map-day5" class="map-pane" style="height: 400px; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); display:none;"></div>
+  <div id="map-day6" class="map-pane" style="height: 400px; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); display:none;"></div>
+  <div id="map-day7" class="map-pane" style="height: 400px; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); display:none;"></div>
+  <div id="map-day8" class="map-pane" style="height: 400px; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); display:none;"></div>
+  <div id="map-day9" class="map-pane" style="height: 400px; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); display:none;"></div>
+</section>
+
+<!--
+  🚄 大交通 · AGENT MUST-DO:
+  ① 至少给出 1 条去程 + 1 条回程（具体车次/航班号 + 时刻 + 参考价 + 查询时间）
+  ② 每条方案至少 3 个不同平台的可点订票链接（12306/携程/去哪儿/飞猪）
+  ③ 价格旁必须标"参考价 + 查询时刻"，不允许写绝对价
+  数据来源优先级：美团火车票 > 12306 > WebSearch（携程/去哪儿）
+-->
+<section id="transport">
+  <h2>🚄 大交通</h2>
+  <div class="transport-section">
+  <div class="dir-block">
+    <h4>去程</h4>
+    
+      <div class="trans-card">
+        <div class="trans-mode">high_speed_rail</div>
+        <div class="trans-route">长沙(CSX) → 昆明(KMG)</div>
+        <div class="trans-time">
+          出发时刻待核实 - 到达时刻待核实
+          (125分钟)
+        </div>
+        <div class="trans-price">
+          参考价待核实
+          <small>None</small>
+        </div>
+        <div class="book-links">
+          <span class="book-label">去订票：</span>
+          
+            <a href="https://kyfw.12306.cn/otn/leftTicket/init" target="_blank" rel="noopener">12306</a>
+            <a href="https://train.ctrip.com/" target="_blank" rel="noopener">携程火车票</a>
+            <a href="https://train.qunar.com/" target="_blank" rel="noopener">去哪儿</a>
+          
+        </div>
+        <span class="confidence-badge confidence-yellow"></span>
+      </div>
+    
+  </div>
+  <div class="dir-block">
+    <h4>回程</h4>
+    
+      <div class="trans-card">
+        <div class="trans-mode">high_speed_rail</div>
+        <div class="trans-route">昆明(KMG) → 长沙(CSX)</div>
+        <div class="trans-time">
+          出发时刻待核实 - 到达时刻待核实
+          (120分钟)
+        </div>
+        <div class="trans-price">
+          参考价待核实
+          <small>None</small>
+        </div>
+        <div class="book-links">
+          <span class="book-label">去订票：</span>
+          
+            <a href="https://kyfw.12306.cn/otn/leftTicket/init" target="_blank" rel="noopener">12306</a>
+            <a href="https://train.ctrip.com/" target="_blank" rel="noopener">携程火车票</a>
+            <a href="https://train.qunar.com/" target="_blank" rel="noopener">去哪儿</a>
+          
+        </div>
+        <span class="confidence-badge confidence-yellow"></span>
+      </div>
+    
+  </div>
+  
+</div>
+</section>
+
+<!--
+  🏨 住宿候选 · AGENT MUST-DO:
+  ① 至少 3 家酒店候选（不能凑数，宁少勿假）
+  ② 每家必须有：酒店全名 / 价格区间 / ≥2 个不同平台的预订链接 / 一句"为什么推荐"
+  ③ 数据来源：美团酒店 > xhs 真实评价 > WebSearch
+  ④ 凑不齐 3 家时，明确写"暂时只找到 X 家，建议你打开美团搜更多"，不要硬编造
+-->
+<section id="hotel">
+  <h2>🏨 住宿候选</h2>
+  <div class="hotel-grid">
+  
+    <div class="hotel-card">
+      <div class="h-rank">#1</div>
+      <h4>全季酒店（昆明翠湖店）</h4>
+      <div class="h-price">
+        参考价 ¥320/晚
+      </div>
+      <div class="h-rating">
+        
+      </div>
+      <div class="h-loc">📍 位置待核实</div>
+      
+      <div class="h-amenities">
+        
+      </div>
+      
+      <div class="book-links">
+        <span class="book-label">去预订：</span>
+        <a href="https://hotels.meituan.com/search/?q=%E5%85%A8%E5%AD%A3%E9%85%92%E5%BA%97%EF%BC%88%E6%98%86%E6%98%8E%E7%BF%A0%E6%B9%96%E5%BA%97%EF%BC%89" target="_blank" rel="noopener">美团</a>
+        <a href="https://hotels.ctrip.com/hotels/list?city=&checkIn=&checkOut=&keyword=%E5%85%A8%E5%AD%A3%E9%85%92%E5%BA%97%EF%BC%88%E6%98%86%E6%98%8E%E7%BF%A0%E6%B9%96%E5%BA%97%EF%BC%89" target="_blank" rel="noopener">携程</a>
+        <a href="https://hotel.fliggy.com/search.htm?searchType=hotel&keywords=%E5%85%A8%E5%AD%A3%E9%85%92%E5%BA%97%EF%BC%88%E6%98%86%E6%98%8E%E7%BF%A0%E6%B9%96%E5%BA%97%EF%BC%89" target="_blank" rel="noopener">飞猪</a>
+        <a href="https://www.booking.com/searchresults.html?ss=%E5%85%A8%E5%AD%A3%E9%85%92%E5%BA%97%EF%BC%88%E6%98%86%E6%98%8E%E7%BF%A0%E6%B9%96%E5%BA%97%EF%BC%89" target="_blank" rel="noopener">Booking</a>
+      </div>
+      <span class="confidence-badge confidence-yellow"></span>
+    </div>
+  
+    <div class="hotel-card">
+      <div class="h-rank">#2</div>
+      <h4>全季酒店（大理古城店/泰安路店）</h4>
+      <div class="h-price">
+        参考价 ¥300/晚
+      </div>
+      <div class="h-rating">
+        
+      </div>
+      <div class="h-loc">📍 位置待核实</div>
+      
+      <div class="h-amenities">
+        
+      </div>
+      
+      <div class="book-links">
+        <span class="book-label">去预订：</span>
+        <a href="https://hotels.meituan.com/search/?q=%E5%85%A8%E5%AD%A3%E9%85%92%E5%BA%97%EF%BC%88%E5%A4%A7%E7%90%86%E5%8F%A4%E5%9F%8E%E5%BA%97/%E6%B3%B0%E5%AE%89%E8%B7%AF%E5%BA%97%EF%BC%89" target="_blank" rel="noopener">美团</a>
+        <a href="https://hotels.ctrip.com/hotels/list?city=&checkIn=&checkOut=&keyword=%E5%85%A8%E5%AD%A3%E9%85%92%E5%BA%97%EF%BC%88%E5%A4%A7%E7%90%86%E5%8F%A4%E5%9F%8E%E5%BA%97/%E6%B3%B0%E5%AE%89%E8%B7%AF%E5%BA%97%EF%BC%89" target="_blank" rel="noopener">携程</a>
+        <a href="https://hotel.fliggy.com/search.htm?searchType=hotel&keywords=%E5%85%A8%E5%AD%A3%E9%85%92%E5%BA%97%EF%BC%88%E5%A4%A7%E7%90%86%E5%8F%A4%E5%9F%8E%E5%BA%97/%E6%B3%B0%E5%AE%89%E8%B7%AF%E5%BA%97%EF%BC%89" target="_blank" rel="noopener">飞猪</a>
+        <a href="https://www.booking.com/searchresults.html?ss=%E5%85%A8%E5%AD%A3%E9%85%92%E5%BA%97%EF%BC%88%E5%A4%A7%E7%90%86%E5%8F%A4%E5%9F%8E%E5%BA%97/%E6%B3%B0%E5%AE%89%E8%B7%AF%E5%BA%97%EF%BC%89" target="_blank" rel="noopener">Booking</a>
+      </div>
+      <span class="confidence-badge confidence-yellow"></span>
+    </div>
+  
+    <div class="hotel-card">
+      <div class="h-rank">#3</div>
+      <h4>全季酒店（丽江古城北门店/祥和店）</h4>
+      <div class="h-price">
+        参考价 ¥300/晚
+      </div>
+      <div class="h-rating">
+        
+      </div>
+      <div class="h-loc">📍 位置待核实</div>
+      
+      <div class="h-amenities">
+        
+      </div>
+      
+      <div class="book-links">
+        <span class="book-label">去预订：</span>
+        <a href="https://hotels.meituan.com/search/?q=%E5%85%A8%E5%AD%A3%E9%85%92%E5%BA%97%EF%BC%88%E4%B8%BD%E6%B1%9F%E5%8F%A4%E5%9F%8E%E5%8C%97%E9%97%A8%E5%BA%97/%E7%A5%A5%E5%92%8C%E5%BA%97%EF%BC%89" target="_blank" rel="noopener">美团</a>
+        <a href="https://hotels.ctrip.com/hotels/list?city=&checkIn=&checkOut=&keyword=%E5%85%A8%E5%AD%A3%E9%85%92%E5%BA%97%EF%BC%88%E4%B8%BD%E6%B1%9F%E5%8F%A4%E5%9F%8E%E5%8C%97%E9%97%A8%E5%BA%97/%E7%A5%A5%E5%92%8C%E5%BA%97%EF%BC%89" target="_blank" rel="noopener">携程</a>
+        <a href="https://hotel.fliggy.com/search.htm?searchType=hotel&keywords=%E5%85%A8%E5%AD%A3%E9%85%92%E5%BA%97%EF%BC%88%E4%B8%BD%E6%B1%9F%E5%8F%A4%E5%9F%8E%E5%8C%97%E9%97%A8%E5%BA%97/%E7%A5%A5%E5%92%8C%E5%BA%97%EF%BC%89" target="_blank" rel="noopener">飞猪</a>
+        <a href="https://www.booking.com/searchresults.html?ss=%E5%85%A8%E5%AD%A3%E9%85%92%E5%BA%97%EF%BC%88%E4%B8%BD%E6%B1%9F%E5%8F%A4%E5%9F%8E%E5%8C%97%E9%97%A8%E5%BA%97/%E7%A5%A5%E5%92%8C%E5%BA%97%EF%BC%89" target="_blank" rel="noopener">Booking</a>
+      </div>
+      <span class="confidence-badge confidence-yellow"></span>
+    </div>
+  
+    <div class="hotel-card">
+      <div class="h-rank">#4</div>
+      <h4>全季/汉庭酒店（楚雄彝人古镇店）</h4>
+      <div class="h-price">
+        参考价 ¥220/晚
+      </div>
+      <div class="h-rating">
+        
+      </div>
+      <div class="h-loc">📍 位置待核实</div>
+      
+      <div class="h-amenities">
+        
+      </div>
+      
+      <div class="book-links">
+        <span class="book-label">去预订：</span>
+        <a href="https://hotels.meituan.com/search/?q=%E5%85%A8%E5%AD%A3/%E6%B1%89%E5%BA%AD%E9%85%92%E5%BA%97%EF%BC%88%E6%A5%9A%E9%9B%84%E5%BD%9D%E4%BA%BA%E5%8F%A4%E9%95%87%E5%BA%97%EF%BC%89" target="_blank" rel="noopener">美团</a>
+        <a href="https://hotels.ctrip.com/hotels/list?city=&checkIn=&checkOut=&keyword=%E5%85%A8%E5%AD%A3/%E6%B1%89%E5%BA%AD%E9%85%92%E5%BA%97%EF%BC%88%E6%A5%9A%E9%9B%84%E5%BD%9D%E4%BA%BA%E5%8F%A4%E9%95%87%E5%BA%97%EF%BC%89" target="_blank" rel="noopener">携程</a>
+        <a href="https://hotel.fliggy.com/search.htm?searchType=hotel&keywords=%E5%85%A8%E5%AD%A3/%E6%B1%89%E5%BA%AD%E9%85%92%E5%BA%97%EF%BC%88%E6%A5%9A%E9%9B%84%E5%BD%9D%E4%BA%BA%E5%8F%A4%E9%95%87%E5%BA%97%EF%BC%89" target="_blank" rel="noopener">飞猪</a>
+        <a href="https://www.booking.com/searchresults.html?ss=%E5%85%A8%E5%AD%A3/%E6%B1%89%E5%BA%AD%E9%85%92%E5%BA%97%EF%BC%88%E6%A5%9A%E9%9B%84%E5%BD%9D%E4%BA%BA%E5%8F%A4%E9%95%87%E5%BA%97%EF%BC%89" target="_blank" rel="noopener">Booking</a>
+      </div>
+      <span class="confidence-badge confidence-yellow"></span>
+    </div>
+  
+</div>
+</section>
+
+<!--
+  📅 每日行程 · AGENT MUST-DO:
+  ① 必须按 trip.duration_days 给出**全部天数**的卡片（D1 ~ Dn 一个不能少）
+  ② 每天至少包含：当天主题 / 时间轴 / 3-6 个 POI / 三餐推荐
+  ③ 每个 POI 必须有：名称 / 推荐理由 / 用时建议 / 营业时间 / 评分（缺失时显式标）
+  ④ 每天必须有"当天小地图 + 当天路线"（路线规则同总览地图）
+  ⑤ 每天必须有：当天预算小计 + 体力指数（轻松/适中/暴走）
+-->
+<section id="days">
+  <h2>📅 每日行程</h2>
+  
+    <!--
+  AGENT MUST-DO（每天卡片）:
+  ① day.theme / day.fatigue_index 必填（否则 header 残缺）
+  ② day.stops 至少 3-6 条（含三餐 + 景点），每条必须有 time / poi.name / duration_min
+  ③ day.routes 必填（实际道路 polyline 或 路径文字版，规则同总览地图）
+  ④ stop.poi 缺字段时，agent 自己用 WebSearch 补 rating/open_hours/ticket_price
+-->
+<article class="day-card" data-day="1">
+  <header class="day-header">
+    <h3>D1 · 2026-08-01 (周六) · 抵达春城，翠湖初印象</h3>
+    <div class="day-meta">
+      <span>📍 40km</span>
+      <span>🚶 30 体力指数</span>
+      <span>☁️ 多云转阵雨 19-26°C</span>
+    </div>
+  </header>
+
+  
+    <div class="day-routes">
+      <h4>🗺️ 当日路线</h4>
+      <ol class="route-steps">
+        
+          <li>
+            
+              <span class="route-source-real">实际道路</span>
+            
+            
+              · 昆明长水机场取车 → 翠湖公园
+            
+          </li>
+        
+          <li>
+            
+              <span class="route-source-real">实际道路</span>
+            
+            
+              · 翠湖公园 → 昆明老街（钱王街）
+            
+          </li>
+        
+      </ol>
+    </div>
+  
+
+  <ol class="timeline">
+    
+      <li class="stop stop-attraction">
+        <div class="t-time">10:30</div>
+        <div class="t-body">
+          <div class="t-title">
+            <span class="t-emoji">📌</span>
+            <strong>昆明长水机场取车</strong>
+            <span class="rating">⭐ 4.3</span>
+            
+          </div>
+          
+            <div class="t-reason">💡 神州/一嗨机场店取车，经济SUV约200元/天，⚠️昆明取还闭环无异地费</div>
+          
+          <div class="t-detail">
+            <span>🕐 24h</span>
+            <span>🎫 ¥—</span>
+            <span>⏱️ 约 40 分钟</span>
+          </div>
+        </div>
+      </li>
+    
+      <li class="stop stop-lunch">
+        <div class="t-time">12:00</div>
+        <div class="t-body">
+          <div class="t-title">
+            <span class="t-emoji">🍜</span>
+            <strong>机场周边简餐</strong>
+            
+            
+          </div>
+          
+            <div class="t-reason">💡 取车后顺路解决</div>
+          
+          <div class="t-detail">
+            <span>🕐 10:00-21:00</span>
+            <span>🎫 ¥约80元</span>
+            <span>⏱️ 约 50 分钟</span>
+          </div>
+        </div>
+      </li>
+    
+      <li class="stop stop-attraction">
+        <div class="t-time">14:30</div>
+        <div class="t-body">
+          <div class="t-title">
+            <span class="t-emoji">📌</span>
+            <strong>翠湖公园</strong>
+            <span class="rating">⭐ 4.5</span>
+            
+          </div>
+          
+            <div class="t-reason">💡 昆明市中心免费公园，8月荷花季，有儿童游乐区</div>
+          
+          <div class="t-detail">
+            <span>🕐 06:00-22:00</span>
+            <span>🎫 ¥免费</span>
+            <span>⏱️ 约 120 分钟</span>
+          </div>
+        </div>
+      </li>
+    
+      <li class="stop stop-dinner">
+        <div class="t-time">17:30</div>
+        <div class="t-body">
+          <div class="t-title">
+            <span class="t-emoji">🍽️</span>
+            <strong>桥香园过桥米线 + 汽锅鸡</strong>
+            <span class="rating">⭐ 4.4</span>
+            
+          </div>
+          
+            <div class="t-reason">💡 昆明经典组合，翠湖步行10分钟可达</div>
+          
+          <div class="t-detail">
+            <span>🕐 10:00-21:30</span>
+            <span>🎫 ¥人均60元</span>
+            <span>⏱️ 约 60 分钟</span>
+          </div>
+        </div>
+      </li>
+    
+      <li class="stop stop-evening">
+        <div class="t-time">19:00</div>
+        <div class="t-body">
+          <div class="t-title">
+            <span class="t-emoji">🌃</span>
+            <strong>昆明老街（钱王街）</strong>
+            <span class="rating">⭐ 4.3</span>
+            
+          </div>
+          
+            <div class="t-reason">💡 青石板路+百年老宅，灯笼亮起氛围好</div>
+          
+          <div class="t-detail">
+            <span>🕐 全天</span>
+            <span>🎫 ¥免费</span>
+            <span>⏱️ 约 60 分钟</span>
+          </div>
+        </div>
+      </li>
+    
+  </ol>
+
+  
+    <div class="day-budget">💸 当天预算约 ¥1450</div>
+  
+</article>
+  
+    <!--
+  AGENT MUST-DO（每天卡片）:
+  ① day.theme / day.fatigue_index 必填（否则 header 残缺）
+  ② day.stops 至少 3-6 条（含三餐 + 景点），每条必须有 time / poi.name / duration_min
+  ③ day.routes 必填（实际道路 polyline 或 路径文字版，规则同总览地图）
+  ④ stop.poi 缺字段时，agent 自己用 WebSearch 补 rating/open_hours/ticket_price
+-->
+<article class="day-card" data-day="2">
+  <header class="day-header">
+    <h3>D2 · 2026-08-02 (周日) · 滇池晨光 + G56杭瑞高速·最美高速赴大理</h3>
+    <div class="day-meta">
+      <span>📍 330km</span>
+      <span>🚶 50 体力指数</span>
+      <span>☁️ 晴转多云 18-25°C</span>
+    </div>
+  </header>
+
+  
+    <div class="day-routes">
+      <h4>🗺️ 当日路线</h4>
+      <ol class="route-steps">
+        
+          <li>
+            
+              <span class="route-source-real">实际道路</span>
+            
+            
+              · 滇池·海埂公园 → 大理古城
+            
+          </li>
+        
+      </ol>
+    </div>
+  
+
+  <ol class="timeline">
+    
+      <li class="stop stop-attraction">
+        <div class="t-time">08:30</div>
+        <div class="t-body">
+          <div class="t-title">
+            <span class="t-emoji">📌</span>
+            <strong>滇池·海埂公园</strong>
+            <span class="rating">⭐ 4.6</span>
+            
+          </div>
+          
+            <div class="t-reason">💡 云南最大高原湖泊，碧波万顷，湖滨步道亲子散步</div>
+          
+          <div class="t-detail">
+            <span>🕐 全天</span>
+            <span>🎫 ¥免费</span>
+            <span>⏱️ 约 120 分钟</span>
+          </div>
+        </div>
+      </li>
+    
+      <li class="stop stop-lunch">
+        <div class="t-time">12:00</div>
+        <div class="t-body">
+          <div class="t-title">
+            <span class="t-emoji">🍜</span>
+            <strong>楚雄服务区·彝族简餐</strong>
+            
+            
+          </div>
+          
+            <div class="t-reason">💡 彝族风味坨坨肉、苦荞粑粑</div>
+          
+          <div class="t-detail">
+            <span>🕐 08:00-20:00</span>
+            <span>🎫 ¥约120元</span>
+            <span>⏱️ 约 40 分钟</span>
+          </div>
+        </div>
+      </li>
+    
+      <li class="stop stop-attraction">
+        <div class="t-time">17:00</div>
+        <div class="t-body">
+          <div class="t-title">
+            <span class="t-emoji">📌</span>
+            <strong>大理古城</strong>
+            <span class="rating">⭐ 4.7</span>
+            
+          </div>
+          
+            <div class="t-reason">💡 千年白族古城，苍山脚下流水穿城，傍晚光影最美</div>
+          
+          <div class="t-detail">
+            <span>🕐 全天</span>
+            <span>🎫 ¥免费</span>
+            <span>⏱️ 约 150 分钟</span>
+          </div>
+        </div>
+      </li>
+    
+      <li class="stop stop-dinner">
+        <div class="t-time">19:30</div>
+        <div class="t-body">
+          <div class="t-title">
+            <span class="t-emoji">🍽️</span>
+            <strong>大理酸辣鱼 + 烤乳扇 + 凉鸡米线</strong>
+            <span class="rating">⭐ 4.5</span>
+            
+          </div>
+          
+            <div class="t-reason">💡 古城「再回首」或「梅子井酒家」</div>
+          
+          <div class="t-detail">
+            <span>🕐 10:00-22:00</span>
+            <span>🎫 ¥人均60元</span>
+            <span>⏱️ 约 60 分钟</span>
+          </div>
+        </div>
+      </li>
+    
+  </ol>
+
+  
+    <div class="day-budget">💸 当天预算约 ¥1200</div>
+  
+</article>
+  
+    <!--
+  AGENT MUST-DO（每天卡片）:
+  ① day.theme / day.fatigue_index 必填（否则 header 残缺）
+  ② day.stops 至少 3-6 条（含三餐 + 景点），每条必须有 time / poi.name / duration_min
+  ③ day.routes 必填（实际道路 polyline 或 路径文字版，规则同总览地图）
+  ④ stop.poi 缺字段时，agent 自己用 WebSearch 补 rating/open_hours/ticket_price
+-->
+<article class="day-card" data-day="3">
+  <header class="day-header">
+    <h3>D3 · 2026-08-03 (周一) · 环洱海自驾·最美环湖130km</h3>
+    <div class="day-meta">
+      <span>📍 130km</span>
+      <span>🚶 55 体力指数</span>
+      <span>☁️ 多云 18-25°C</span>
+    </div>
+  </header>
+
+  
+    <div class="day-routes">
+      <h4>🗺️ 当日路线</h4>
+      <ol class="route-steps">
+        
+          <li>
+            
+              <span class="route-source-real">实际道路</span>
+            
+            
+              · 喜洲古镇 → 周城扎染体验
+            
+          </li>
+        
+          <li>
+            
+              <span class="route-source-real">实际道路</span>
+            
+            
+              · 周城扎染体验 → 双廊古镇
+            
+          </li>
+        
+          <li>
+            
+              <span class="route-source-real">实际道路</span>
+            
+            
+              · 双廊古镇 → 小普陀（日落拍照点🌅）
+            
+          </li>
+        
+          <li>
+            
+              <span class="route-source-real">实际道路</span>
+            
+            
+              · 小普陀（日落拍照点🌅） → 大理砂锅鱼 + 洱海虾 + 海菜汤
+            
+          </li>
+        
+      </ol>
+    </div>
+  
+
+  <ol class="timeline">
+    
+      <li class="stop stop-attraction">
+        <div class="t-time">09:00</div>
+        <div class="t-body">
+          <div class="t-title">
+            <span class="t-emoji">📌</span>
+            <strong>喜洲古镇</strong>
+            <span class="rating">⭐ 4.6</span>
+            
+          </div>
+          
+            <div class="t-reason">💡 白族民居最完整古镇，转角楼+稻田，8月翠绿出片</div>
+          
+          <div class="t-detail">
+            <span>🕐 全天</span>
+            <span>🎫 ¥免费</span>
+            <span>⏱️ 约 150 分钟</span>
+          </div>
+        </div>
+      </li>
+    
+      <li class="stop stop-attraction">
+        <div class="t-time">12:30</div>
+        <div class="t-body">
+          <div class="t-title">
+            <span class="t-emoji">📌</span>
+            <strong>周城扎染体验</strong>
+            <span class="rating">⭐ 4.7</span>
+            
+          </div>
+          
+            <div class="t-reason">💡 非遗手作！小孩亲手做扎染方巾</div>
+          
+          <div class="t-detail">
+            <span>🕐 09:00-17:00</span>
+            <span>🎫 ¥约40-80元/人</span>
+            <span>⏱️ 约 90 分钟</span>
+          </div>
+        </div>
+      </li>
+    
+      <li class="stop stop-attraction">
+        <div class="t-time">14:30</div>
+        <div class="t-body">
+          <div class="t-title">
+            <span class="t-emoji">📌</span>
+            <strong>双廊古镇</strong>
+            <span class="rating">⭐ 4.5</span>
+            
+          </div>
+          
+            <div class="t-reason">💡 苍洱风光第一镇，湖边咖啡馆发呆</div>
+          
+          <div class="t-detail">
+            <span>🕐 全天</span>
+            <span>🎫 ¥免费</span>
+            <span>⏱️ 约 120 分钟</span>
+          </div>
+        </div>
+      </li>
+    
+      <li class="stop stop-attraction">
+        <div class="t-time">17:00</div>
+        <div class="t-body">
+          <div class="t-title">
+            <span class="t-emoji">📌</span>
+            <strong>小普陀（日落拍照点🌅）</strong>
+            <span class="rating">⭐ 4.3</span>
+            
+          </div>
+          
+            <div class="t-reason">💡 洱海袖珍小岛，环海东路最佳日落拍照点</div>
+          
+          <div class="t-detail">
+            <span>🕐 全天</span>
+            <span>🎫 ¥免费（远观）</span>
+            <span>⏱️ 约 20 分钟</span>
+          </div>
+        </div>
+      </li>
+    
+      <li class="stop stop-dinner">
+        <div class="t-time">18:30</div>
+        <div class="t-body">
+          <div class="t-title">
+            <span class="t-emoji">🍽️</span>
+            <strong>大理砂锅鱼 + 洱海虾 + 海菜汤</strong>
+            <span class="rating">⭐ 4.5</span>
+            
+          </div>
+          
+            <div class="t-reason">💡 白族经典，砂锅鱼用洱海弓鱼慢炖</div>
+          
+          <div class="t-detail">
+            <span>🕐 11:00-21:30</span>
+            <span>🎫 ¥人均70元</span>
+            <span>⏱️ 约 60 分钟</span>
+          </div>
+        </div>
+      </li>
+    
+  </ol>
+
+  
+    <div class="day-budget">💸 当天预算约 ¥900</div>
+  
+</article>
+  
+    <!--
+  AGENT MUST-DO（每天卡片）:
+  ① day.theme / day.fatigue_index 必填（否则 header 残缺）
+  ② day.stops 至少 3-6 条（含三餐 + 景点），每条必须有 time / poi.name / duration_min
+  ③ day.routes 必填（实际道路 polyline 或 路径文字版，规则同总览地图）
+  ④ stop.poi 缺字段时，agent 自己用 WebSearch 补 rating/open_hours/ticket_price
+-->
+<article class="day-card" data-day="4">
+  <header class="day-header">
+    <h3>D4 · 2026-08-04 (周二) · 苍山感通索道 + 🥾玉带路轻徒步 + 古城闲逛</h3>
+    <div class="day-meta">
+      <span>📍 30km</span>
+      <span>🚶 45 体力指数</span>
+      <span>☁️ 多云 17-24°C</span>
+    </div>
+  </header>
+
+  
+    <div class="day-routes">
+      <h4>🗺️ 当日路线</h4>
+      <ol class="route-steps">
+        
+          <li>
+            
+              <span class="route-source-real">实际道路</span>
+            
+            
+              · 苍山·感通索道 → 🥾 苍山玉带路轻徒步3-5km
+            
+          </li>
+        
+          <li>
+            
+              <span class="route-source-real">实际道路</span>
+            
+            
+              · 🥾 苍山玉带路轻徒步3-5km → 野生菌火锅🍄（8月菌子季！）
+            
+          </li>
+        
+      </ol>
+    </div>
+  
+
+  <ol class="timeline">
+    
+      <li class="stop stop-attraction">
+        <div class="t-time">08:30</div>
+        <div class="t-body">
+          <div class="t-title">
+            <span class="t-emoji">📌</span>
+            <strong>苍山·感通索道</strong>
+            <span class="rating">⭐ 4.6</span>
+            
+          </div>
+          
+            <div class="t-reason">💡 至海拔2600m，观赏感通寺+清碧溪+苍山大峡谷</div>
+          
+          <div class="t-detail">
+            <span>🕐 08:30-17:00</span>
+            <span>🎫 ¥110元/人往返</span>
+            <span>⏱️ 约 90 分钟</span>
+          </div>
+        </div>
+      </li>
+    
+      <li class="stop stop-attraction">
+        <div class="t-time">10:00</div>
+        <div class="t-body">
+          <div class="t-title">
+            <span class="t-emoji">📌</span>
+            <strong>🥾 苍山玉带路轻徒步3-5km</strong>
+            <span class="rating">⭐ 4.8</span>
+            
+          </div>
+          
+            <div class="t-reason">💡 平缓石板路无爬升！左森林右洱海全景，6岁娃轻松走</div>
+          
+          <div class="t-detail">
+            <span>🕐 全天</span>
+            <span>🎫 ¥含索道票</span>
+            <span>⏱️ 约 150 分钟</span>
+          </div>
+        </div>
+      </li>
+    
+      <li class="stop stop-lunch">
+        <div class="t-time">13:00</div>
+        <div class="t-body">
+          <div class="t-title">
+            <span class="t-emoji">🍜</span>
+            <strong>再回首凉鸡米线 + 卤饵丝</strong>
+            <span class="rating">⭐ 4.5</span>
+            
+          </div>
+          
+            <div class="t-reason">💡 古城人民路本地人最爱</div>
+          
+          <div class="t-detail">
+            <span>🕐 09:00-20:00</span>
+            <span>🎫 ¥人均25元</span>
+            <span>⏱️ 约 50 分钟</span>
+          </div>
+        </div>
+      </li>
+    
+      <li class="stop stop-attraction">
+        <div class="t-time">14:30</div>
+        <div class="t-body">
+          <div class="t-title">
+            <span class="t-emoji">📌</span>
+            <strong>古城半日闲逛·人民路/才村码头</strong>
+            <span class="rating">⭐ 4.7</span>
+            
+          </div>
+          
+            <div class="t-reason">💡 徒步后放松，逛手作店+喝咖啡+洱海发呆</div>
+          
+          <div class="t-detail">
+            <span>🕐 全天</span>
+            <span>🎫 ¥免费</span>
+            <span>⏱️ 约 210 分钟</span>
+          </div>
+        </div>
+      </li>
+    
+      <li class="stop stop-dinner">
+        <div class="t-time">18:30</div>
+        <div class="t-body">
+          <div class="t-title">
+            <span class="t-emoji">🍽️</span>
+            <strong>野生菌火锅🍄（8月菌子季！）</strong>
+            <span class="rating">⭐ 4.7</span>
+            
+          </div>
+          
+            <div class="t-reason">💡 松茸/牛肝菌/鸡枞，正规餐厅确保煮熟</div>
+          
+          <div class="t-detail">
+            <span>🕐 11:00-22:00</span>
+            <span>🎫 ¥人均80元</span>
+            <span>⏱️ 约 70 分钟</span>
+          </div>
+        </div>
+      </li>
+    
+  </ol>
+
+  
+    <div class="day-budget">💸 当天预算约 ¥850</div>
+  
+</article>
+  
+    <!--
+  AGENT MUST-DO（每天卡片）:
+  ① day.theme / day.fatigue_index 必填（否则 header 残缺）
+  ② day.stops 至少 3-6 条（含三餐 + 景点），每条必须有 time / poi.name / duration_min
+  ③ day.routes 必填（实际道路 polyline 或 路径文字版，规则同总览地图）
+  ④ stop.poi 缺字段时，agent 自己用 WebSearch 补 rating/open_hours/ticket_price
+-->
+<article class="day-card" data-day="5">
+  <header class="day-header">
+    <h3>D5 · 2026-08-05 (周三) · 茶马古道沙溪秘境 + 盘山路赴丽江</h3>
+    <div class="day-meta">
+      <span>📍 230km</span>
+      <span>🚶 55 体力指数</span>
+      <span>☁️ 多云 17-24°C</span>
+    </div>
+  </header>
+
+  
+    <div class="day-routes">
+      <h4>🗺️ 当日路线</h4>
+      <ol class="route-steps">
+        
+          <li>
+            
+              <span class="route-source-real">实际道路</span>
+            
+            
+              · 沙溪古镇 → 丽江古城·夜
+            
+          </li>
+        
+      </ol>
+    </div>
+  
+
+  <ol class="timeline">
+    
+      <li class="stop stop-attraction">
+        <div class="t-time">10:30</div>
+        <div class="t-body">
+          <div class="t-title">
+            <span class="t-emoji">📌</span>
+            <strong>沙溪古镇</strong>
+            <span class="rating">⭐ 4.8</span>
+            
+          </div>
+          
+            <div class="t-reason">💡 茶马古道唯一幸存古集市！古戏台+玉津桥，真正的「从前慢」</div>
+          
+          <div class="t-detail">
+            <span>🕐 全天</span>
+            <span>🎫 ¥免费</span>
+            <span>⏱️ 约 150 分钟</span>
+          </div>
+        </div>
+      </li>
+    
+      <li class="stop stop-lunch">
+        <div class="t-time">12:30</div>
+        <div class="t-body">
+          <div class="t-title">
+            <span class="t-emoji">🍜</span>
+            <strong>沙溪马帮菜·火腿炒饭+土鸡汤</strong>
+            <span class="rating">⭐ 4.3</span>
+            
+          </div>
+          
+            <div class="t-reason">💡 寺登街周边小馆，地道马帮风味</div>
+          
+          <div class="t-detail">
+            <span>🕐 10:00-20:00</span>
+            <span>🎫 ¥约120元</span>
+            <span>⏱️ 约 50 分钟</span>
+          </div>
+        </div>
+      </li>
+    
+      <li class="stop stop-attraction">
+        <div class="t-time">17:30</div>
+        <div class="t-body">
+          <div class="t-title">
+            <span class="t-emoji">📌</span>
+            <strong>丽江古城·夜</strong>
+            <span class="rating">⭐ 4.6</span>
+            
+          </div>
+          
+            <div class="t-reason">💡 世界文化遗产，四方街+大水车，比大理更具烟火气</div>
+          
+          <div class="t-detail">
+            <span>🕐 全天</span>
+            <span>🎫 ¥古城维护费约50元</span>
+            <span>⏱️ 约 120 分钟</span>
+          </div>
+        </div>
+      </li>
+    
+      <li class="stop stop-dinner">
+        <div class="t-time">19:30</div>
+        <div class="t-body">
+          <div class="t-title">
+            <span class="t-emoji">🍽️</span>
+            <strong>腊排骨火锅 + 鸡豆凉粉 + 丽江粑粑</strong>
+            <span class="rating">⭐ 4.6</span>
+            
+          </div>
+          
+            <div class="t-reason">💡 丽江三件套！「阿妈腊排骨」古城南门店</div>
+          
+          <div class="t-detail">
+            <span>🕐 10:00-22:30</span>
+            <span>🎫 ¥人均70元</span>
+            <span>⏱️ 约 60 分钟</span>
+          </div>
+        </div>
+      </li>
+    
+  </ol>
+
+  
+    <div class="day-budget">💸 当天预算约 ¥1050</div>
+  
+</article>
+  
+    <!--
+  AGENT MUST-DO（每天卡片）:
+  ① day.theme / day.fatigue_index 必填（否则 header 残缺）
+  ② day.stops 至少 3-6 条（含三餐 + 景点），每条必须有 time / poi.name / duration_min
+  ③ day.routes 必填（实际道路 polyline 或 路径文字版，规则同总览地图）
+  ④ stop.poi 缺字段时，agent 自己用 WebSearch 补 rating/open_hours/ticket_price
+-->
+<article class="day-card" data-day="6">
+  <header class="day-header">
+    <h3>D6 · 2026-08-06 (周四) · 束河+白沙·慢节奏半日闲逛</h3>
+    <div class="day-meta">
+      <span>📍 30km</span>
+      <span>🚶 30 体力指数</span>
+      <span>☁️ 多云转晴 16-24°C</span>
+    </div>
+  </header>
+
+  
+    <div class="day-routes">
+      <h4>🗺️ 当日路线</h4>
+      <ol class="route-steps">
+        
+          <li>
+            
+              <span class="route-source-real">实际道路</span>
+            
+            
+              · 束河古镇 → 白沙古镇 + 白沙壁画
+            
+          </li>
+        
+      </ol>
+    </div>
+  
+
+  <ol class="timeline">
+    
+      <li class="stop stop-attraction">
+        <div class="t-time">09:30</div>
+        <div class="t-body">
+          <div class="t-title">
+            <span class="t-emoji">📌</span>
+            <strong>束河古镇</strong>
+            <span class="rating">⭐ 4.6</span>
+            
+          </div>
+          
+            <div class="t-reason">💡 人少一半安静一倍，九鼎龙潭+青龙桥，小孩广场跑</div>
+          
+          <div class="t-detail">
+            <span>🕐 全天</span>
+            <span>🎫 ¥免费</span>
+            <span>⏱️ 约 180 分钟</span>
+          </div>
+        </div>
+      </li>
+    
+      <li class="stop stop-lunch">
+        <div class="t-time">12:30</div>
+        <div class="t-body">
+          <div class="t-title">
+            <span class="t-emoji">🍜</span>
+            <strong>纳西烤鱼 + 酥油茶 + 丽江粑粑</strong>
+            <span class="rating">⭐ 4.4</span>
+            
+          </div>
+          
+            <div class="t-reason">💡 束河古镇内纳西餐厅</div>
+          
+          <div class="t-detail">
+            <span>🕐 10:00-21:00</span>
+            <span>🎫 ¥约120元</span>
+            <span>⏱️ 约 60 分钟</span>
+          </div>
+        </div>
+      </li>
+    
+      <li class="stop stop-attraction">
+        <div class="t-time">14:00</div>
+        <div class="t-body">
+          <div class="t-title">
+            <span class="t-emoji">📌</span>
+            <strong>白沙古镇 + 白沙壁画</strong>
+            <span class="rating">⭐ 4.5</span>
+            
+          </div>
+          
+            <div class="t-reason">💡 丽江最古老纳西村落，壁画有「丽江敦煌」之称，抬头就是玉龙雪山</div>
+          
+          <div class="t-detail">
+            <span>🕐 08:30-17:30</span>
+            <span>🎫 ¥30元/人</span>
+            <span>⏱️ 约 150 分钟</span>
+          </div>
+        </div>
+      </li>
+    
+      <li class="stop stop-dinner">
+        <div class="t-time">17:00</div>
+        <div class="t-body">
+          <div class="t-title">
+            <span class="t-emoji">🍽️</span>
+            <strong>黑山羊火锅 / 纳西炒菜</strong>
+            <span class="rating">⭐ 4.4</span>
+            
+          </div>
+          
+            <div class="t-reason">💡 丽江特色，黑山羊鲜嫩不膻</div>
+          
+          <div class="t-detail">
+            <span>🕐 10:00-22:00</span>
+            <span>🎫 ¥人均60元</span>
+            <span>⏱️ 约 60 分钟</span>
+          </div>
+        </div>
+      </li>
+    
+  </ol>
+
+  
+    <div class="day-budget">💸 当天预算约 ¥650</div>
+  
+</article>
+  
+    <!--
+  AGENT MUST-DO（每天卡片）:
+  ① day.theme / day.fatigue_index 必填（否则 header 残缺）
+  ② day.stops 至少 3-6 条（含三餐 + 景点），每条必须有 time / poi.name / duration_min
+  ③ day.routes 必填（实际道路 polyline 或 路径文字版，规则同总览地图）
+  ④ stop.poi 缺字段时，agent 自己用 WebSearch 补 rating/open_hours/ticket_price
+-->
+<article class="day-card" data-day="7">
+  <header class="day-header">
+    <h3>D7 · 2026-08-07 (周五) · 玉龙雪山·蓝月谷+🥾云杉坪轻徒步+甘海子</h3>
+    <div class="day-meta">
+      <span>📍 50km</span>
+      <span>🚶 50 体力指数</span>
+      <span>☁️ 晴 15-23°C</span>
+    </div>
+  </header>
+
+  
+    <div class="day-routes">
+      <h4>🗺️ 当日路线</h4>
+      <ol class="route-steps">
+        
+          <li>
+            
+              <span class="route-source-real">实际道路</span>
+            
+            
+              · 蓝月谷 → 甘海子野餐（自备干粮）
+            
+          </li>
+        
+          <li>
+            
+              <span class="route-source-real">实际道路</span>
+            
+            
+              · 甘海子野餐（自备干粮） → 牦牛肉火锅 + 青稞饼
+            
+          </li>
+        
+      </ol>
+    </div>
+  
+
+  <ol class="timeline">
+    
+      <li class="stop stop-attraction">
+        <div class="t-time">08:00</div>
+        <div class="t-body">
+          <div class="t-title">
+            <span class="t-emoji">📌</span>
+            <strong>蓝月谷</strong>
+            <span class="rating">⭐ 4.8</span>
+            
+          </div>
+          
+            <div class="t-reason">💡 「小九寨」蒂芙尼蓝湖水，海拔2900m平坦木栈道</div>
+          
+          <div class="t-detail">
+            <span>🕐 07:00-17:00</span>
+            <span>🎫 ¥进山费100元+电瓶车50元</span>
+            <span>⏱️ 约 120 分钟</span>
+          </div>
+        </div>
+      </li>
+    
+      <li class="stop stop-attraction">
+        <div class="t-time">10:30</div>
+        <div class="t-body">
+          <div class="t-title">
+            <span class="t-emoji">📌</span>
+            <strong>🥾 云杉坪轻徒步2-3km</strong>
+            <span class="rating">⭐ 4.9</span>
+            
+          </div>
+          
+            <div class="t-reason">💡 小索道至3240m高山草甸，环形木栈道，8月野花+牦牛+雪山背景——童话世界！</div>
+          
+          <div class="t-detail">
+            <span>🕐 07:30-16:00</span>
+            <span>🎫 ¥小索道60元/人</span>
+            <span>⏱️ 约 150 分钟</span>
+          </div>
+        </div>
+      </li>
+    
+      <li class="stop stop-lunch">
+        <div class="t-time">13:00</div>
+        <div class="t-body">
+          <div class="t-title">
+            <span class="t-emoji">🍜</span>
+            <strong>甘海子野餐（自备干粮）</strong>
+            <span class="rating">⭐ 4.5</span>
+            
+          </div>
+          
+            <div class="t-reason">💡 玉龙雪山东麓草甸海拔3100m，野花+雪山背景野餐</div>
+          
+          <div class="t-detail">
+            <span>🕐 全天</span>
+            <span>🎫 ¥含进山费</span>
+            <span>⏱️ 约 60 分钟</span>
+          </div>
+        </div>
+      </li>
+    
+      <li class="stop stop-dinner">
+        <div class="t-time">18:00</div>
+        <div class="t-body">
+          <div class="t-title">
+            <span class="t-emoji">🍽️</span>
+            <strong>牦牛肉火锅 + 青稞饼</strong>
+            <span class="rating">⭐ 4.5</span>
+            
+          </div>
+          
+            <div class="t-reason">💡 徒步后犒劳！牦牛肉低脂高蛋白</div>
+          
+          <div class="t-detail">
+            <span>🕐 10:00-22:00</span>
+            <span>🎫 ¥人均80元</span>
+            <span>⏱️ 约 70 分钟</span>
+          </div>
+        </div>
+      </li>
+    
+  </ol>
+
+  
+    <div class="day-budget">💸 当天预算约 ¥1050</div>
+  
+</article>
+  
+    <!--
+  AGENT MUST-DO（每天卡片）:
+  ① day.theme / day.fatigue_index 必填（否则 header 残缺）
+  ② day.stops 至少 3-6 条（含三餐 + 景点），每条必须有 time / poi.name / duration_min
+  ③ day.routes 必填（实际道路 polyline 或 路径文字版，规则同总览地图）
+  ④ stop.poi 缺字段时，agent 自己用 WebSearch 补 rating/open_hours/ticket_price
+-->
+<article class="day-card" data-day="8">
+  <header class="day-header">
+    <h3>D8 · 2026-08-08 (周六) · 拉市海骑马 + G56高速返程楚雄</h3>
+    <div class="day-meta">
+      <span>📍 360km</span>
+      <span>🚶 55 体力指数</span>
+      <span>☁️ 多云 16-24°C</span>
+    </div>
+  </header>
+
+  
+    <div class="day-routes">
+      <h4>🗺️ 当日路线</h4>
+      <ol class="route-steps">
+        
+          <li>
+            
+              <span class="route-source-real">实际道路</span>
+            
+            
+              · 拉市海湿地公园 → 楚雄·彝人古镇夜市
+            
+          </li>
+        
+      </ol>
+    </div>
+  
+
+  <ol class="timeline">
+    
+      <li class="stop stop-attraction">
+        <div class="t-time">09:00</div>
+        <div class="t-body">
+          <div class="t-title">
+            <span class="t-emoji">📌</span>
+            <strong>拉市海湿地公园</strong>
+            <span class="rating">⭐ 4.2</span>
+            
+          </div>
+          
+            <div class="t-reason">💡 高原湿地8月水草丰美，骑马走茶马古道或坐船穿芦苇荡</div>
+          
+          <div class="t-detail">
+            <span>🕐 08:00-18:00</span>
+            <span>🎫 ¥30元+骑马100-200元</span>
+            <span>⏱️ 约 150 分钟</span>
+          </div>
+        </div>
+      </li>
+    
+      <li class="stop stop-lunch">
+        <div class="t-time">12:00</div>
+        <div class="t-body">
+          <div class="t-title">
+            <span class="t-emoji">🍜</span>
+            <strong>拉市海农家菜</strong>
+            <span class="rating">⭐ 4.1</span>
+            
+          </div>
+          
+            <div class="t-reason">💡 湿地周边农家乐，土鸡/腊肉/野菜</div>
+          
+          <div class="t-detail">
+            <span>🕐 10:00-20:00</span>
+            <span>🎫 ¥约120元</span>
+            <span>⏱️ 约 60 分钟</span>
+          </div>
+        </div>
+      </li>
+    
+      <li class="stop stop-dinner">
+        <div class="t-time">18:30</div>
+        <div class="t-body">
+          <div class="t-title">
+            <span class="t-emoji">🍽️</span>
+            <strong>楚雄·彝人古镇夜市</strong>
+            <span class="rating">⭐ 4.3</span>
+            
+          </div>
+          
+            <div class="t-reason">💡 彝家烤肉+坨坨肉+苦荞酒，烟火气十足</div>
+          
+          <div class="t-detail">
+            <span>🕐 17:00-23:00</span>
+            <span>🎫 ¥人均60元</span>
+            <span>⏱️ 约 60 分钟</span>
+          </div>
+        </div>
+      </li>
+    
+  </ol>
+
+  
+    <div class="day-budget">💸 当天预算约 ¥1000</div>
+  
+</article>
+  
+    <!--
+  AGENT MUST-DO（每天卡片）:
+  ① day.theme / day.fatigue_index 必填（否则 header 残缺）
+  ② day.stops 至少 3-6 条（含三餐 + 景点），每条必须有 time / poi.name / duration_min
+  ③ day.routes 必填（实际道路 polyline 或 路径文字版，规则同总览地图）
+  ④ stop.poi 缺字段时，agent 自己用 WebSearch 补 rating/open_hours/ticket_price
+-->
+<article class="day-card" data-day="9">
+  <header class="day-header">
+    <h3>D9 · 2026-08-09 (周日) · 轻松收尾·昆明机场还车返程</h3>
+    <div class="day-meta">
+      <span>📍 170km</span>
+      <span>🚶 20 体力指数</span>
+      <span>☁️ 多云 18-25°C</span>
+    </div>
+  </header>
+
+  
+    <div class="day-routes">
+      <h4>🗺️ 当日路线</h4>
+      <ol class="route-steps">
+        
+          <li>
+            
+              <span class="route-source-real">实际道路</span>
+            
+            
+              · 昆明长水机场还车+午餐 → 昆明长水机场还车+午餐
+            
+          </li>
+        
+      </ol>
+    </div>
+  
+
+  <ol class="timeline">
+    
+      <li class="stop stop-attraction">
+        <div class="t-time">11:00</div>
+        <div class="t-body">
+          <div class="t-title">
+            <span class="t-emoji">📌</span>
+            <strong>昆明长水机场还车+午餐</strong>
+            
+            
+          </div>
+          
+            <div class="t-reason">💡 还车闭环完成！💰零异地费，吃最后一碗云南米线再走</div>
+          
+          <div class="t-detail">
+            <span>🕐 全天</span>
+            <span>🎫 ¥约100元</span>
+            <span>⏱️ 约 60 分钟</span>
+          </div>
+        </div>
+      </li>
+    
+  </ol>
+
+  
+    <div class="day-budget">💸 当天预算约 ¥2300</div>
+  
+</article>
+  
+</section>
+
+<!--
+  💰 预算明细 · AGENT MUST-DO:
+  ① 必须有总预算 + 6 类目占比（交通/住宿/餐饮/门票/购物/备用）
+  ② 必须有饼图（数据由 budget.categories 驱动，模板自带 Chart.js）
+  ③ 必须有"实际 vs 用户期望预算"对比，超支时标红
+  ④ 凑不齐细项时，按类目占比模板（见 data/skeleton_fallbacks.json）兜底
+-->
+<section id="budget">
+  <h2>💰 预算明细</h2>
+  <div class="budget-section">
+  <div class="budget-pie-wrap">
+    <canvas id="budget-pie" width="320" height="320"></canvas>
+  </div>
+  <div class="budget-table">
+    <table>
+      <thead><tr><th>类目</th><th>金额（¥）</th><th>占比</th></tr></thead>
+      <tbody>
+        
+        
+        <tr><td>大交通</td><td>5100</td><td>42.9%</td></tr>
+        <tr><td>住宿</td><td>2560</td><td>21.5%</td></tr>
+        <tr><td>餐饮</td><td>2350</td><td>19.7%</td></tr>
+        <tr><td>门票</td><td>1050</td><td>8.8%</td></tr>
+        <tr><td>市内交通</td><td>0</td><td>0.0%</td></tr>
+        <tr><td>备用</td><td>840</td><td>7.1%</td></tr>
+        <tr class="grand"><td>合计</td><td>11900</td><td>人均 约3,970元/人</td></tr>
+      </tbody>
+    </table>
+  </div>
+  
+    <div class="tradeoffs">
+      <h4>💡 超支取舍建议</h4>
+      <ul>
+        
+          <li><strong>民宿替代全季（丽江3晚）</strong> · 节省 ~¥200/人 · 丽江选纳西庭院民宿约200元/晚，比全季省600元，更有本地特色</li>
+        
+          <li><strong>机票蹲特价+领券</strong> · 节省 ~¥300/人 · 提前30天购票+美团「机票100」券，往返可省约900元</li>
+        
+      </ul>
+    </div>
+  
+</div>
+</section>
+
+<!--
+  ⚠️ 风险提示 · AGENT MUST-DO:
+  无论数据完整度，本节必须输出至少 3 类风险：
+    1. 天气（出行日预报 + 异常天气警告，缺时调 WebSearch）
+    2. 节假日 / 人流（结合 risk_knowledge.json + 出行日期）
+    3. 当地骗局 / 防坑（risk_knowledge.json 该城市条目 + xhs"X 避雷"补充）
+  每条风险必须标置信度 🟢🟡⚪
+-->
+<section id="risk">
+  <h2>⚠️ 风险提示</h2>
+  <!--
+  AGENT MUST-DO: 至少 3 类风险（天气 / 节假日 / 防坑），加 1 类应急联系。
+  上游 risk-check 给空时用 skeleton_fallbacks.risk_panel_default 兜底。
+-->
+<div class="risk-panel">
+  <div class="risk-block confidence-yellow">
+    <h4>🌤️ 天气</h4>
+    <p>出行前 3 天再查实时天气；夏季备伞 + 防晒，冬季备保暖 + 防滑。</p>
+    
+  </div>
+
+  
+    <div class="risk-block confidence-gray">
+      <h4>🎉 节假日</h4>
+      <p>出行日期无重大节假日；常规人流参考正常水平。</p>
+    </div>
+  
+
+  <div class="risk-block">
+    <h4>🚨 防坑提示</h4>
+    
+    
+      <div class="scam-group">
+        <strong>通用景区</strong>
+        <ul><li>拒绝主动搭讪的「免费导游」「合影老人」</li><li>热门景区门口的「特价票」「内部票」基本是黄牛票</li><li>餐饮店进店前问清是否按斤算价 / 时令价</li><li>打车要求打表，拒绝议价；偏远地区上车前先与司机确认价格</li></ul>
+      </div>
+    
+      <div class="scam-group">
+        <strong>交通枢纽</strong>
+        <ul><li>火车站 / 机场出口的「黑车」拼车坑率高，优先用美团 / 滴滴</li><li>酒店「机场接送」要核对身份再上车</li><li>陌生人让你帮带行李一律拒绝</li></ul>
+      </div>
+    
+  </div>
+
+  <div class="risk-block confidence-green">
+    <h4>📞 应急电话</h4>
+    <ul class="emergency">
+      <li>报警 110</li>
+      <li>急救 120</li>
+      <li>旅游投诉 12301</li>
+      <li>消费维权 12315</li>
+      <li>气象预警 12379</li>
+    </ul>
+  </div>
+</div>
+</section>
+
+<!--
+  📓 小红书真实笔记参考 · AGENT MUST-DO:
+  本节必出，至少 6-10 篇真实笔记，按主题分组（攻略/美食/住宿/拍照/避雷/其他）
+  数据获取（按优先级）：
+    Tier 1: 调 xhs CLI（用户已登录时）
+    Tier 2: WebSearch site:xiaohongshu.com（用户跳过登录时）
+    Tier 3: WebSearch 马蜂窝/抖音目的地关键词
+  完全失败时，渲染"本次未拿到第三方游记"提示卡 + 给一组手动搜索链接
+  （绝不允许这一节空白；本 section 即使 xhs_notes=None 也要 include）
+-->
+<section id="xhs-notes">
+  <h2>📓 小红书真实笔记参考</h2>
+  <!--
+  AGENT MUST-DO: 至少 6-10 篇真实笔记，按主题分组。
+  完全没拿到时，自动渲染"未拿到第三方游记"提示 + 给一组手动搜索链接。
+-->
+<div class="xhs-section">
+  
+  <p class="xhs-intro">这里是搜索过程中找到的高质量真实笔记，按主题分类，点击直达原文。</p>
+  
+    <div class="xhs-group">
+      <h4>真实笔记参考 <span class="xhs-count">6 篇</span></h4>
+      <div class="xhs-grid">
+        
+          <a class="xhs-card" href="https://www.xiaohongshu.com/explore/洱海自驾亲子" target="_blank" rel="noopener">
+            
+            <div class="xhs-body">
+              <div class="xhs-title">大理自驾环洱海·带着5岁娃的真实体验</div>
+              <div class="xhs-meta">
+                
+                
+                
+              </div>
+              
+                <div class="xhs-snippet">博主带着5岁娃环洱海自驾，推荐喜洲古镇扎染体验（小孩超爱）、双廊湖边咖啡馆歇脚。提醒海东线路窄注意安全，小孩建议全程安全座椅。</div>
+              
+              
+                <span class="xhs-sentiment xhs-sentiment-neutral">🔍 参考</span>
+              
+            </div>
+          </a>
+        
+          <a class="xhs-card" href="https://www.xiaohongshu.com/explore/云南亲子避坑" target="_blank" rel="noopener">
+            
+            <div class="xhs-body">
+              <div class="xhs-title">云南亲子游避坑指南·大理丽江9天</div>
+              <div class="xhs-meta">
+                
+                
+                
+              </div>
+              
+                <div class="xhs-snippet">详细记录9天亲子行程，强烈建议玉龙雪山只去蓝月谷不去大索道（带娃血泪教训）。大理古城比丽江更适合遛娃。推荐住古城外围酒店不用拖箱子走石板路。</div>
+              
+              
+                <span class="xhs-sentiment xhs-sentiment-neutral">🔍 参考</span>
+              
+            </div>
+          </a>
+        
+          <a class="xhs-card" href="https://www.xiaohongshu.com/explore/云南最美自驾路段" target="_blank" rel="noopener">
+            
+            <div class="xhs-body">
+              <div class="xhs-title">昆明大理丽江自驾·最美路段排名</div>
+              <div class="xhs-meta">
+                
+                
+                
+              </div>
+              
+                <div class="xhs-snippet">排名前三：(1)环海东路双廊-挖色段（日落绝美）；(2)大理-沙溪山路（云雾缭绕）；(3)大丽高速丽江段（远眺玉龙）。附详细路况和停车点GPS坐标。</div>
+              
+              
+                <span class="xhs-sentiment xhs-sentiment-neutral">🔍 参考</span>
+              
+            </div>
+          </a>
+        
+          <a class="xhs-card" href="https://www.xiaohongshu.com/explore/丽江美食亲子" target="_blank" rel="noopener">
+            
+            <div class="xhs-body">
+              <div class="xhs-title">丽江·带小孩吃遍古城不踩雷</div>
+              <div class="xhs-meta">
+                
+                
+                
+              </div>
+              
+                <div class="xhs-snippet">实测推荐：88号小吃店鸡豆凉粉、阿妈腊排骨（古城南门店量大实惠）、饵块食光（创新饵块小孩喜欢）。避雷：四方街周边宰客严重，网红店排长队不值。</div>
+              
+              
+                <span class="xhs-sentiment xhs-sentiment-neutral">🔍 参考</span>
+              
+            </div>
+          </a>
+        
+          <a class="xhs-card" href="https://www.xiaohongshu.com/explore/大理白族美食" target="_blank" rel="noopener">
+            
+            <div class="xhs-body">
+              <div class="xhs-title">大理古城+喜洲·白族特色菜去哪吃</div>
+              <div class="xhs-meta">
+                
+                
+                
+              </div>
+              
+                <div class="xhs-snippet">大理必吃：再回首凉鸡米线（人民路）、梅子井酒家（酸辣鱼一绝）、喜洲复兴破酥粑粑（甜咸都好吃）。8月菌子季强烈推荐野生菌火锅。</div>
+              
+              
+                <span class="xhs-sentiment xhs-sentiment-neutral">🔍 参考</span>
+              
+            </div>
+          </a>
+        
+          <a class="xhs-card" href="https://www.xiaohongshu.com/explore/云南八月天气" target="_blank" rel="noopener">
+            
+            <div class="xhs-body">
+              <div class="xhs-title">八月初云南天气实测·带娃怎么穿</div>
+              <div class="xhs-meta">
+                
+                
+                
+              </div>
+              
+                <div class="xhs-snippet">去年八月初实测：大理丽江均温22°C左右，早晚凉到需要薄外套。雨都是阵雨，一天最多2-3小时。小孩穿搭：短袖+防晒衣+长裤，包里备薄冲锋衣。</div>
+              
+              
+                <span class="xhs-sentiment xhs-sentiment-neutral">🔍 参考</span>
+              
+            </div>
+          </a>
+        
+      </div>
+    </div>
+  
+  <p class="xhs-disclaimer">
+    💡 笔记内容由作者发布，仅作参考。点击卡片跳转小红书原文。
+  </p>
+  
+</div>
+</section>
+
+<section id="data-completeness">
+  <h2>📊 数据完整性</h2>
+  <!--
+  AGENT MUST-DO:
+  这是固定底部面板，告诉用户哪些数据是一手 / 哪些是兜底。
+  data_sources 由 check_deps + agent 实际调用情况组装。
+-->
+<div class="completeness-panel">
+  <div class="comp-row">
+    <strong>✅ 已启用</strong>
+    <ul>
+      
+      
+      
+      <li>WebSearch — 兜底数据源</li>
+    </ul>
+  </div>
+  
+  <p class="comp-tip">
+    💡 想升级数据可信度？把对应数据源配上后告诉 agent「重跑 XX」即可增量更新。
+  </p>
+</div>
+</section>
+
+<!--
+  🎒 行前清单 · AGENT MUST-DO:
+  无论数据完整度，必须输出至少 4 类清单：
+    1. 证件（身份证/驾照/学生证/老年证）
+    2. 充电（充电宝/数据线/转换头）
+    3. 现金/支付（少量现金/支付宝微信备用）
+    4. 应急（常用药/急救联系/保险卡）
+  risk-check 给了具体内容就用具体内容，没给就用以上 4 类硬清单
+  （兜底数据见 data/skeleton_fallbacks.json）
+-->
+<section id="checklist">
+  <h2>🎒 行前清单</h2>
+  <!--
+  AGENT MUST-DO: checklist 至少 4 类（证件/充电/支付/应急）。
+  risk-check 给了具体内容用具体内容，没给就用 skeleton_fallbacks.json 兜底。
+-->
+
+<div class="checklist">
+  
+    <div class="check-group">
+      <h4>🪪 证件</h4>
+      <ul>
+        <li><label><input type="checkbox"> 身份证（必带，国内出行核心）</label></li><li><label><input type="checkbox"> 驾照（自驾时）</label></li><li><label><input type="checkbox"> 学生证 / 老年证 / 军官证（享门票优惠时）</label></li><li><label><input type="checkbox"> 健康码 / 行程码（特殊时期）</label></li>
+      </ul>
+    </div>
+  
+    <div class="check-group">
+      <h4>🔌 充电/数码</h4>
+      <ul>
+        <li><label><input type="checkbox"> 充电宝（≤100Wh，飞机可携带）</label></li><li><label><input type="checkbox"> 手机充电线 + 数据线</label></li><li><label><input type="checkbox"> 多孔插线板 / 转换头</label></li><li><label><input type="checkbox"> 耳机 / 备用电池</label></li>
+      </ul>
+    </div>
+  
+    <div class="check-group">
+      <h4>💵 现金/支付</h4>
+      <ul>
+        <li><label><input type="checkbox"> 少量现金（200-500 元，应对扫码失败）</label></li><li><label><input type="checkbox"> 支付宝 / 微信备用</label></li><li><label><input type="checkbox"> 银行卡（信用卡 + 借记卡各 1 张）</label></li><li><label><input type="checkbox"> 保险卡（出行险）</label></li>
+      </ul>
+    </div>
+  
+    <div class="check-group">
+      <h4>💊 健康/应急</h4>
+      <ul>
+        <li><label><input type="checkbox"> 常用药（感冒 / 肠胃 / 创可贴）</label></li><li><label><input type="checkbox"> 晕车药（长途必备）</label></li><li><label><input type="checkbox"> 防蚊液 / 防晒霜</label></li><li><label><input type="checkbox"> 急救联系人电话（写纸条放钱包）</label></li>
+      </ul>
+    </div>
+  
+</div>
+</section>
+
+<footer>
+  <p>由出游规划师 v1.0.0 生成 · 2026-07-13T11:32:41+08:00</p>
+  <p>本报告所有价格 / 营业 / 评分均为查询时刻的参考值，请出行前再核实。</p>
+</footer>
+
+<script>
+  // === 数据 ===
+  const dayColors = ['#e74c3c','#3498db','#2ecc71','#f39c12','#9b59b6','#1abc9c','#e67e22','#2c3e50','#16a085'];
+  const allLatLngs = [];
+
+  // 解析 days 数据
+  const days = [{"city": "昆明", "daily_budget": 1450, "date": "2026-08-01 (周六)", "day_index": 1, "fatigue_index": 30, "routes": [{"description": "机场高速→二环快速→翠湖，约40km/45min", "from": 0, "geometry": [[102.928, 25.108], [102.85, 25.12], [102.8, 25.08], [102.75, 25.06], [102.7046, 25.0458]], "to": 2}, {"description": "翠湖步行至昆明老街约10分钟", "from": 2, "geometry": [[102.7046, 25.0458], [102.71, 25.043], [102.7096, 25.0417]], "to": 4}], "stops": [{"duration_display": "40 分钟", "duration_min": 40, "poi": {"lat": 25.108, "lng": 102.928, "name": "昆明长水机场取车", "open_hours": "24h", "rating": "4.3", "recommend_reason": "神州/一嗨机场店取车，经济SUV约200元/天，⚠️昆明取还闭环无异地费", "ticket_price": "—"}, "time": "10:30", "type": "attraction"}, {"duration_display": "50 分钟", "duration_min": 50, "poi": {"name": "机场周边简餐", "open_hours": "10:00-21:00", "recommend_reason": "取车后顺路解决", "ticket_price": "约80元"}, "time": "12:00", "type": "lunch"}, {"duration_display": "120 分钟", "duration_min": 120, "poi": {"lat": 25.0458, "lng": 102.7046, "name": "翠湖公园", "open_hours": "06:00-22:00", "rating": "4.5", "recommend_reason": "昆明市中心免费公园，8月荷花季，有儿童游乐区", "ticket_price": "免费"}, "time": "14:30", "type": "attraction"}, {"duration_display": "60 分钟", "duration_min": 60, "poi": {"name": "桥香园过桥米线 + 汽锅鸡", "open_hours": "10:00-21:30", "rating": "4.4", "recommend_reason": "昆明经典组合，翠湖步行10分钟可达", "ticket_price": "人均60元"}, "time": "17:30", "type": "dinner"}, {"duration_display": "60 分钟", "duration_min": 60, "poi": {"lat": 25.0417, "lng": 102.7096, "name": "昆明老街（钱王街）", "open_hours": "全天", "rating": "4.3", "recommend_reason": "青石板路+百年老宅，灯笼亮起氛围好", "ticket_price": "免费"}, "time": "19:00", "type": "evening"}], "theme": "抵达春城，翠湖初印象", "total_distance_km": 40, "weather": {"icon": "cloud-rain", "summary": "多云转阵雨 19-26°C"}}, {"city": "昆明→大理", "daily_budget": 1200, "date": "2026-08-02 (周日)", "day_index": 2, "fatigue_index": 50, "routes": [{"description": "🌿 优选G56杭瑞高速（自然景观>昆楚大高速），穿越彝山峡谷+梯田，320km/4h", "from": 0, "geometry": [[102.6635, 24.9688], [102.5, 24.98], [101.9, 25.04], [101.55, 25.033], [100.8, 25.3], [100.4, 25.48], [100.25, 25.62], [100.1611, 25.6785]], "to": 2}], "stops": [{"duration_display": "120 分钟", "duration_min": 120, "poi": {"lat": 24.9688, "lng": 102.6635, "name": "滇池·海埂公园", "open_hours": "全天", "rating": "4.6", "recommend_reason": "云南最大高原湖泊，碧波万顷，湖滨步道亲子散步", "ticket_price": "免费"}, "time": "08:30", "type": "attraction"}, {"duration_display": "40 分钟", "duration_min": 40, "poi": {"lat": 25.0333, "lng": 101.55, "name": "楚雄服务区·彝族简餐", "open_hours": "08:00-20:00", "recommend_reason": "彝族风味坨坨肉、苦荞粑粑", "ticket_price": "约120元"}, "time": "12:00", "type": "lunch"}, {"duration_display": "150 分钟", "duration_min": 150, "poi": {"lat": 25.6785, "lng": 100.1611, "name": "大理古城", "open_hours": "全天", "rating": "4.7", "recommend_reason": "千年白族古城，苍山脚下流水穿城，傍晚光影最美", "ticket_price": "免费"}, "time": "17:00", "type": "attraction"}, {"duration_display": "60 分钟", "duration_min": 60, "poi": {"name": "大理酸辣鱼 + 烤乳扇 + 凉鸡米线", "open_hours": "10:00-22:00", "rating": "4.5", "recommend_reason": "古城「再回首」或「梅子井酒家」", "ticket_price": "人均60元"}, "time": "19:30", "type": "dinner"}], "theme": "滇池晨光 + G56杭瑞高速·最美高速赴大理", "total_distance_km": 330, "weather": {"icon": "cloud-sun", "summary": "晴转多云 18-25°C"}}, {"city": "大理", "daily_budget": 900, "date": "2026-08-03 (周一)", "day_index": 3, "fatigue_index": 55, "routes": [{"description": "古城→喜洲，环海西路田园段，白族村落+稻田，20km/30min", "from": 0, "geometry": [[100.1611, 25.6785], [100.14, 25.72], [100.13, 25.77], [100.1194, 25.8538]], "to": 1}, {"description": "喜洲→周城约5km/10min", "from": 1, "geometry": [[100.1194, 25.8538], [100.11, 25.86], [100.1056, 25.8783]], "to": 2}, {"description": "周城→双廊，环海东路苍洱同框最美段，25km/40min", "from": 2, "geometry": [[100.1056, 25.8783], [100.18, 25.87], [100.22, 25.86], [100.2314, 25.8506]], "to": 3}, {"description": "双廊→小普陀，环海东路日落段，10km/15min", "from": 3, "geometry": [[100.2314, 25.8506], [100.24, 25.83], [100.2575, 25.8119]], "to": 4}], "stops": [{"duration_display": "150 分钟", "duration_min": 150, "poi": {"lat": 25.8538, "lng": 100.1194, "name": "喜洲古镇", "open_hours": "全天", "rating": "4.6", "recommend_reason": "白族民居最完整古镇，转角楼+稻田，8月翠绿出片", "ticket_price": "免费"}, "time": "09:00", "type": "attraction"}, {"duration_display": "90 分钟", "duration_min": 90, "poi": {"lat": 25.8783, "lng": 100.1056, "name": "周城扎染体验", "open_hours": "09:00-17:00", "rating": "4.7", "recommend_reason": "非遗手作！小孩亲手做扎染方巾", "ticket_price": "约40-80元/人"}, "time": "12:30", "type": "attraction"}, {"duration_display": "120 分钟", "duration_min": 120, "poi": {"lat": 25.8506, "lng": 100.2314, "name": "双廊古镇", "open_hours": "全天", "rating": "4.5", "recommend_reason": "苍洱风光第一镇，湖边咖啡馆发呆", "ticket_price": "免费"}, "time": "14:30", "type": "attraction"}, {"duration_display": "20 分钟", "duration_min": 20, "poi": {"lat": 25.8119, "lng": 100.2575, "name": "小普陀（日落拍照点🌅）", "open_hours": "全天", "rating": "4.3", "recommend_reason": "洱海袖珍小岛，环海东路最佳日落拍照点", "ticket_price": "免费（远观）"}, "time": "17:00", "type": "attraction"}, {"duration_display": "60 分钟", "duration_min": 60, "poi": {"name": "大理砂锅鱼 + 洱海虾 + 海菜汤", "open_hours": "11:00-21:30", "rating": "4.5", "recommend_reason": "白族经典，砂锅鱼用洱海弓鱼慢炖", "ticket_price": "人均70元"}, "time": "18:30", "type": "dinner"}], "theme": "环洱海自驾·最美环湖130km", "total_distance_km": 130, "weather": {"icon": "cloud", "summary": "多云 18-25°C"}}, {"city": "大理", "daily_budget": 850, "date": "2026-08-04 (周二)", "day_index": 4, "fatigue_index": 45, "routes": [{"description": "感通索道上站→玉带路入口，沿山腰横切，3-5km石板路", "from": 0, "geometry": [[100.1333, 25.6564], [100.138, 25.66], [100.142, 25.665]], "to": 1}, {"description": "索道下山→返回古城，约20分钟", "from": 1, "geometry": [[100.142, 25.665], [100.15, 25.67], [100.1611, 25.6785]], "to": 4}], "stops": [{"duration_display": "90 分钟", "duration_min": 90, "poi": {"lat": 25.6564, "lng": 100.1333, "name": "苍山·感通索道", "open_hours": "08:30-17:00", "rating": "4.6", "recommend_reason": "至海拔2600m，观赏感通寺+清碧溪+苍山大峡谷", "ticket_price": "110元/人往返"}, "time": "08:30", "type": "attraction"}, {"duration_display": "150 分钟", "duration_min": 150, "poi": {"lat": 25.665, "lng": 100.142, "name": "🥾 苍山玉带路轻徒步3-5km", "open_hours": "全天", "rating": "4.8", "recommend_reason": "平缓石板路无爬升！左森林右洱海全景，6岁娃轻松走", "ticket_price": "含索道票"}, "time": "10:00", "type": "attraction"}, {"duration_display": "50 分钟", "duration_min": 50, "poi": {"name": "再回首凉鸡米线 + 卤饵丝", "open_hours": "09:00-20:00", "rating": "4.5", "recommend_reason": "古城人民路本地人最爱", "ticket_price": "人均25元"}, "time": "13:00", "type": "lunch"}, {"duration_display": "210 分钟", "duration_min": 210, "poi": {"lat": 25.6785, "lng": 100.1611, "name": "古城半日闲逛·人民路/才村码头", "open_hours": "全天", "rating": "4.7", "recommend_reason": "徒步后放松，逛手作店+喝咖啡+洱海发呆", "ticket_price": "免费"}, "time": "14:30", "type": "attraction"}, {"duration_display": "70 分钟", "duration_min": 70, "poi": {"name": "野生菌火锅🍄（8月菌子季！）", "open_hours": "11:00-22:00", "rating": "4.7", "recommend_reason": "松茸/牛肝菌/鸡枞，正规餐厅确保煮熟", "ticket_price": "人均80元"}, "time": "18:30", "type": "dinner"}], "theme": "苍山感通索道 + 🥾玉带路轻徒步 + 古城闲逛", "total_distance_km": 30, "weather": {"icon": "cloud-sun", "summary": "多云 17-24°C"}}, {"city": "大理→沙溪→丽江", "daily_budget": 1050, "date": "2026-08-05 (周三)", "day_index": 5, "fatigue_index": 55, "routes": [{"description": "🌿 沙溪→丽江：353国道经九河→白汉场→拉市海，远眺老君山+玉龙雪山，约120km/2.5h", "from": 0, "geometry": [[99.8533, 26.32], [99.95, 26.4], [100.03, 26.55], [100.08, 26.65], [100.15, 26.78], [100.2, 26.85], [100.2309, 26.8722]], "to": 2}], "stops": [{"duration_display": "150 分钟", "duration_min": 150, "poi": {"lat": 26.32, "lng": 99.8533, "name": "沙溪古镇", "open_hours": "全天", "rating": "4.8", "recommend_reason": "茶马古道唯一幸存古集市！古戏台+玉津桥，真正的「从前慢」", "ticket_price": "免费"}, "time": "10:30", "type": "attraction"}, {"duration_display": "50 分钟", "duration_min": 50, "poi": {"name": "沙溪马帮菜·火腿炒饭+土鸡汤", "open_hours": "10:00-20:00", "rating": "4.3", "recommend_reason": "寺登街周边小馆，地道马帮风味", "ticket_price": "约120元"}, "time": "12:30", "type": "lunch"}, {"duration_display": "120 分钟", "duration_min": 120, "poi": {"lat": 26.8722, "lng": 100.2309, "name": "丽江古城·夜", "open_hours": "全天", "rating": "4.6", "recommend_reason": "世界文化遗产，四方街+大水车，比大理更具烟火气", "ticket_price": "古城维护费约50元"}, "time": "17:30", "type": "attraction"}, {"duration_display": "60 分钟", "duration_min": 60, "poi": {"name": "腊排骨火锅 + 鸡豆凉粉 + 丽江粑粑", "open_hours": "10:00-22:30", "rating": "4.6", "recommend_reason": "丽江三件套！「阿妈腊排骨」古城南门店", "ticket_price": "人均70元"}, "time": "19:30", "type": "dinner"}], "theme": "茶马古道沙溪秘境 + 盘山路赴丽江", "total_distance_km": 230, "weather": {"icon": "cloud", "summary": "多云 17-24°C"}}, {"city": "丽江", "daily_budget": 650, "date": "2026-08-06 (周四)", "day_index": 6, "fatigue_index": 30, "routes": [{"description": "束河→白沙约20分钟，雪山方向田园风光", "from": 0, "geometry": [[100.205, 26.8922], [100.22, 26.9], [100.2333, 26.9603]], "to": 2}], "stops": [{"duration_display": "180 分钟", "duration_min": 180, "poi": {"lat": 26.8922, "lng": 100.205, "name": "束河古镇", "open_hours": "全天", "rating": "4.6", "recommend_reason": "人少一半安静一倍，九鼎龙潭+青龙桥，小孩广场跑", "ticket_price": "免费"}, "time": "09:30", "type": "attraction"}, {"duration_display": "60 分钟", "duration_min": 60, "poi": {"name": "纳西烤鱼 + 酥油茶 + 丽江粑粑", "open_hours": "10:00-21:00", "rating": "4.4", "recommend_reason": "束河古镇内纳西餐厅", "ticket_price": "约120元"}, "time": "12:30", "type": "lunch"}, {"duration_display": "150 分钟", "duration_min": 150, "poi": {"lat": 26.9603, "lng": 100.2333, "name": "白沙古镇 + 白沙壁画", "open_hours": "08:30-17:30", "rating": "4.5", "recommend_reason": "丽江最古老纳西村落，壁画有「丽江敦煌」之称，抬头就是玉龙雪山", "ticket_price": "30元/人"}, "time": "14:00", "type": "attraction"}, {"duration_display": "60 分钟", "duration_min": 60, "poi": {"name": "黑山羊火锅 / 纳西炒菜", "open_hours": "10:00-22:00", "rating": "4.4", "recommend_reason": "丽江特色，黑山羊鲜嫩不膻", "ticket_price": "人均60元"}, "time": "17:00", "type": "dinner"}], "theme": "束河+白沙·慢节奏半日闲逛", "total_distance_km": 30, "weather": {"icon": "sun", "summary": "多云转晴 16-24°C"}}, {"city": "丽江", "daily_budget": 1050, "date": "2026-08-07 (周五)", "day_index": 7, "fatigue_index": 50, "routes": [{"description": "蓝月谷→云杉坪：景区环保车15min，乘小索道（非大索道！）至3240m", "from": 0, "geometry": [[100.2333, 27.075], [100.22, 27.085], [100.21, 27.098]], "to": 2}, {"description": "云杉坪→甘海子景区环保车约10分钟", "from": 2, "geometry": [[100.21, 27.098], [100.24, 27.095], [100.2639, 27.0922]], "to": 3}], "stops": [{"duration_display": "120 分钟", "duration_min": 120, "poi": {"lat": 27.075, "lng": 100.2333, "name": "蓝月谷", "open_hours": "07:00-17:00", "rating": "4.8", "recommend_reason": "「小九寨」蒂芙尼蓝湖水，海拔2900m平坦木栈道", "ticket_price": "进山费100元+电瓶车50元"}, "time": "08:00", "type": "attraction"}, {"duration_display": "150 分钟", "duration_min": 150, "poi": {"lat": 27.098, "lng": 100.21, "name": "🥾 云杉坪轻徒步2-3km", "open_hours": "07:30-16:00", "rating": "4.9", "recommend_reason": "小索道至3240m高山草甸，环形木栈道，8月野花+牦牛+雪山背景——童话世界！", "ticket_price": "小索道60元/人"}, "time": "10:30", "type": "attraction"}, {"duration_display": "60 分钟", "duration_min": 60, "poi": {"lat": 27.0922, "lng": 100.2639, "name": "甘海子野餐（自备干粮）", "open_hours": "全天", "rating": "4.5", "recommend_reason": "玉龙雪山东麓草甸海拔3100m，野花+雪山背景野餐", "ticket_price": "含进山费"}, "time": "13:00", "type": "lunch"}, {"duration_display": "70 分钟", "duration_min": 70, "poi": {"name": "牦牛肉火锅 + 青稞饼", "open_hours": "10:00-22:00", "rating": "4.5", "recommend_reason": "徒步后犒劳！牦牛肉低脂高蛋白", "ticket_price": "人均80元"}, "time": "18:00", "type": "dinner"}], "theme": "玉龙雪山·蓝月谷+🥾云杉坪轻徒步+甘海子", "total_distance_km": 50, "weather": {"icon": "sun", "summary": "晴 15-23°C"}}, {"city": "丽江→楚雄", "daily_budget": 1000, "date": "2026-08-08 (周六)", "day_index": 8, "fatigue_index": 55, "routes": [{"description": "🌿 丽江→楚雄：选G56杭瑞高速（非大丽+昆楚大），远眺苍山落日+金沙江峡谷夕阳，360km/4.5h", "from": 0, "geometry": [[100.13, 26.87], [100.16, 26.75], [100.22, 26.5], [100.35, 26.0], [100.6, 25.55], [101.0, 25.2], [101.4, 25.1], [101.5422, 25.0458]], "to": 2}], "stops": [{"duration_display": "150 分钟", "duration_min": 150, "poi": {"lat": 26.87, "lng": 100.13, "name": "拉市海湿地公园", "open_hours": "08:00-18:00", "rating": "4.2", "recommend_reason": "高原湿地8月水草丰美，骑马走茶马古道或坐船穿芦苇荡", "ticket_price": "30元+骑马100-200元"}, "time": "09:00", "type": "attraction"}, {"duration_display": "60 分钟", "duration_min": 60, "poi": {"name": "拉市海农家菜", "open_hours": "10:00-20:00", "rating": "4.1", "recommend_reason": "湿地周边农家乐，土鸡/腊肉/野菜", "ticket_price": "约120元"}, "time": "12:00", "type": "lunch"}, {"duration_display": "60 分钟", "duration_min": 60, "poi": {"lat": 25.0458, "lng": 101.5422, "name": "楚雄·彝人古镇夜市", "open_hours": "17:00-23:00", "rating": "4.3", "recommend_reason": "彝家烤肉+坨坨肉+苦荞酒，烟火气十足", "ticket_price": "人均60元"}, "time": "18:30", "type": "dinner"}], "theme": "拉市海骑马 + G56高速返程楚雄", "total_distance_km": 360, "weather": {"icon": "cloud-sun", "summary": "多云 16-24°C"}}, {"city": "楚雄→昆明→长沙", "daily_budget": 2300, "date": "2026-08-09 (周日)", "day_index": 9, "fatigue_index": 20, "routes": [{"description": "🌿 楚雄→昆明机场：G56安宁段，滇中红土高原+安宁温泉峡谷，170km/1.5h，舒适收尾", "from": 0, "geometry": [[101.5422, 25.0458], [101.7, 25.03], [102.1, 25.0], [102.4, 25.08], [102.7, 25.1], [102.928, 25.108]], "to": 0}], "stops": [{"duration_display": "60 分钟", "duration_min": 60, "poi": {"lat": 25.108, "lng": 102.928, "name": "昆明长水机场还车+午餐", "open_hours": "全天", "recommend_reason": "还车闭环完成！💰零异地费，吃最后一碗云南米线再走", "ticket_price": "约100元"}, "time": "11:00", "type": "attraction"}], "theme": "轻松收尾·昆明机场还车返程", "total_distance_km": 170, "weather": {"icon": "cloud", "summary": "多云 18-25°C"}}];
+
+  // === 瓦片源 ===
+  const TILE_SOURCES = [
+    {url: 'https://webrd0{s}.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x={x}&y={y}&z={z}', options: {subdomains: ['1','2','3','4'], attribution: '高德地图', maxZoom: 18}},
+    {url: 'https://webst0{s}.is.autonavi.com/appmaptile?style=6&x={x}&y={y}&z={z}', options: {subdomains: ['1','2','3','4'], attribution: '高德卫星', maxZoom: 18}},
+    {url: 'https://rt{s}.map.gtimg.com/realtimerender?z={z}&x={x}&y={y}&type=vector&style=0', options: {subdomains: ['0','1','2','3'], attribution: '腾讯地图', maxZoom: 18}},
+    {url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', options: {subdomains: ['a','b','c'], attribution: 'OSM', maxZoom: 18}}
+  ];
+
+  function addTiles(map) {
+    let tileLayer = null;
+    let sourceIdx = 0;
+    function loadSrc(idx) {
+      if (idx >= TILE_SOURCES.length) return;
+      if (tileLayer) map.removeLayer(tileLayer);
+      const src = TILE_SOURCES[idx];
+      tileLayer = L.tileLayer(src.url, src.options);
+      let errCount = 0;
+      tileLayer.on('tileerror', () => { errCount++; if (errCount > 3) loadSrc(idx + 1); });
+      tileLayer.addTo(map);
+    }
+    loadSrc(0);
+  }
+
+  // === 总览地图：只画大头针 + 跨城连线，不画小圆点 ===
+  const overviewMap = L.map('map-overview', {preferCanvas: true});
+  addTiles(overviewMap);
+  const dayPinsData = [];
+
+  days.forEach((day, idx) => {
+    const color = dayColors[idx % dayColors.length];
+    // 找主目的地
+    let mainStop = null;
+    for (const s of day.stops) {
+      if (s.poi.lat && s.poi.lng) {
+        if (!mainStop) mainStop = s;
+        if (s.type === 'attraction' || s.type === 'evening') { mainStop = s; break; }
+      }
+    }
+    if (!mainStop) return;
+
+    dayPinsData.push({lat: mainStop.poi.lat, lng: mainStop.poi.lng, day: day.day_index, city: day.city, color, date: day.date, theme: day.theme, dist: day.total_distance_km, fatigue: day.fatigue_index});
+
+    // 大头针
+    const pinIcon = L.divIcon({
+      className: 'day-pin',
+      html: `<div style="position:relative;display:flex;flex-direction:column;align-items:center;filter:drop-shadow(0 3px 6px rgba(0,0,0,0.45));">
+        <div style="background:${color};color:#fff;width:48px;height:48px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);display:flex;align-items:center;justify-content:center;border:3px solid #fff;box-shadow:0 2px 10px rgba(0,0,0,0.4);">
+          <span style="transform:rotate(45deg);font-weight:800;font-size:20px;">D${day.day_index}</span>
+        </div>
+        <div style="margin-top:3px;background:rgba(255,255,255,0.95);padding:3px 10px;border-radius:5px;font-size:13px;font-weight:700;color:#333;white-space:nowrap;box-shadow:0 1px 4px rgba(0,0,0,0.25);">${day.city}</div>
+      </div>`,
+      iconSize: [48, 65], iconAnchor: [24, 57]
+    });
+    const pin = L.marker([mainStop.poi.lat, mainStop.poi.lng], {icon: pinIcon, zIndexOffset: 1000}).addTo(overviewMap);
+    pin.bindPopup(`<div style="font-size:14px;min-width:180px;"><b style="font-size:17px;color:${color};">D${day.day_index} ${day.city}</b><br>📅 ${day.date}<br>🎯 ${day.theme}<br>🚗 ${day.total_distance_km}km | 🚶 体力${day.fatigue_index}<br><br><span style="color:#888;font-size:12px;">点击上方标签可查看当日详细地图</span></div>`);
+    allLatLngs.push([mainStop.poi.lat, mainStop.poi.lng]);
+  });
+
+  // 跨城连线
+  for (let i = 0; i < dayPinsData.length - 1; i++) {
+    const from = dayPinsData[i], to = dayPinsData[i+1];
+    if (from.city === to.city) continue;
+    L.polyline([[from.lat, from.lng],[to.lat, to.lng]], {
+      color: '#666', weight: 4, opacity: 0.5, dashArray: '10,8', lineCap: 'round'
+    }).addTo(overviewMap).bindTooltip('D' + from.day + '→D' + to.day + ' 跨城', {sticky: true});
+  }
+
+  // 总览图例
+  const ovLegend = L.control({position: 'bottomleft'});
+  ovLegend.onAdd = function() {
+    const div = L.DomUtil.create('div', 'map-legend');
+    div.innerHTML = `<div style="background:rgba(255,255,255,0.95);padding:12px 16px;border-radius:10px;font-size:14px;line-height:2;box-shadow:0 2px 10px rgba(0,0,0,0.2);">
+      <div style="font-weight:700;margin-bottom:4px;font-size:15px;">🗺️ 图例</div>
+      <div><span style="display:inline-block;width:16px;height:16px;background:#e74c3c;border-radius:50% 50% 50% 0;transform:rotate(-45deg);vertical-align:middle;border:2px solid #fff;"></span> 每日主目的地</div>
+      <div><span style="display:inline-block;width:30px;height:4px;background:#666;border-top:2px dashed #666;vertical-align:middle;"></span> 跨城衔接</div>
+      <div style="margin-top:4px;color:#888;font-size:12px;">💡 点击上方 D1-D9 标签查看每日详细地图</div>
+    </div>`;
+    return div;
+  };
+  ovLegend.addTo(overviewMap);
+
+  if (allLatLngs.length > 1) overviewMap.fitBounds(allLatLngs, {padding: [60, 60], maxZoom: 12});
+
+  // === 每日详细地图 ===
+  const dayMaps = {};
+  days.forEach((day, idx) => {
+    const color = dayColors[idx % dayColors.length];
+    const mapId = 'map-day' + day.day_index;
+    const el = document.getElementById(mapId);
+    if (!el) return;
+
+    const dm = L.map(mapId, {preferCanvas: true});
+    addTiles(dm);
+    dayMaps[day.day_index] = dm;
+
+    const dayLatLngs = [];
+
+    // 画路线
+    const routes = day.routes || [];
+    routes.forEach(r => {
+      if (r.geometry && r.geometry.length >= 2) {
+        const latlngs = r.geometry.map(p => [p[1], p[0]]);
+        L.polyline(latlngs, {color, weight: 8, opacity: 0.9, lineCap: 'round', lineJoin: 'round'})
+          .addTo(dm).bindTooltip('D' + day.day_index + ' 路段 ' + r.from + '→' + r.to, {sticky: true});
+        latlngs.forEach(ll => dayLatLngs.push(ll));
+      }
+    });
+
+    // 画所有站点（每天只有几个 marker，不会重叠）
+    day.stops.forEach((s, i) => {
+      if (!s.poi.lat || !s.poi.lng) return;
+      const isMain = (s.type === 'attraction' || s.type === 'evening');
+      const iconSize = isMain ? 40 : 28;
+      const fontSize = isMain ? 16 : 12;
+
+      const icon = L.divIcon({
+        className: isMain ? 'day-pin-sm' : 'stop-dot',
+        html: isMain
+          ? `<div style="display:flex;flex-direction:column;align-items:center;filter:drop-shadow(0 2px 4px rgba(0,0,0,0.4));">
+              <div style="background:${color};color:#fff;width:${iconSize}px;height:${iconSize}px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);display:flex;align-items:center;justify-content:center;border:2px solid #fff;">
+                <span style="transform:rotate(45deg);font-weight:800;font-size:${fontSize}px;">${i+1}</span>
+              </div>
+            </div>`
+          : `<div style="background:${color};color:#fff;width:${iconSize}px;height:${iconSize}px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:${fontSize}px;border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,0.3);">${i+1}</div>`,
+        iconSize: isMain ? [iconSize, iconSize] : [iconSize, iconSize],
+        iconAnchor: isMain ? [iconSize/2, iconSize] : [iconSize/2, iconSize/2]
+      });
+
+      const m = L.marker([s.poi.lat, s.poi.lng], {icon}).addTo(dm);
+      const emoji = s.type === 'breakfast' ? '🍳' : s.type === 'lunch' ? '🍜' : s.type === 'dinner' ? '🍽️' : s.type === 'evening' ? '🌃' : '📌';
+      m.bindPopup(`<div style="font-size:14px;min-width:160px;">
+        <b style="font-size:15px;color:${color};">${emoji} ${s.poi.name}</b><br>
+        🕐 ${s.time}<br>
+        ⏱️ ${s.duration_display || ''}<br>
+        ${s.poi.ticket_price ? '🎫 ' + s.poi.ticket_price + '<br>' : ''}
+        ${s.poi.rating ? '⭐ ' + s.poi.rating + '<br>' : ''}
+        ${s.poi.recommend_reason ? '<span style="color:#666;">' + s.poi.recommend_reason.substring(0,80) + '</span>' : ''}
+      </div>`);
+      dayLatLngs.push([s.poi.lat, s.poi.lng]);
+    });
+
+    if (dayLatLngs.length > 1) {
+      dm.fitBounds(dayLatLngs, {padding: [50, 50], maxZoom: 14});
+    } else if (dayLatLngs.length === 1) {
+      dm.setView(dayLatLngs[0], 13);
+    }
+  });
+
+  // === 标签页切换 ===
+  document.querySelectorAll('.map-tab').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const tab = this.dataset.tab;
+      // 切换按钮样式
+      document.querySelectorAll('.map-tab').forEach(b => {
+        b.style.background = '#fff';
+        b.style.color = '#333';
+        b.style.borderColor = '#ddd';
+        b.classList.remove('active');
+      });
+      this.style.background = '#3498db';
+      this.style.color = '#fff';
+      this.style.borderColor = '#3498db';
+      this.classList.add('active');
+
+      // 切换地图面板
+      document.querySelectorAll('.map-pane').forEach(p => p.style.display = 'none');
+      const targetId = tab === 'overview' ? 'map-overview' : 'map-' + tab;
+      const targetEl = document.getElementById(targetId);
+      if (targetEl) {
+        targetEl.style.display = 'block';
+        // Leaflet 需要 invalidateSize 来正确渲染
+        setTimeout(() => {
+          if (tab === 'overview') overviewMap.invalidateSize();
+          else if (dayMaps[parseInt(tab.replace('day',''))]) dayMaps[parseInt(tab.replace('day',''))].invalidateSize();
+        }, 100);
+      }
+    });
+  });
+
+  // 预算饼图
+  const ctx = document.getElementById('budget-pie');
+  if (ctx) {
+    const bd = {"accommodation": 2560, "buffer": 840, "food": 2350, "ticket": 1050, "transport_intra": 0, "transport_long": 5100};
+    new Chart(ctx, {
+      type: 'doughnut',
+      data: {
+        labels: ['大交通','住宿','餐饮','门票','市内交通','备用'],
+        datasets: [{
+          data: [bd.transport_long, bd.accommodation, bd.food, bd.ticket, bd.transport_intra, bd.buffer],
+          backgroundColor: ['#3498db','#9b59b6','#e74c3c','#f39c12','#1abc9c','#95a5a6'],
+        }]
+      },
+      options: {plugins: {legend: {position: 'bottom'}}}
+    });
+  }</script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+/* 出游规划师 · HTML 行程书样式 · v1.0 */
+* { box-sizing: border-box; }
+body {
+  font-family: -apple-system, "PingFang SC", "Helvetica Neue", Arial, sans-serif;
+  margin: 0;
+  background: #fafafa;
+  color: #222;
+  line-height: 1.55;
+}
+header.cover {
+  background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+  color: #fff;
+  padding: 60px 40px 40px;
+}
+header.cover h1 { margin: 0 0 12px; font-size: 32px; font-weight: 700; }
+header.cover .sub { font-size: 16px; opacity: 0.85; }
+.confidence-summary {
+  margin-top: 16px; font-size: 13px; opacity: 0.9;
+}
+.confidence-summary .dot {
+  display: inline-block; width: 10px; height: 10px; border-radius: 50%;
+  margin: 0 4px 0 12px; vertical-align: middle;
+}
+.dot-green  { background: #2ecc71; }
+.dot-yellow { background: #f1c40f; }
+.dot-gray   { background: #95a5a6; }
+.meta-stamp { margin-top: 8px; font-size: 12px; opacity: 0.6; }
+
+section {
+  max-width: 1080px;
+  margin: 32px auto;
+  padding: 0 24px;
+}
+section h2 {
+  font-size: 22px; margin: 32px 0 16px; padding-left: 12px;
+  border-left: 4px solid #3498db;
+}
+
+/* 总览地图 */
+#map {
+  width: 100%; height: 600px; border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+}
+
+/* 大交通 */
+.transport-section { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.transport-section .intra-tip {
+  grid-column: 1 / -1; background: #f0f4f8; padding: 16px; border-radius: 8px;
+}
+.dir-block h4 { margin: 0 0 12px; }
+.trans-card {
+  background: #fff; border-radius: 10px; padding: 16px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06); margin-bottom: 12px; position: relative;
+}
+.trans-mode { font-weight: 700; font-size: 18px; color: #3498db; }
+.trans-route { font-size: 15px; margin: 4px 0; }
+.trans-time { color: #555; font-size: 14px; }
+.trans-price { font-weight: 600; color: #e74c3c; margin-top: 6px; }
+.book-links {
+  margin-top: 10px; padding-top: 8px; border-top: 1px dashed #e0e0e0;
+  font-size: 13px; color: #555;
+}
+.book-links .book-label { color: #888; margin-right: 6px; }
+.book-links a {
+  display: inline-block; margin-right: 10px; color: #3498db;
+  text-decoration: none; padding: 2px 0; border-bottom: 1px solid transparent;
+}
+.book-links a:hover { border-bottom-color: #3498db; }
+
+/* 小红书笔记区 */
+.xhs-section { background: #fff; border-radius: 12px; padding: 24px; box-shadow: 0 1px 6px rgba(0,0,0,0.05); }
+.xhs-intro { color: #666; font-size: 14px; margin: 0 0 20px; }
+.xhs-group { margin-bottom: 24px; }
+.xhs-group h4 { margin: 0 0 12px; font-size: 16px; }
+.xhs-count { color: #999; font-size: 13px; font-weight: 400; margin-left: 6px; }
+.xhs-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px;
+}
+.xhs-card {
+  display: block; text-decoration: none; color: inherit;
+  background: #fafafa; border-radius: 10px; overflow: hidden; transition: transform 0.15s, box-shadow 0.15s;
+  border: 1px solid #eee;
+}
+.xhs-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+.xhs-cover {
+  width: 100%; padding-top: 75%; background-size: cover; background-position: center;
+  background-color: #ddd;
+}
+.xhs-body { padding: 12px; }
+.xhs-title { font-size: 14px; font-weight: 600; margin-bottom: 6px; line-height: 1.4; }
+.xhs-meta { font-size: 12px; color: #888; margin-bottom: 6px; }
+.xhs-meta span { margin-right: 10px; }
+.xhs-snippet { font-size: 12px; color: #666; line-height: 1.5; margin-bottom: 8px; }
+.xhs-sentiment {
+  display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 10px;
+}
+.xhs-sentiment-positive { background: #e8f5e9; color: #2e7d32; }
+.xhs-sentiment-negative { background: #ffebee; color: #c62828; }
+.xhs-sentiment-neutral  { background: #f0f0f0; color: #555; }
+.xhs-disclaimer { color: #999; font-size: 12px; margin-top: 16px; text-align: center; }
+
+/* 住宿 */
+.hotel-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
+.hotel-card {
+  background: #fff; border-radius: 10px; padding: 18px; position: relative;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+}
+.hotel-card .h-rank {
+  position: absolute; top: 12px; right: 14px; font-weight: 700; color: #f39c12;
+}
+.h-price { color: #e74c3c; font-weight: 600; margin: 6px 0; }
+.h-rating, .h-loc { font-size: 13px; color: #555; }
+.h-amenities { margin: 8px 0 0; }
+.tag {
+  display: inline-block; background: #ecf0f1; color: #555;
+  border-radius: 4px; padding: 2px 8px; margin: 2px 4px 0 0; font-size: 12px;
+}
+.warning { color: #e67e22; font-size: 13px; margin-top: 6px; }
+
+/* 每日行程 */
+.day-card {
+  background: #fff; border-radius: 12px; padding: 24px;
+  margin-bottom: 20px; box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+}
+.day-header h3 { margin: 0 0 6px; }
+.day-meta { font-size: 13px; color: #888; }
+.day-meta span { margin-right: 12px; }
+.timeline { list-style: none; padding-left: 0; margin: 16px 0 0; }
+.timeline .stop {
+  display: grid; grid-template-columns: 100px 1fr; gap: 16px;
+  border-left: 3px solid #3498db; padding: 10px 0 10px 14px; margin-left: 8px;
+}
+.timeline .stop:not(:last-child) { padding-bottom: 18px; }
+.t-time { font-weight: 600; color: #3498db; }
+.t-title { font-size: 15px; margin-bottom: 4px; }
+.t-emoji { margin-right: 6px; }
+.rating { color: #f39c12; margin-left: 8px; font-size: 13px; }
+.t-detail { font-size: 13px; color: #666; }
+.t-detail span { margin-right: 14px; }
+.stop-breakfast, .stop-lunch, .stop-dinner { border-left-color: #e74c3c; }
+.stop-evening { border-left-color: #9b59b6; }
+
+/* 预算 */
+.budget-section {
+  display: grid; grid-template-columns: 320px 1fr; gap: 24px; align-items: start;
+}
+.budget-pie-wrap {
+  background: #fff; border-radius: 10px; padding: 20px; display: flex; justify-content: center;
+}
+.budget-table table {
+  width: 100%; border-collapse: collapse; background: #fff; border-radius: 10px; overflow: hidden;
+}
+.budget-table th, .budget-table td { padding: 10px 16px; text-align: left; border-bottom: 1px solid #eee; }
+.budget-table tr.grand td { font-weight: 700; background: #f7f9fc; }
+.tradeoffs {
+  grid-column: 1 / -1; background: #fff5e6; padding: 16px 20px; border-radius: 10px; margin-top: 8px;
+}
+
+/* 风险 */
+.risk-panel { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; }
+.risk-block {
+  background: #fff; padding: 16px; border-radius: 10px; border-left: 4px solid #95a5a6;
+}
+.risk-block.confidence-green  { border-left-color: #2ecc71; }
+.risk-block.confidence-yellow { border-left-color: #f1c40f; }
+.risk-block.confidence-gray   { border-left-color: #95a5a6; }
+.risk-block h4 { margin: 0 0 10px; }
+.scam-group { margin-bottom: 10px; }
+.emergency { columns: 2; list-style: none; padding: 0; }
+
+/* 清单 */
+.checklist { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
+.check-group {
+  background: #fff; padding: 16px; border-radius: 10px;
+}
+.check-group h4 { margin: 0 0 8px; }
+.check-group ul { list-style: none; padding: 0; }
+.check-group li { padding: 4px 0; }
+
+/* 置信度徽章 */
+.confidence-badge {
+  position: absolute; top: 10px; right: 10px;
+  width: 10px; height: 10px; border-radius: 50%;
+}
+.confidence-green  { background: #2ecc71; }
+.confidence-yellow { background: #f1c40f; }
+.confidence-gray   { background: #95a5a6; }
+
+footer {
+  text-align: center; color: #888; font-size: 12px; padding: 30px 20px;
+}
+
+@media print {
+  header.cover { background: #2c3e50 !important; -webkit-print-color-adjust: exact; }
+  .day-card, .hotel-card, .trans-card, .risk-block { break-inside: avoid; }
+  .book-btn { display: none; }
+}
+@media (max-width: 720px) {
+  .transport-section, .budget-section { grid-template-columns: 1fr; }
+}
+
+/* ===== v2.0 新增：实际路线 / 兜底卡 / 数据完整性 ===== */
+
+/* 每日行程的路线步骤 */
+.day-routes {
+  background: #f8f9fa; padding: 12px 16px; border-radius: 8px; margin: 12px 0;
+  border-left: 4px solid #3498db;
+}
+.day-routes h4 { margin: 0 0 8px; font-size: 14px; }
+.route-steps { list-style: none; padding: 0; margin: 0; font-size: 13px; line-height: 1.7; }
+.route-steps li { padding: 2px 0; }
+.route-source-real { color: #2ecc71; font-weight: 600; font-size: 12px; }
+.route-source-text { color: #555; font-weight: 500; }
+.route-source-fallback { color: #c62828; font-size: 12px; }
+
+/* 推荐理由 */
+.t-reason { color: #777; font-size: 13px; margin: 4px 0 6px; }
+
+/* 当天预算 */
+.day-budget { text-align: right; padding: 8px 0; color: #e67e22; font-weight: 600; }
+
+/* 坐标待校验 marker */
+.warn-badge {
+  display: inline-block; background: #fff3e0; color: #e67e22;
+  font-size: 11px; padding: 1px 8px; border-radius: 10px; margin-left: 6px;
+}
+
+/* xhs 空数据兜底卡 */
+.xhs-empty-card {
+  background: #fafafa; border: 2px dashed #ddd;
+  padding: 24px; border-radius: 12px; text-align: center;
+}
+.xhs-empty-card h4 { margin: 0 0 8px; color: #777; }
+.xhs-empty-card p { color: #888; margin: 4px 0; font-size: 14px; }
+.manual-search { list-style: none; padding: 0; margin-top: 16px; }
+.manual-search li {
+  display: inline-block; margin: 4px 8px;
+}
+.manual-search a {
+  display: inline-block; padding: 6px 14px;
+  background: #fff; border: 1px solid #ddd; border-radius: 16px;
+  color: #3498db; text-decoration: none; font-size: 13px;
+}
+.manual-search a:hover { border-color: #3498db; }
+
+/* 数据完整性面板 */
+.completeness-panel {
+  background: #fff; padding: 24px; border-radius: 12px;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.05); font-size: 14px;
+}
+.comp-row { margin-bottom: 14px; }
+.comp-row strong { display: block; margin-bottom: 6px; }
+.comp-row ul { margin: 0; padding-left: 20px; color: #555; line-height: 1.8; }
+.comp-warn ul { color: #e67e22; }
+.comp-tip {
+  border-top: 1px dashed #eee; padding-top: 12px; margin-top: 12px;
+  color: #888; font-size: 13px;
+}
+
+/* 地图图例 */
+.map-legend { font-family: inherit; }
+
+/* confidence 灰色 */
+.confidence-gray {
+  border-left-color: #95a5a6 !important;
+}
+
+</style>
+</head>
+<body>
+<header class="cover">
+  <div class="cover-meta">
+    <h1>云南（昆明-大理-丽江） · 9日行程</h1>
+    <p class="sub">2026-08-01 ~ 2026-08-09 ｜ 3人 ｜ 预算 ¥11900</p>
+    <div class="confidence-summary">
+      <span class="dot dot-green"></span> 一手数据 29%
+      <span class="dot dot-yellow"></span> 抓取 65%
+      <span class="dot dot-gray"></span> 静态参考 6%
+    </div>
+    <div class="meta-stamp">数据生成时间 2026-07-13T11:32:41+08:00</div>
+  </div>
+</header>
+
+<!--
+═══════════════════════════════════════════════════════════════════════════════
+                         AGENT INSTRUCTIONS · 必读
+═══════════════════════════════════════════════════════════════════════════════
+本 HTML 共 8 个骨架 section，**全部必出**（无论数据完整度）。每个 section 下
+有具体「必须做到 X」的指令，agent 在生成 trip 数据时务必按指令准备字段；
+缺数据时自己想办法补（调工具 / WebSearch / 静态兜底），绝不允许空白渲染。
+缺失任何一项都视为本次任务未完成。
+═══════════════════════════════════════════════════════════════════════════════
+-->
+
+<!--
+  📍 总览地图 · AGENT MUST-DO:
+  ① POI 必须有坐标。拿不到真坐标时，用城市中心点 + POI 名 marker 兜底，
+     并在 poi.coord_status 写 "unverified"，模板会标"坐标待校验"
+  ② **路线必须是实际道路路线，不是两点之间的直线**。三种合法形式（任选）：
+     a) day.routes[].geometry = [[lng,lat],...] 真实 polyline 坐标数组（最佳）
+     b) day.routes[].description = "沿建国路向东 → 转入人民南路 → 春熙路"
+        路径文字版（OSRM/高德拿不到时用 WebSearch / 自己推理写出）
+     c) 完全无能为力时 day.routes[].source = "straight_line_unavailable"
+        模板会画虚线 + 红字"⚠️ 实际路线未获取"，但**不允许直接用直线还假装是真实路线**
+  ③ 同一天 POI 用同色 marker，不同天换色；起终点要有方向感
+-->
+<section id="overview-map">
+  <h2>📍 行程地图</h2>
+  
+  <!-- 标签页切换 -->
+  <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px;">
+    <button class="map-tab active" data-tab="overview" style="padding:8px 16px;border:2px solid #3498db;background:#3498db;color:#fff;border-radius:8px;cursor:pointer;font-size:14px;font-weight:600;">🗺️ 总览</button>
+    <button class="map-tab" data-tab="day1" style="padding:8px 14px;border:2px solid #ddd;background:#fff;color:#333;border-radius:8px;cursor:pointer;font-size:13px;">D1 昆明</button>
+    <button class="map-tab" data-tab="day2" style="padding:8px 14px;border:2px solid #ddd;background:#fff;color:#333;border-radius:8px;cursor:pointer;font-size:13px;">D2 昆→大</button>
+    <button class="map-tab" data-tab="day3" style="padding:8px 14px;border:2px solid #ddd;background:#fff;color:#333;border-radius:8px;cursor:pointer;font-size:13px;">D3 洱海</button>
+    <button class="map-tab" data-tab="day4" style="padding:8px 14px;border:2px solid #ddd;background:#fff;color:#333;border-radius:8px;cursor:pointer;font-size:13px;">D4 苍山</button>
+    <button class="map-tab" data-tab="day5" style="padding:8px 14px;border:2px solid #ddd;background:#fff;color:#333;border-radius:8px;cursor:pointer;font-size:13px;">D5 沙溪</button>
+    <button class="map-tab" data-tab="day6" style="padding:8px 14px;border:2px solid #ddd;background:#fff;color:#333;border-radius:8px;cursor:pointer;font-size:13px;">D6 束河</button>
+    <button class="map-tab" data-tab="day7" style="padding:8px 14px;border:2px solid #ddd;background:#fff;color:#333;border-radius:8px;cursor:pointer;font-size:13px;">D7 雪山</button>
+    <button class="map-tab" data-tab="day8" style="padding:8px 14px;border:2px solid #ddd;background:#fff;color:#333;border-radius:8px;cursor:pointer;font-size:13px;">D8 返程</button>
+    <button class="map-tab" data-tab="day9" style="padding:8px 14px;border:2px solid #ddd;background:#fff;color:#333;border-radius:8px;cursor:pointer;font-size:13px;">D9 收尾</button>
+  </div>
+
+  <!-- 总览地图 -->
+  <div id="map-overview" class="map-pane" style="height: 560px; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.08);"></div>
+  
+  <!-- 每日小地图 -->
+  <div id="map-day1" class="map-pane" style="height: 400px; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); display:none;"></div>
+  <div id="map-day2" class="map-pane" style="height: 400px; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); display:none;"></div>
+  <div id="map-day3" class="map-pane" style="height: 400px; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); display:none;"></div>
+  <div id="map-day4" class="map-pane" style="height: 400px; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); display:none;"></div>
+  <div id="map-day5" class="map-pane" style="height: 400px; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); display:none;"></div>
+  <div id="map-day6" class="map-pane" style="height: 400px; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); display:none;"></div>
+  <div id="map-day7" class="map-pane" style="height: 400px; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); display:none;"></div>
+  <div id="map-day8" class="map-pane" style="height: 400px; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); display:none;"></div>
+  <div id="map-day9" class="map-pane" style="height: 400px; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); display:none;"></div>
 </section>
 
 <!--
