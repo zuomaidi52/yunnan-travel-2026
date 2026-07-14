@@ -2016,7 +2016,12 @@ footer {
         ],
         "description": "机场高速→二环快速→翠湖，约25km/35min（凌晨无堵车）"
       }
-    ]
+    ],
+    "hotel": {
+      "name": "全季酒店（昆明翠湖店）",
+      "lat": 25.0458,
+      "lng": 102.7046
+    }
   },
   {
     "day_index": 2,
@@ -2148,7 +2153,12 @@ footer {
         ],
         "description": "翠湖步行至昆明老街约10分钟"
       }
-    ]
+    ],
+    "hotel": {
+      "name": "全季酒店（昆明翠湖店）",
+      "lat": 25.0458,
+      "lng": 102.7046
+    }
   },
   {
     "day_index": 3,
@@ -2261,7 +2271,12 @@ footer {
         ],
         "description": "🌿 优选G56杭瑞高速（自然景观>昆楚大高速），穿越彝山峡谷+梯田，320km/4h"
       }
-    ]
+    ],
+    "hotel": {
+      "name": "全季酒店（大理古城店）",
+      "lat": 25.6928,
+      "lng": 100.1639
+    }
   },
   {
     "day_index": 4,
@@ -2434,7 +2449,12 @@ footer {
         ],
         "description": "双廊→小普陀，环海东路日落段，10km/15min"
       }
-    ]
+    ],
+    "hotel": {
+      "name": "全季酒店（大理古城店）",
+      "lat": 25.6928,
+      "lng": 100.1639
+    }
   },
   {
     "day_index": 5,
@@ -2559,7 +2579,12 @@ footer {
         ],
         "description": "索道下山→返回古城，约20分钟"
       }
-    ]
+    ],
+    "hotel": {
+      "name": "全季酒店（大理古城店）",
+      "lat": 25.6928,
+      "lng": 100.1639
+    }
   },
   {
     "day_index": 6,
@@ -2667,7 +2692,12 @@ footer {
         ],
         "description": "🌿 沙溪→丽江：353国道经九河→白汉场→拉市海，远眺老君山+玉龙雪山，约120km/2.5h"
       }
-    ]
+    ],
+    "hotel": {
+      "name": "全季酒店（丽江古城北门店）",
+      "lat": 26.8721,
+      "lng": 100.2299
+    }
   },
   {
     "day_index": 7,
@@ -2759,7 +2789,12 @@ footer {
         ],
         "description": "束河→白沙约20分钟，雪山方向田园风光"
       }
-    ]
+    ],
+    "hotel": {
+      "name": "全季酒店（丽江古城北门店）",
+      "lat": 26.8721,
+      "lng": 100.2299
+    }
   },
   {
     "day_index": 8,
@@ -2872,7 +2907,12 @@ footer {
         ],
         "description": "云杉坪→甘海子景区环保车约10分钟"
       }
-    ]
+    ],
+    "hotel": {
+      "name": "全季酒店（丽江古城北门店）",
+      "lat": 26.8721,
+      "lng": 100.2299
+    }
   },
   {
     "day_index": 9,
@@ -2972,7 +3012,12 @@ footer {
         ],
         "description": "🌿 丽江→楚雄：选G56杭瑞高速（非大丽+昆楚大），远眺苍山落日+金沙江峡谷夕阳，360km/4.5h"
       }
-    ]
+    ],
+    "hotel": {
+      "name": "全季/汉庭酒店（楚雄彝人古镇店）",
+      "lat": 25.0295,
+      "lng": 101.528
+    }
   },
   {
     "day_index": 10,
@@ -3152,6 +3197,25 @@ footer {
     }
   });
 
+  // 总览图也标酒店
+  const hotelMarkers = {};
+  days.forEach((day, idx) => {
+    if (day.hotel && day.hotel.lat) {
+      const key = `${day.hotel.lat},${day.hotel.lng}`;
+      if (!hotelMarkers[key]) {
+        const hIcon = L.divIcon({
+          className: 'hotel-marker-ov',
+          html: `<div style="font-size:16px;">🏠</div>`,
+          iconSize: [16, 16],
+          iconAnchor: [8, 8]
+        });
+        const hm = L.marker([day.hotel.lat, day.hotel.lng], {icon: hIcon, zIndexOffset: 800}).addTo(overviewMap);
+        hm.bindTooltip(`<span style="font-size:10px;font-weight:600;">${day.hotel.name}</span>`, {direction: 'top', offset: [0, -8]});
+        hotelMarkers[key] = true;
+      }
+    }
+  });
+
   // 总览图例（简洁版）
   const ovLegend = L.control({position: 'bottomleft'});
   ovLegend.onAdd = function() {
@@ -3234,12 +3298,39 @@ footer {
       dayLatLngs.push([s.poi.lat, s.poi.lng]);
     });
 
+    // 画酒店marker（🏠图标）
+    if (day.hotel && day.hotel.lat) {
+      const hotelIcon = L.divIcon({
+        className: 'hotel-marker',
+        html: `<div style="display:flex;flex-direction:column;align-items:center;filter:drop-shadow(0 1px 3px rgba(0,0,0,0.3));">
+          <div style="font-size:22px;line-height:1;">🏠</div>
+          <div style="background:rgba(255,255,255,0.92);padding:1px 5px;border-radius:3px;font-size:10px;font-weight:600;color:#333;white-space:nowrap;margin-top:1px;">${day.hotel.name}</div>
+        </div>`,
+        iconSize: [40, 30],
+        iconAnchor: [20, 15]
+      });
+      const hm = L.marker([day.hotel.lat, day.hotel.lng], {icon: hotelIcon, zIndexOffset: 500}).addTo(dm);
+      hm.bindPopup(`<div style="font-size:13px;"><b>🏨 ${day.hotel.name}</b><br><a href="https://uri.amap.com/navigation?to=${day.hotel.lng},${day.hotel.lat},${day.hotel.name}&mode=car&src=行程书" target="_blank" style="color:#3498db;">🧭 导航到这里</a></div>`);
+      dayLatLngs.push([day.hotel.lat, day.hotel.lng]);
+    }
+
     if (dayLatLngs.length > 1) {
       dm.fitBounds(dayLatLngs, {padding: [50, 50], maxZoom: 14});
     } else if (dayLatLngs.length === 1) {
       dm.setView(dayLatLngs[0], 13);
     }
   });
+
+  // === 导航到当天酒店 ===
+  function navigateToHotel(dayIdx) {
+    const day = days.find(d => d.day_index === dayIdx);
+    if (!day || !day.hotel || !day.hotel.lat) {
+      alert('当天无酒店信息');
+      return;
+    }
+    const url = `https://uri.amap.com/navigation?to=${day.hotel.lng},${day.hotel.lat},${encodeURIComponent(day.hotel.name)}&mode=car&src=云南行程书`;
+    window.open(url, '_blank');
+  }
 
   // === 标签页切换 + 导航按钮更新 ===
   function updateNavBar(tab) {
