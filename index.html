@@ -8,8 +8,8 @@
       integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="anonymous">
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
         integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="anonymous"></script>
-<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css">
-<script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+<!-- markercluster removed - using simple dots -->
+
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 <style>
@@ -390,6 +390,20 @@ footer {
   #nav-btn { justify-content: center; text-align: center; }
 }
 
+
+/* 高德路书风格标签 */
+.day-label-amap, .stop-label-amap {
+  background: rgba(255,255,255,0.9) !important;
+  border: 1px solid #ddd !important;
+  border-radius: 4px !important;
+  padding: 2px 6px !important;
+  font-size: 11px !important;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.15) !important;
+  white-space: nowrap !important;
+}
+.leaflet-tooltip.day-label-amap:before, .leaflet-tooltip.stop-label-amap:before {
+  display: none !important;
+}
 </style>
 </head>
 <body>
@@ -3079,22 +3093,25 @@ footer {
   // === 当前选中的标签 ===
   let currentTab = 'overview';
 
-  // === 总览地图：画完整路线 + 大头针 ===
+  // === 总览地图：高德路书风格 - 小圆点 + 简洁标签 ===
   const overviewMap = L.map('map-overview', {preferCanvas: true});
   addTiles(overviewMap);
   const dayPinsData = [];
 
+  // 标签方向交替，防止重叠
+  const labelDirections = ['top', 'right', 'bottom', 'left', 'topright', 'bottomright', 'topleft', 'bottomleft'];
+
   days.forEach((day, idx) => {
     const color = dayColors[idx % dayColors.length];
     
-    // 画当天路线（实线，用 geometry 坐标）
+    // 画当天路线（适中粗细）
     const routes = day.routes || [];
     routes.forEach(r => {
       if (r.geometry && r.geometry.length >= 2) {
-        const latlngs = r.geometry.map(p => [p[1], p[0]]); // [lng,lat] → [lat,lng]
+        const latlngs = r.geometry.map(p => [p[1], p[0]]);
         L.polyline(latlngs, {
-          color: color, weight: 6, opacity: 0.85, lineCap: 'round', lineJoin: 'round'
-        }).addTo(overviewMap).bindTooltip('D' + day.day_index + ' ' + day.city + ' · ' + (r.description || ''), {sticky: true});
+          color: color, weight: 4, opacity: 0.7, lineCap: 'round', lineJoin: 'round'
+        }).addTo(overviewMap).bindTooltip('D' + day.day_index + ' ' + day.city, {sticky: true});
         latlngs.forEach(ll => allLatLngs.push(ll));
       }
     });
@@ -3111,47 +3128,39 @@ footer {
 
     dayPinsData.push({lat: mainStop.poi.lat, lng: mainStop.poi.lng, day: day.day_index, city: day.city, color, date: day.date, theme: day.theme, dist: day.total_distance_km, fatigue: day.fatigue_index});
 
-    // 大头针
-    // 螺旋偏移布局，防止重叠
-    const spiralOffsets = [
-      [0, 0],     // D1
-      [-40, -30], // D2
-      [40, -25],  // D3
-      [-35, 35],  // D4
-      [35, 30],   // D5
-      [-50, 0],   // D6
-      [50, 5],    // D7
-      [-20, -55], // D8
-      [20, 55],   // D9
-    ];
-    const offset = spiralOffsets[(day.day_index - 1) % spiralOffsets.length];
-    
-    const pinIcon = L.divIcon({
-      className: 'day-pin',
-      html: `<div style="position:relative;display:flex;flex-direction:column;align-items:center;filter:drop-shadow(0 2px 4px rgba(0,0,0,0.4));">
-        <div style="background:${color};color:#fff;width:36px;height:36px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);display:flex;align-items:center;justify-content:center;border:2px solid #fff;box-shadow:0 1px 6px rgba(0,0,0,0.35);">
-          <span style="transform:rotate(45deg);font-weight:800;font-size:14px;">D${day.day_index}</span>
-        </div>
-        <div style="margin-top:2px;background:rgba(255,255,255,0.92);padding:2px 6px;border-radius:4px;font-size:11px;font-weight:600;color:#333;white-space:nowrap;box-shadow:0 1px 3px rgba(0,0,0,0.2);">${day.city}</div>
-      </div>`,
-      iconSize: [36, 50], iconAnchor: [18 + offset[0], 42 + offset[1]]
+    // 小圆点编号（高德路书风格）
+    const dotIcon = L.divIcon({
+      className: 'day-dot',
+      html: `<div style="display:flex;align-items:center;justify-content:center;width:24px;height:24px;background:${color};color:#fff;border-radius:50%;border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,0.3);font-weight:700;font-size:11px;">${day.day_index}</div>`,
+      iconSize: [24, 24],
+      iconAnchor: [12, 12]
     });
-    const pin = L.marker([mainStop.poi.lat, mainStop.poi.lng], {icon: pinIcon, zIndexOffset: 1000}).addTo(overviewMap);
-    pin.bindPopup(`<div style="font-size:14px;min-width:180px;"><b style="font-size:17px;color:${color};">D${day.day_index} ${day.city}</b><br>📅 ${day.date}<br>🎯 ${day.theme}<br>🚗 ${day.total_distance_km}km | 🚶 体力${day.fatigue_index}</div>`);
+    const pin = L.marker([mainStop.poi.lat, mainStop.poi.lng], {icon: dotIcon, zIndexOffset: 1000}).addTo(overviewMap);
+    
+    // 标签紧贴圆点，方向交替防重叠
+    const labelDir = labelDirections[idx % labelDirections.length];
+    pin.bindTooltip(`<span style="font-weight:600;color:${color};">D${day.day_index} ${day.city}</span>`, {
+      permanent: true,
+      direction: labelDir,
+      offset: [0, -10],
+      className: 'day-label-amap'
+    });
+    
+    pin.bindPopup(`<div style="font-size:14px;min-width:180px;"><b style="font-size:16px;color:${color};">D${day.day_index} ${day.city}</b><br>📅 ${day.date}<br>🎯 ${day.theme}<br>🚗 ${day.total_distance_km}km | 🚶 体力${day.fatigue_index}</div>`);
     if (allLatLngs.length === 0 || (mainStop.poi.lat !== allLatLngs[allLatLngs.length-1][0])) {
       allLatLngs.push([mainStop.poi.lat, mainStop.poi.lng]);
     }
   });
 
-  // 总览图例
+  // 总览图例（简洁版）
   const ovLegend = L.control({position: 'bottomleft'});
   ovLegend.onAdd = function() {
     const div = L.DomUtil.create('div', 'map-legend');
-    div.innerHTML = `<div style="background:rgba(255,255,255,0.95);padding:12px 16px;border-radius:10px;font-size:14px;line-height:2;box-shadow:0 2px 10px rgba(0,0,0,0.2);">
-      <div style="font-weight:700;margin-bottom:4px;font-size:15px;">🗺️ 图例</div>
-      <div><span style="display:inline-block;width:16px;height:16px;background:#e74c3c;border-radius:50% 50% 50% 0;transform:rotate(-45deg);vertical-align:middle;border:2px solid #fff;"></span> 每日主目的地</div>
-      <div><span style="display:inline-block;width:30px;height:6px;background:#3498db;border-radius:3px;vertical-align:middle;"></span> 每日自驾路线（按天着色）</div>
-      <div style="margin-top:4px;color:#888;font-size:12px;">💡 点击 D1-D9 标签查看每日详细地图</div>
+    div.innerHTML = `<div style="background:rgba(255,255,255,0.92);padding:10px 14px;border-radius:8px;font-size:13px;line-height:1.8;box-shadow:0 2px 8px rgba(0,0,0,0.15);">
+      <div style="font-weight:700;margin-bottom:2px;font-size:14px;">图例</div>
+      <div><span style="display:inline-block;width:14px;height:14px;background:#e74c3c;border-radius:50%;border:2px solid #fff;vertical-align:middle;"></span> 每日主目的地（编号=天数）</div>
+      <div><span style="display:inline-block;width:24px;height:4px;background:#3498db;border-radius:2px;vertical-align:middle;"></span> 自驾路线（按天着色）</div>
+      <div style="margin-top:2px;color:#888;font-size:11px;">点击编号查看详情 · 切换上方标签看每日地图</div>
     </div>`;
     return div;
   };
@@ -3177,36 +3186,45 @@ footer {
     routes.forEach(r => {
       if (r.geometry && r.geometry.length >= 2) {
         const latlngs = r.geometry.map(p => [p[1], p[0]]);
-        L.polyline(latlngs, {color, weight: 8, opacity: 0.9, lineCap: 'round', lineJoin: 'round'})
+        L.polyline(latlngs, {color, weight: 5, opacity: 0.8, lineCap: 'round', lineJoin: 'round'})
           .addTo(dm).bindTooltip(r.description || ('D'+day.day_index+' 路段'), {sticky: true});
         latlngs.forEach(ll => dayLatLngs.push(ll));
       }
     });
 
-    // 画站点
+    // 画站点（高德路书风格 - 小圆点）
+    const stopLabelDirs = ['top', 'right', 'bottom', 'left'];
     day.stops.forEach((s, i) => {
       if (!s.poi.lat || !s.poi.lng) return;
       const isMain = (s.type === 'attraction' || s.type === 'evening');
-      const iconSize = isMain ? 32 : 22;
-      const fontSize = isMain ? 16 : 12;
+      const iconSize = isMain ? 20 : 16;
+      const fontSize = isMain ? 11 : 9;
 
       const icon = L.divIcon({
-        className: isMain ? 'day-pin-sm' : 'stop-dot',
-        html: isMain
-          ? `<div style="display:flex;flex-direction:column;align-items:center;filter:drop-shadow(0 2px 4px rgba(0,0,0,0.4));">
-              <div style="background:${color};color:#fff;width:${iconSize}px;height:${iconSize}px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);display:flex;align-items:center;justify-content:center;border:2px solid #fff;">
-                <span style="transform:rotate(45deg);font-weight:800;font-size:${fontSize}px;">${i+1}</span>
-              </div>
-            </div>`
-          : `<div style="background:${color};color:#fff;width:${iconSize}px;height:${iconSize}px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:${fontSize}px;border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,0.3);">${i+1}</div>`,
-        iconSize: isMain ? [iconSize, iconSize] : [iconSize, iconSize],
-        iconAnchor: isMain ? [iconSize/2, iconSize] : [iconSize/2, iconSize/2]
+        className: 'stop-dot-amap',
+        html: `<div style="display:flex;align-items:center;justify-content:center;width:${iconSize}px;height:${iconSize}px;background:${color};color:#fff;border-radius:50%;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,0.3);font-weight:700;font-size:${fontSize}px;">${i+1}</div>`,
+        iconSize: [iconSize, iconSize],
+        iconAnchor: [iconSize/2, iconSize/2]
       });
 
       const m = L.marker([s.poi.lat, s.poi.lng], {icon}).addTo(dm);
+      
+      // 标签方向交替
+      const labelDir = stopLabelDirs[i % stopLabelDirs.length];
       const emoji = s.type === 'breakfast' ? '🍳' : s.type === 'lunch' ? '🍜' : s.type === 'dinner' ? '🍽️' : s.type === 'evening' ? '🌃' : '📌';
-      m.bindPopup(`<div style="font-size:14px;min-width:160px;">
-        <b style="font-size:15px;color:${color};">${emoji} ${s.poi.name}</b><br>
+      
+      // 主景点永久显示标签，非主景点hover显示
+      if (isMain) {
+        m.bindTooltip(`<span style="font-weight:600;font-size:11px;">${emoji} ${s.poi.name}</span>`, {
+          permanent: true,
+          direction: labelDir,
+          offset: [0, -8],
+          className: 'stop-label-amap'
+        });
+      }
+      
+      m.bindPopup(`<div style="font-size:13px;min-width:150px;">
+        <b style="font-size:14px;color:${color};">${emoji} ${s.poi.name}</b><br>
         🕐 ${s.time}<br>
         ⏱️ ${s.duration_display || ''}<br>
         ${s.poi.ticket_price ? '🎫 ' + s.poi.ticket_price + '<br>' : ''}
